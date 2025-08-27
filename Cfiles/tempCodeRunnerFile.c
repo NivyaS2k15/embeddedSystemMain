@@ -1,9 +1,10 @@
-struct Employee p = {"Nivya", 102, 5000000};
-    // struct Employee g;
-    // printf("enter the name\n");
-    //  scanf("%31[^\n]", g.name); // ✔️ Correct  to avoid the space
-    // printf("enter the id \n");
-    // scanf("%d", &g.id);
-
-    // printf("enter the salary \n");
-    // scanf("%f", &g.salary);
+#include<stdio.h>
+ #pragma pack(1)
+   struct k{
+        char x : 8;
+        char y : 8;
+        int z : 8;
+    };
+int main(){
+return 0;
+    }
