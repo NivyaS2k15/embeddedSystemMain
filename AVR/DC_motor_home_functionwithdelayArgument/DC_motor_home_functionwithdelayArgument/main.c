@@ -37,7 +37,7 @@ int main(void)
 	while (1)
 	{
 		CW(1000);     // Clockwise for 1 sec
-		STOP(5000);   // Stop for 5 sec
+		STOP(3000);   // Stop for 5 sec
 		ACW(1000);    // Anti-clockwise for 1 sec
 		
 	}

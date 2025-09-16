@@ -172,9 +172,9 @@ int main(void)
   de:	88 ee       	ldi	r24, 0xE8	; 232
   e0:	93 e0       	ldi	r25, 0x03	; 3
   e2:	0e 94 4e 00 	call	0x9c	; 0x9c <CW>
-		STOP(5000);   // Stop for 5 sec
-  e6:	88 e8       	ldi	r24, 0x88	; 136
-  e8:	93 e1       	ldi	r25, 0x13	; 19
+		STOP(3000);   // Stop for 5 sec
+  e6:	88 eb       	ldi	r24, 0xB8	; 184
+  e8:	9b e0       	ldi	r25, 0x0B	; 11
   ea:	0e 94 57 00 	call	0xae	; 0xae <STOP>
 		ACW(1000);    // Anti-clockwise for 1 sec
   ee:	88 ee       	ldi	r24, 0xE8	; 232
