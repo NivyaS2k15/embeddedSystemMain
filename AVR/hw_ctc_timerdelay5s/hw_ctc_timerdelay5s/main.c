@@ -1,7 +1,7 @@
 #define F_CPU 16000000UL
 #include <avr/io.h>
 
-void delay_1s(void)
+void delay_5s(void)
 {
 	for (int i = 0; i < 6250; i++)   // 5sec second
 	{
@@ -25,12 +25,12 @@ int main(void)
 	while (1)
 	{
 		PORTB |= (1 << PORTB5);          // LED ON
-		delay_1s();
+		delay_5s();
 		PORTB &= ~(1 << PORTB5);         // LED OFF
-		delay_1s();
+		delay_5s();
 		PORTB |= (1 << PORTB4);          // LED ON
-		delay_1s();
+		delay_5s();
 		PORTB &= ~(1 << PORTB4);         // LED OFF
-		delay_1s();
+		delay_5s();
 	}
 }

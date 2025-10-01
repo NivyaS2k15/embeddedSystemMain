@@ -71,20 +71,20 @@ Disassembly of section .text:
 0000007c <__bad_interrupt>:
   7c:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
 
-00000080 <delay_1s>:
+00000080 <delay_5s>:
 #define F_CPU 16000000UL
 #include <avr/io.h>
 
-void delay_1s(void)
+void delay_5s(void)
 {
 	for (int i = 0; i < 6250; i++)   // 5sec second
   80:	20 e0       	ldi	r18, 0x00	; 0
   82:	30 e0       	ldi	r19, 0x00	; 0
-  84:	07 c0       	rjmp	.+14     	; 0x94 <delay_1s+0x14>
+  84:	07 c0       	rjmp	.+14     	; 0x94 <delay_5s+0x14>
 	{
 		while (!(TIFR0 & (1 << OCF0A)));  // Wait until compare match
   86:	a9 9b       	sbis	0x15, 1	; 21
-  88:	fe cf       	rjmp	.-4      	; 0x86 <delay_1s+0x6>
+  88:	fe cf       	rjmp	.-4      	; 0x86 <delay_5s+0x6>
 		TIFR0 |= (1 << OCF0A);            // Clear flag
   8a:	85 b3       	in	r24, 0x15	; 21
   8c:	82 60       	ori	r24, 0x02	; 2
@@ -92,7 +92,7 @@ void delay_1s(void)
 #define F_CPU 16000000UL
 #include <avr/io.h>
 
-void delay_1s(void)
+void delay_5s(void)
 {
 	for (int i = 0; i < 6250; i++)   // 5sec second
   90:	2f 5f       	subi	r18, 0xFF	; 255
@@ -100,7 +100,7 @@ void delay_1s(void)
   94:	2a 36       	cpi	r18, 0x6A	; 106
   96:	88 e1       	ldi	r24, 0x18	; 24
   98:	38 07       	cpc	r19, r24
-  9a:	ac f3       	brlt	.-22     	; 0x86 <delay_1s+0x6>
+  9a:	ac f3       	brlt	.-22     	; 0x86 <delay_5s+0x6>
 	{
 		while (!(TIFR0 & (1 << OCF0A)));  // Wait until compare match
 		TIFR0 |= (1 << OCF0A);            // Clear flag
@@ -146,26 +146,26 @@ int main(void)
   c2:	85 b1       	in	r24, 0x05	; 5
   c4:	80 62       	ori	r24, 0x20	; 32
   c6:	85 b9       	out	0x05, r24	; 5
-		delay_1s();
-  c8:	0e 94 40 00 	call	0x80	; 0x80 <delay_1s>
+		delay_5s();
+  c8:	0e 94 40 00 	call	0x80	; 0x80 <delay_5s>
 		PORTB &= ~(1 << PORTB5);         // LED OFF
   cc:	85 b1       	in	r24, 0x05	; 5
   ce:	8f 7d       	andi	r24, 0xDF	; 223
   d0:	85 b9       	out	0x05, r24	; 5
-		delay_1s();
-  d2:	0e 94 40 00 	call	0x80	; 0x80 <delay_1s>
+		delay_5s();
+  d2:	0e 94 40 00 	call	0x80	; 0x80 <delay_5s>
 		PORTB |= (1 << PORTB4);          // LED ON
   d6:	85 b1       	in	r24, 0x05	; 5
   d8:	80 61       	ori	r24, 0x10	; 16
   da:	85 b9       	out	0x05, r24	; 5
-		delay_1s();
-  dc:	0e 94 40 00 	call	0x80	; 0x80 <delay_1s>
+		delay_5s();
+  dc:	0e 94 40 00 	call	0x80	; 0x80 <delay_5s>
 		PORTB &= ~(1 << PORTB4);         // LED OFF
   e0:	85 b1       	in	r24, 0x05	; 5
   e2:	8f 7e       	andi	r24, 0xEF	; 239
   e4:	85 b9       	out	0x05, r24	; 5
-		delay_1s();
-  e6:	0e 94 40 00 	call	0x80	; 0x80 <delay_1s>
+		delay_5s();
+  e6:	0e 94 40 00 	call	0x80	; 0x80 <delay_5s>
   ea:	eb cf       	rjmp	.-42     	; 0xc2 <main+0x24>
 
 000000ec <_exit>:
