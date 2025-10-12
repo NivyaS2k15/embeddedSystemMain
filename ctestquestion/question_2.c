@@ -1,33 +1,36 @@
 #include <stdio.h>
 
-
-int functtionReg(int reg) {
-    reg |=  (1 << 2);  
-    reg &= ~(1 << 5);  
-    reg ^=  (1 << 0);  
+// Function to modify the register
+unsigned char modifyRegister(unsigned char reg) {
+    reg |=  (1 << 2);   // Set 3rd bit (bit index 2)
+    reg &= ~(1 << 5);   // Clear 6th bit (bit index 5)
+    reg ^=  (1 << 0);   // Toggle 1st bit (bit index 0)
     return reg;
 }
 
-void printBinary (int n){
-int i,mask;
-for (i=7;i>=0;i--){
-   mask = 1<<i;
-    if(n & mask)
-    printf("1");
-    else
-    printf("0");
-}
-printf("\n");
+// Function to print binary (for visualization only)
+void printBinary(unsigned char n) {
+    printf("0b");
+    printf("%d%d%d%d%d%d%d%d",
+        (n >> 7) & 1,
+        (n >> 6) & 1,
+        (n >> 5) & 1,
+        (n >> 4) & 1,
+        (n >> 3) & 1,
+        (n >> 2) & 1,
+        (n >> 1) & 1,
+        (n >> 0) & 1
+    );
+    printf("\n");
 }
 
 int main() {
-    int reg = 245;   
-    int result = functtionReg(reg);
+    unsigned char reg = 245; // Example: 0b11110101
+    unsigned char result = modifyRegister(reg);
 
-  
-    printf("binary Input  : ");
+    printf("Input  : ");
     printBinary(reg);
-    printf("ibnary Output : ");
+    printf("Output : ");
     printBinary(result);
 
     return 0;
