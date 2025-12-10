@@ -1,0 +1,27 @@
+16:41:15 **** Build of configuration Debug for project Push_button_led ****
+make -j16 all 
+arm-none-eabi-gcc -mcpu=cortex-m4 -g3 -DDEBUG -c -x assembler-with-cpp -MMD -MP -MF"Startup/startup_stm32f446retx.d" -MT"Startup/startup_stm32f446retx.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Startup/startup_stm32f446retx.o" "../Startup/startup_stm32f446retx.s"
+arm-none-eabi-gcc "../Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32 -DSTM32F4 -DSTM32F446RETx -DNUCLEO_F446RE -c -I../Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Src/main.d" -MT"Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Src/main.o"
+arm-none-eabi-gcc "../Src/syscalls.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32 -DSTM32F4 -DSTM32F446RETx -DNUCLEO_F446RE -c -I../Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Src/syscalls.d" -MT"Src/syscalls.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Src/syscalls.o"
+arm-none-eabi-gcc "../Src/sysmem.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32 -DSTM32F4 -DSTM32F446RETx -DNUCLEO_F446RE -c -I../Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Src/sysmem.d" -MT"Src/sysmem.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Src/sysmem.o"
+arm-none-eabi-gcc -o "Push_button_led.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\embeddedSystem\stm32Barematel\ledPushButton\Push_button_led\STM32F446RETX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Push_button_led.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: Push_button_led.elf
+ 
+arm-none-eabi-size  Push_button_led.elf 
+arm-none-eabi-objdump -h -S Push_button_led.elf  > "Push_button_led.list"
+   text	   data	    bss	    dec	    hex	filename
+   3708	     92	   1900	   5700	   1644	Push_button_led.elf
+Finished building: default.size.stdout
+ 
+Finished building: Push_button_led.list
+ 
+
+16:41:16 Build Finished. 0 errors, 0 warnings. (took 843ms)
+
+16:42:21 **** Incremental Build of configuration Debug for project Push_button_led ****
+make -j16 all 
+arm-none-eabi-size  Push_button_led.elf 
+   text	   data	    bss	    dec	    hex	filename
+   3708	     92	   1900	   5700	   1644	Push_button_led.elf
+Finished building: default.size.stdout
+ 

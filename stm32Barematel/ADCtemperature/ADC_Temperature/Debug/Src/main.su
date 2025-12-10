@@ -1,0 +1,4 @@
+../Src/main.c:27:6:ADC1_Init	4	static
+../Src/main.c:40:10:ADC1_Read	4	static
+../Src/main.c:46:28:adc_to_milli_celsius	24	static
+../Src/main.c:52:5:main	40	static
