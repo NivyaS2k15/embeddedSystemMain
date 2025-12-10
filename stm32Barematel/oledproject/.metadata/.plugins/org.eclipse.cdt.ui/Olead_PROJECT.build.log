@@ -1,0 +1,10 @@
+17:42:47 **** Incremental Build of configuration Debug for project Olead_PROJECT ****
+make -j16 all 
+arm-none-eabi-size  Olead_PROJECT.elf 
+   text	   data	    bss	    dec	    hex	filename
+  22300	    112	   3096	  25508	   63a4	Olead_PROJECT.elf
+Finished building: default.size.stdout
+ 
+
+17:42:48 Build Finished. 0 errors, 0 warnings. (took 373ms)
+
