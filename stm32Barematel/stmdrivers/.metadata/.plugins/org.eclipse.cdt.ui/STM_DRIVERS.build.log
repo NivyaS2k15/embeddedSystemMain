@@ -1,0 +1,10 @@
+12:35:09 **** Incremental Build of configuration Debug for project STM_DRIVERS ****
+make -j16 all 
+arm-none-eabi-size  STM_DRIVERS.elf 
+   text	   data	    bss	    dec	    hex	filename
+   2072	      0	   1568	   3640	    e38	STM_DRIVERS.elf
+Finished building: default.size.stdout
+ 
+
+12:35:09 Build Finished. 0 errors, 0 warnings. (took 208ms)
+

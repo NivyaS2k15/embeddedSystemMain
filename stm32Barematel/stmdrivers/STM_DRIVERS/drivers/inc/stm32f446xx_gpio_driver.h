@@ -1,14 +1,6 @@
 /*
  * stm32f446xx_gpio_driver.h
  *
- *  Created on: Dec 10, 2025
- *      Author: NIVYA
- */
-
-
-/*
- * stm32f446xx_gpio_driver.h
- *
  * GPIO driver header file for STM32F446xx MCU
  */
 

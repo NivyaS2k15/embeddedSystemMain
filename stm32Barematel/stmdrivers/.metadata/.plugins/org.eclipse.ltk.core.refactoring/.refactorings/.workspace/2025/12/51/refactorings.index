@@ -1,0 +1,6 @@
+1765863983009	Delete resource 'STM_DRIVERS/drivers/inc/stm32f446xx.h'
+1765866291139	Delete resource 'STM_DRIVERS/drivers/inc/stm32f446xx_gpio_driver.h'
+1765866349203	Delete resource 'STM_DRIVERS/drivers/inc/stm32f446xx_spi_driver.h'
+1765866504473	Delete resource 'STM_DRIVERS/drivers/inc/stm32f446xx_gpio_driver.h'
+1765866572076	Delete resource 'STM_DRIVERS/drivers/src/stm32f446xx_gpio_driver.c'
+1765866655688	Delete resource 'STM_DRIVERS/drivers/src/stm32f446xx_spi_driver.c'

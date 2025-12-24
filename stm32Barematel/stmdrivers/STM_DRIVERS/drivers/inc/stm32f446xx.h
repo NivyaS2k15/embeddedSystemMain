@@ -1,13 +1,6 @@
 /*
  * stm32f446xx.h
  *
- *  Created on: Dec 10, 2025
- *      Author: NIVYA
- */
-
-/*
- * stm32f446xx.h
- *
  * Device header file for STM32F446xx MCU
  * Reference Manual: RM0390
  */
@@ -416,6 +409,14 @@ typedef struct
 #define UART4_PCLK_EN()                     (RCC->APB1ENR |= (1 << 19))
 #define UART5_PCLK_EN()                     (RCC->APB1ENR |= (1 << 20))
 #define USART6_PCLK_EN()                    (RCC->APB2ENR |= (1 << 5))
+
+/* Aliases for backward compatibility */
+#define USART1_PCCK_EN()                    USART1_PCLK_EN()
+#define USART2_PCCK_EN()                    USART2_PCLK_EN()
+#define USART3_PCCK_EN()                    USART3_PCLK_EN()
+#define UART4_PCCK_EN()                     UART4_PCLK_EN()
+#define UART5_PCCK_EN()                     UART5_PCLK_EN()
+#define USART6_PCCK_EN()                    USART6_PCLK_EN()
 
 
 /*
