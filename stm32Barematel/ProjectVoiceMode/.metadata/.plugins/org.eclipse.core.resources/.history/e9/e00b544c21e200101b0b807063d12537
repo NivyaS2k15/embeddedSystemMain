@@ -1,0 +1,94 @@
+/**
+ ******************************************************************************
+ * @file           : main.c
+ * @author         : Nivya
+ * @brief          : KY087 simulated demo (hardcoded ADC value) + OLED (I2C) + LED + SWV printf
+ ******************************************************************************
+ */
+
+#include "stm32f446xx_gpio_driver.h"
+#include "stm32f446xx_i2c_driver.h"
+#include "stm32f446xx_rcc_driver.h"
+#include "ssd1306.h"
+#include "fonts.h"
+#include <stdio.h>
+#include <stdint.h>
+#include "stm32f446xx.h"
+
+/* Threshold for sound detection */
+#define SOUND_THRESHOLD 2000
+
+/* Simple delay (~200ms at 16MHz, adjust for your clock) */
+void delay(void) {
+    for (volatile uint32_t i = 0; i < 500000; i++);
+}
+
+
+
+int main(void) {
+
+
+    /* ---------------- LED Init (PA5) ---------------- */
+    GPIO_Handle_t GpioLed;
+    GpioLed.pGPIOx = GPIOA;
+    GpioLed.GPIO_PinConfig.GPIO_PinNumber = GPIO_PIN_NO_5;
+    GpioLed.GPIO_PinConfig.GPIO_PinMode = GPIO_MODE_OUT;
+    GpioLed.GPIO_PinConfig.GPIO_PinSpeed = GPIO_SPEED_MEDIUM;
+    GpioLed.GPIO_PinConfig.GPIO_PinPuPdControl = GPIO_NO_PUPD;
+    GpioLed.GPIO_PinConfig.GPIO_PinOPType = GPIO_OP_TYPE_PP;
+    GPIO_Init(&GpioLed);
+
+    /* ---------------- I2C Init (OLED on I2C1 PB8=SCL, PB9=SDA) ---------------- */
+    I2C_Handle_t I2CHandle;
+    I2CHandle.pI2Cx = I2C1;
+    I2CHandle.I2C_Config.I2C_SCLSpeed = I2C_SCL_SPEED_SM;   // 100kHz standard mode
+    I2CHandle.I2C_Config.I2C_DeviceAddress = 0x61;          // dummy own address
+    I2CHandle.I2C_Config.I2C_AckControl = I2C_ACK_ENABLE;
+    I2CHandle.I2C_Config.I2C_FMDutyCycle = I2C_FM_DUTY_2;
+
+    I2C_Init(&I2CHandle);
+    I2C_PeripheralControl(I2C1, ENABLE);
+
+    /* ---------------- OLED Init ---------------- */
+    SSD1306_Init();
+    SSD1306_Clear();
+
+    /* ---------------- Main Loop ---------------- */
+    while (1) {
+    	printf("dhjdh");
+        // Hardcoded ADC value for testing
+        uint32_t adc_value = 2500;   // simulate "high sound"
+        // uint32_t adc_value = 1500; // simulate "low sound"
+
+        SSD1306_Clear();
+        SSD1306_GotoXY(10, 10);
+
+        if (adc_value > SOUND_THRESHOLD) {
+            // Blink LED
+            GPIO_WriteToOutputPin(GPIOA, GPIO_PIN_NO_5, GPIO_PIN_SET);
+            delay();
+            GPIO_WriteToOutputPin(GPIOA, GPIO_PIN_NO_5, GPIO_PIN_RESET);
+            delay();
+
+            // Print HIGH message
+            SSD1306_Puts("Sound HIGH", &Font_11x18, SSD1306_COLOR_WHITE);
+            printf("Sound HIGH\n");
+        } else {
+            GPIO_WriteToOutputPin(GPIOA, GPIO_PIN_NO_5, GPIO_PIN_RESET);
+
+            SSD1306_Puts("Sound LOW", &Font_11x18, SSD1306_COLOR_WHITE);
+            printf("Sound LOW\n");
+        }
+
+        // Print ADC value below
+        char buffer[20];
+        sprintf(buffer, "ADC=%lu", adc_value);
+        SSD1306_GotoXY(10, 40);
+        SSD1306_Puts(buffer, &Font_7x10, SSD1306_COLOR_WHITE);
+
+        // Also print to SWV console
+        printf("%s\n", buffer);
+
+        SSD1306_UpdateScreen();
+    }
+}

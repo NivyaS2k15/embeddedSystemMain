@@ -1,0 +1,17 @@
+10:03:40 **** Incremental Build of configuration Debug for project SoundProject ****
+make -j16 all 
+arm-none-eabi-gcc "../Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32 -DSTM32F4 -DSTM32F446RETx -DNUCLEO_F446RE -c -I../Inc -I"C:/embeddedSystem/stm32Barematel/ProjectVoiceMode/SoundProject/drivers/inc" -I"C:/embeddedSystem/stm32Barematel/ProjectVoiceMode/SoundProject/drivers/src" -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Src/main.d" -MT"Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Src/main.o"
+arm-none-eabi-gcc -o "SoundProject.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\embeddedSystem\stm32Barematel\ProjectVoiceMode\SoundProject\STM32F446RETX_FLASH.ld" --specs=nosys.specs -Wl,-Map="SoundProject.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: SoundProject.elf
+ 
+arm-none-eabi-size  SoundProject.elf 
+arm-none-eabi-objdump -h -S SoundProject.elf  > "SoundProject.list"
+   text	   data	    bss	    dec	    hex	filename
+   7984	     92	   1900	   9976	   26f8	SoundProject.elf
+Finished building: default.size.stdout
+ 
+Finished building: SoundProject.list
+ 
+
+10:03:42 Build Finished. 0 errors, 0 warnings. (took 1s.981ms)
+

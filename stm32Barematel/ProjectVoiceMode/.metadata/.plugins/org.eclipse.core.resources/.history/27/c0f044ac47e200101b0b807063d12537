@@ -1,0 +1,60 @@
+#include "stm32f446xx_gpio_driver.h"
+#include "stm32f446xx_usart_driver.h"
+#include "stm32f446xx_rcc_driver.h"
+#include <stdio.h>
+#include <stdint.h>
+#include <string.h>
+
+void delay(void) {
+    for (volatile uint32_t i = 0; i < 500000; i++);
+}
+
+int main(void) {
+    // --- GPIO init for USART2 TX (PA2) ---
+    GPIO_Handle_t GpioTx;
+    GpioTx.pGPIOx = GPIOA;
+    GpioTx.GPIO_PinConfig.GPIO_PinNumber = GPIO_PIN_NO_2;
+    GpioTx.GPIO_PinConfig.GPIO_PinMode = GPIO_MODE_ALTFN;
+    GpioTx.GPIO_PinConfig.GPIO_PinAltFunMode = 7;   // AF7 = USART2
+    GpioTx.GPIO_PinConfig.GPIO_PinSpeed = GPIO_SPEED_FAST;
+    GpioTx.GPIO_PinConfig.GPIO_PinPuPdControl = GPIO_NO_PUPD;
+    GpioTx.GPIO_PinConfig.GPIO_PinOPType = GPIO_OP_TYPE_PP;
+    GPIO_Init(&GpioTx);
+
+    // --- GPIO init for USART2 RX (PA3) ---
+    GPIO_Handle_t GpioRx;
+    GpioRx.pGPIOx = GPIOA;
+    GpioRx.GPIO_PinConfig.GPIO_PinNumber = GPIO_PIN_NO_3;
+    GpioRx.GPIO_PinConfig.GPIO_PinMode = GPIO_MODE_ALTFN;
+    GpioRx.GPIO_PinConfig.GPIO_PinAltFunMode = 7;   // AF7 = USART2
+    GpioRx.GPIO_PinConfig.GPIO_PinSpeed = GPIO_SPEED_FAST;
+    GpioRx.GPIO_PinConfig.GPIO_PinPuPdControl = GPIO_NO_PUPD;
+    GpioRx.GPIO_PinConfig.GPIO_PinOPType = GPIO_OP_TYPE_PP;
+    GPIO_Init(&GpioRx);
+
+    // --- Enable USART2 clock ---
+    USART_PeriClockControl(USART2, ENABLE);
+
+    // --- USART2 init ---
+    USART_Handle_t UsartHandle;
+    UsartHandle.pUSARTx = USART2;
+    UsartHandle.USART_Config.USART_Baud = 9600;
+    UsartHandle.USART_Config.USART_Mode = USART_MODE_TXRX;   // RX + TX
+    UsartHandle.USART_Config.USART_NoOfStopBits = USART_STOPBITS_1;
+    UsartHandle.USART_Config.USART_WordLength = USART_WORDLEN_8BITS;
+    UsartHandle.USART_Config.USART_ParityControl = USART_PARITY_DISABLE;
+    UsartHandle.USART_Config.USART_HWFlowControl = USART_HW_FLOW_CTRL_NONE;
+
+    USART_Init(&UsartHandle);
+    USART_PeripheralControl(USART2, ENABLE);
+
+    uint8_t rx_buffer[30];
+
+    while (1) {
+        // Receive until newline
+    	uint8_t ch;
+    	    USART_ReceiveData(&UsartHandle, &ch, 1);
+    	    printf("Byte received: %c\n", ch);
+
+    }
+}

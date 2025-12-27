@@ -1,0 +1,133 @@
+/*
+ * main.c
+ *
+ *  Created on: Dec 26, 2025
+ *      Author: NIVYA
+ */
+
+#include "stm32f446xx.h"
+#include "stm32f446xx_gpio_driver.h"
+#include "stm32f446xx_usart_driver.h"
+#include "stm32f446xx_rcc_driver.h"
+#include <stdint.h>
+
+#define TRIG_PIN   GPIO_PIN_NO_0   // PA0
+#define ECHO_PIN   GPIO_PIN_NO_1   // PA1
+#define LED_PIN    GPIO_PIN_NO_5   // PA5 (Onboard LED)
+
+#define DISTANCE_THRESHOLD_CM  5   // LED ON when distance < 5 cm
+
+// crude delay (approx microseconds)
+void delay_us(uint32_t us)
+{
+    for (volatile uint32_t i = 0; i < us * 10; i++);
+}
+
+// measure distance in cm
+uint32_t measure_distance_cm(void)
+{
+    uint32_t timeout = 30000;
+
+    // Trigger pulse: 10 µs
+    GPIO_WriteToOutputPin(GPIOA, TRIG_PIN, GPIO_PIN_RESET);
+    delay_us(2);
+    GPIO_WriteToOutputPin(GPIOA, TRIG_PIN, GPIO_PIN_SET);
+    delay_us(10);
+    GPIO_WriteToOutputPin(GPIOA, TRIG_PIN, GPIO_PIN_RESET);
+
+    // Wait for ECHO to go HIGH
+    while (!GPIO_ReadFromInputPin(GPIOA, ECHO_PIN))
+    {
+        if (timeout-- == 0)
+            return 0;   // timeout → no echo
+    }
+
+    // Measure HIGH pulse width
+    uint32_t count = 0;
+    timeout = 30000;
+    while (GPIO_ReadFromInputPin(GPIOA, ECHO_PIN))
+    {
+        count++;
+        delay_us(1);
+        if (timeout-- == 0)
+            break;
+    }
+
+    // Convert time to distance (speed of sound 0.034 cm/us)
+    return (count * 34) / 2000;
+}
+
+// USART2 handle
+USART_Handle_t USART2Handle;
+
+void USART2_Init(void)
+{
+    USART2Handle.pUSARTx = USART2;
+    USART2Handle.USART_Config.USART_Baud = 9600;
+    USART2Handle.USART_Config.USART_Mode = USART_MODE_TXRX;
+    USART2Handle.USART_Config.USART_WordLength = USART_WORDLEN_8BITS;
+    USART2Handle.USART_Config.USART_ParityControl = USART_PARITY_DISABLE;
+    USART2Handle.USART_Config.USART_NoOfStopBits = USART_STOPBITS_1;
+    USART2Handle.USART_Config.USART_HWFlowControl = USART_HW_FLOW_CTRL_NONE;
+
+    USART_Init(&USART2Handle);
+    USART_PeripheralControl(USART2, ENABLE);
+}
+
+int main(void)
+{
+    // Enable GPIOA clock
+    GPIO_PeriClockControl(GPIOA, ENABLE);
+
+    // TRIG Pin (PA0) OUTPUT
+    GPIO_Handle_t GpioTrig = {0};
+    GpioTrig.pGPIOx = GPIOA;
+    GpioTrig.GPIO_PinConfig.GPIO_PinNumber = TRIG_PIN;
+    GpioTrig.GPIO_PinConfig.GPIO_PinMode = GPIO_MODE_OUT;
+    GpioTrig.GPIO_PinConfig.GPIO_PinSpeed = GPIO_SPEED_FAST;
+    GpioTrig.GPIO_PinConfig.GPIO_PinOPType = GPIO_OP_TYPE_PP;
+    GpioTrig.GPIO_PinConfig.GPIO_PinPuPdControl = GPIO_NO_PUPD;
+    GPIO_Init(&GpioTrig);
+
+    // ECHO Pin (PA1) INPUT
+    GPIO_Handle_t GpioEcho = {0};
+    GpioEcho.pGPIOx = GPIOA;
+    GpioEcho.GPIO_PinConfig.GPIO_PinNumber = ECHO_PIN;
+    GpioEcho.GPIO_PinConfig.GPIO_PinMode = GPIO_MODE_IN;
+    GpioEcho.GPIO_PinConfig.GPIO_PinSpeed = GPIO_SPEED_FAST;
+    GpioEcho.GPIO_PinConfig.GPIO_PinPuPdControl = GPIO_NO_PUPD;
+    GPIO_Init(&GpioEcho);
+
+    // LED Pin (PA5) OUTPUT
+    GPIO_Handle_t GpioLed = {0};
+    GpioLed.pGPIOx = GPIOA;
+    GpioLed.GPIO_PinConfig.GPIO_PinNumber = LED_PIN;
+    GpioLed.GPIO_PinConfig.GPIO_PinMode = GPIO_MODE_OUT;
+    GpioLed.GPIO_PinConfig.GPIO_PinSpeed = GPIO_SPEED_FAST;
+    GpioLed.GPIO_PinConfig.GPIO_PinOPType = GPIO_OP_TYPE_PP;
+    GpioLed.GPIO_PinConfig.GPIO_PinPuPdControl = GPIO_NO_PUPD;
+    GPIO_Init(&GpioLed);
+
+    // Initialize USART2 for debugging
+    USART2_Init();
+
+    uint8_t msg[50];
+
+    while (1)
+    {
+        uint32_t distance = measure_distance_cm();
+
+        // Send distance over USART
+        int len = sprintf((char*)msg, "Distance = %lu cm\r\n", distance);
+        USART_SendData(&USART2Handle, msg, len);
+
+        // LED control
+        if(distance < DISTANCE_THRESHOLD_CM)
+            GPIO_WriteToOutputPin(GPIOA, LED_PIN, GPIO_PIN_SET);
+        else
+            GPIO_WriteToOutputPin(GPIOA, LED_PIN, GPIO_PIN_RESET);
+
+        // Delay
+        for(volatile uint32_t i=0; i<200000; i++);
+    }
+}

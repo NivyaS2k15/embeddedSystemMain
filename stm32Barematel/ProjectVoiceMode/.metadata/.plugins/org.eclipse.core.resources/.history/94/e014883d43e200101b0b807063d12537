@@ -1,0 +1,40 @@
+/**
+ ******************************************************************************
+ * @file           : main.c
+ * @author         : Nivya
+ * @brief          : Example using GPIO driver (LED toggle on PA5)
+ ******************************************************************************
+ */
+
+#include "stm32f446xx_gpio_driver.h"
+
+// Simple delay (~200ms at 16MHz, adjust for your clock)
+void delay(void)
+{
+    for (volatile uint32_t i = 0; i < 500000; i++);
+}
+
+int main(void)
+{
+    // 1. Create GPIO handle structure
+    GPIO_Handle_t GpioLed;
+
+    // 2. Configure GPIO pin parameters
+    GpioLed.pGPIOx = GPIOA;                                // Port A
+    GpioLed.GPIO_PinConfig.GPIO_PinNumber = GPIO_PIN_NO_5; // Pin 5
+    GpioLed.GPIO_PinConfig.GPIO_PinMode = GPIO_MODE_OUT;   // Output mode
+    GpioLed.GPIO_PinConfig.GPIO_PinSpeed = GPIO_SPEED_MEDIUM;
+    GpioLed.GPIO_PinConfig.GPIO_PinPuPdControl = GPIO_NO_PUPD;
+    GpioLed.GPIO_PinConfig.GPIO_PinOPType = GPIO_OP_TYPE_PP;
+
+    // 3. Initialize GPIO
+    GPIO_Init(&GpioLed);
+
+    // 4. Main loop: toggle LED
+    while (1)
+    {
+    	printf("nsdk\n");
+        GPIO_ToggleOutputPin(GPIOA, GPIO_PIN_NO_5);
+        delay();
+    }
+}

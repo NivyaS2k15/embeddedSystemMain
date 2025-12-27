@@ -1,0 +1,123 @@
+#include "stm32f446xx.h"
+#include "stm32f446xx_gpio_driver.h"
+#include "stm32f446xx_rcc_driver.h"
+#include "stm32f446xx_usart_driver.h"
+#include <stdint.h>
+#include <stdio.h>
+#include <string.h>
+
+#define TRIG_PIN   GPIO_PIN_NO_0
+#define ECHO_PIN   GPIO_PIN_NO_1
+#define LED_PIN    GPIO_PIN_NO_5
+#define DISTANCE_THRESHOLD_CM  2
+
+UART_Handle_t UART2Handle;
+uint8_t danger_sent = 0;  // flag to avoid sending repeatedly
+
+void delay_us(uint32_t us)
+{
+    for (volatile uint32_t i = 0; i < us * 10; i++);
+}
+
+uint32_t measure_distance_cm(void)
+{
+    uint32_t timeout = 30000;
+
+    GPIO_WriteToOutputPin(GPIOA, TRIG_PIN, GPIO_PIN_RESET);
+    delay_us(2);
+    GPIO_WriteToOutputPin(GPIOA, TRIG_PIN, GPIO_PIN_SET);
+    delay_us(10);
+    GPIO_WriteToOutputPin(GPIOA, TRIG_PIN, GPIO_PIN_RESET);
+
+    while (!GPIO_ReadFromInputPin(GPIOA, ECHO_PIN))
+    {
+        if (timeout-- == 0) return 0;
+    }
+
+    uint32_t count = 0;
+    timeout = 30000;
+    while (GPIO_ReadFromInputPin(GPIOA, ECHO_PIN))
+    {
+        count++;
+        delay_us(1);
+        if (timeout-- == 0) break;
+    }
+
+    return (count * 34) / 2000;
+}
+
+void UART2_Init(void)
+{
+    UART2Handle.pUSARTx = USART2;
+    UART2Handle.USART_Config.USART_Baud = 9600;
+    UART2Handle.USART_Config.USART_HWFlowControl = USART_HW_FLOW_CTRL_NONE;
+    UART2Handle.USART_Config.USART_Mode = USART_MODE_TX;
+    UART2Handle.USART_Config.USART_NoOfStopBits = USART_STOPBITS_1;
+    UART2Handle.USART_Config.USART_WordLength = USART_WORDLEN_8BITS;
+
+    USART_Init(&UART2Handle);
+}
+
+int main(void)
+{
+    GPIO_PeriClockControl(GPIOA, ENABLE);
+
+    // TRIG pin
+    GPIO_Handle_t GpioTrig = {0};
+    GpioTrig.pGPIOx = GPIOA;
+    GpioTrig.GPIO_PinConfig.GPIO_PinNumber = TRIG_PIN;
+    GpioTrig.GPIO_PinConfig.GPIO_PinMode = GPIO_MODE_OUT;
+    GpioTrig.GPIO_PinConfig.GPIO_PinSpeed = GPIO_SPEED_FAST;
+    GpioTrig.GPIO_PinConfig.GPIO_PinOPType = GPIO_OP_TYPE_PP;
+    GpioTrig.GPIO_PinConfig.GPIO_PinPuPdControl = GPIO_NO_PUPD;
+    GPIO_Init(&GpioTrig);
+
+    // ECHO pin
+    GPIO_Handle_t GpioEcho = {0};
+    GpioEcho.pGPIOx = GPIOA;
+    GpioEcho.GPIO_PinConfig.GPIO_PinNumber = ECHO_PIN;
+    GpioEcho.GPIO_PinConfig.GPIO_PinMode = GPIO_MODE_IN;
+    GpioEcho.GPIO_PinConfig.GPIO_PinSpeed = GPIO_SPEED_FAST;
+    GpioEcho.GPIO_PinConfig.GPIO_PinPuPdControl = GPIO_NO_PUPD;
+    GPIO_Init(&GpioEcho);
+
+    // LED pin
+    GPIO_Handle_t GpioLed = {0};
+    GpioLed.pGPIOx = GPIOA;
+    GpioLed.GPIO_PinConfig.GPIO_PinNumber = LED_PIN;
+    GpioLed.GPIO_PinConfig.GPIO_PinMode = GPIO_MODE_OUT;
+    GpioLed.GPIO_PinConfig.GPIO_PinSpeed = GPIO_SPEED_FAST;
+    GpioLed.GPIO_PinConfig.GPIO_PinOPType = GPIO_OP_TYPE_PP;
+    GpioLed.GPIO_PinConfig.GPIO_PinPuPdControl = GPIO_NO_PUPD;
+    GPIO_Init(&GpioLed);
+
+    // UART Init
+    UART2_Init();
+
+    printf("HC-SR04 Distance Measurement Started\r\n");
+
+    while (1)
+    {
+        uint32_t distance = measure_distance_cm();
+        printf("Distance = %lu cm\r\n", distance);
+
+        if (distance < DISTANCE_THRESHOLD_CM)
+        {
+            GPIO_WriteToOutputPin(GPIOA, LED_PIN, GPIO_PIN_SET);
+
+            if (!danger_sent)
+            {
+                char msg[] = "DANGER!\r\n";
+                USART_SendData(&UART2Handle, (uint8_t*)msg, strlen(msg));
+                danger_sent = 1;
+            }
+        }
+        else
+        {
+            GPIO_WriteToOutputPin(GPIOA, LED_PIN, GPIO_PIN_RESET);
+            danger_sent = 0; // reset flag when safe
+        }
+
+        for (volatile uint32_t i = 0; i < 200000; i++);
+    }
+}
