@@ -1,0 +1,84 @@
+#include "main.h"
+#include <stdio.h>
+
+TIM_HandleTypeDef htim2;
+UART_HandleTypeDef huart2;
+
+uint32_t duration;
+uint32_t distance;
+
+/* Microsecond Delay */
+void delay_us(uint16_t us)
+{
+  __HAL_TIM_SET_COUNTER(&htim2,0);
+  while(__HAL_TIM_GET_COUNTER(&htim2) < us);
+}
+
+/* Measure Echo Pulse */
+uint32_t pulseIn(GPIO_TypeDef *port, uint16_t pin)
+{
+  uint32_t time = 0;
+
+  while(HAL_GPIO_ReadPin(port,pin) == GPIO_PIN_RESET);
+
+  while(HAL_GPIO_ReadPin(port,pin) == GPIO_PIN_SET)
+  {
+    time++;
+    delay_us(1);
+  }
+  return time;
+}
+
+/* Ultrasonic Distance */
+uint32_t calculateDistance(void)
+{
+  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, GPIO_PIN_RESET);
+  delay_us(2);
+
+  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, GPIO_PIN_SET);
+  delay_us(10);
+  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, GPIO_PIN_RESET);
+
+  duration = pulseIn(GPIOA, GPIO_PIN_6);
+  distance = duration * 0.034 / 2;
+
+  return distance;
+}
+
+int main(void)
+{
+  HAL_Init();
+  SystemClock_Config();
+
+  MX_GPIO_Init();
+  MX_TIM2_Init();
+  MX_USART2_UART_Init();
+
+  HAL_TIM_PWM_Start(&htim2, TIM_CHANNEL_1);
+
+  while (1)
+  {
+    /* Sweep Forward */
+    for(int angle = 15; angle <= 165; angle++)
+    {
+      __HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_1, angle*2 + 250);
+      HAL_Delay(30);
+
+      distance = calculateDistance();
+
+      /* Send to Processing */
+      printf("%d,%lu.", angle, distance);
+    }
+
+    /* Sweep Backward */
+    for(int angle = 165; angle >= 15; angle--)
+    {
+      __HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_1, angle*2 + 250);
+      HAL_Delay(30);
+
+      distance = calculateDistance();
+
+      printf("%d,%lu.", angle, distance);
+    }
+  }
+}

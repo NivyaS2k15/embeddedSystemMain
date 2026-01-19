@@ -1,148 +1,74 @@
-/**
- ******************************************************************************
- * @file           : main.c
- * @author         : NIVYA S\
- * @brief          : Main program body
- ******************************************************************************
- * @attention
- *
- * Copyright (c) 2025 STMicroelectronics.
- * All rights reserved.
- *
- * This software is licensed under terms that can be found in the LICENSE file
- * in the root directory of this software component.
- * If no LICENSE file comes with this software, it is provided AS-IS.
- *
- ******************************************************************************
+/*
+ * main.c
+ * STM32F446 SPI1 SLAVE
  */
-#include "stm32f446xx.h"
 
+#include "stm32f446xx.h"
 #include "stm32f446xx_gpio_driver.h"
-#include "stm32f446xx_rcc_driver.h"
-#include "lcd.h"
-#include <stdint.h>
+#include "stm32f446xx_spi_driver.h"
 #include <stdio.h>
 
-/* -------- HC-SR04 Pins -------- */
-#define TRIG_PIN   GPIO_PIN_NO_0   // PA0
-#define ECHO_PIN   GPIO_PIN_NO_1   // PA1
+SPI_Handle_t SPI1Handle;
+uint8_t rxBuf[3];
 
-/* -------- LED Pin -------- */
-#define LED_PIN    GPIO_PIN_NO_5   // PA5 (onboard LED)
-
-/* -------- Threshold -------- */
-#define DISTANCE_THRESHOLD_MM  4  // LED ON if distance < 20 mm (2 cm)
-
-/* -------- Simple Delay -------- */
-void delay_us(uint32_t us)
+/* ---------- GPIO Init ---------- */
+void SPI1_GPIOInit(void)
 {
-    for (volatile uint32_t i = 0; i < us * 10; i++);
+    GPIO_Handle_t SPIPins;
+
+    SPIPins.GPIO_PinConfig.GPIO_PinMode = GPIO_MODE_ALTFN;
+    SPIPins.GPIO_PinConfig.GPIO_PinAltFunMode = 5;
+    SPIPins.GPIO_PinConfig.GPIO_PinSpeed = GPIO_SPEED_FAST;
+    SPIPins.GPIO_PinConfig.GPIO_PinPuPdControl = GPIO_NO_PUPD;
+
+    // SCK - PA5
+    SPIPins.pGPIOx = GPIOA;
+    SPIPins.GPIO_PinConfig.GPIO_PinNumber = GPIO_PIN_NO_5;
+    GPIO_Init(&SPIPins);
+
+    // MISO - PA6
+    SPIPins.GPIO_PinConfig.GPIO_PinNumber = GPIO_PIN_NO_6;
+    GPIO_Init(&SPIPins);
+
+    // MOSI - PA7
+    SPIPins.GPIO_PinConfig.GPIO_PinNumber = GPIO_PIN_NO_7;
+    GPIO_Init(&SPIPins);
+
+    // NSS - PA4
+    SPIPins.GPIO_PinConfig.GPIO_PinNumber = GPIO_PIN_NO_4;
+    GPIO_Init(&SPIPins);
 }
 
-/* -------- Measure Distance in MM -------- */
-uint32_t measure_distance_mm(void)
+/* ---------- SPI Init ---------- */
+void SPI1_Init(void)
 {
-    uint32_t timeout = 30000;
+    SPI1Handle.pSPIx = SPI1;
+    SPI1Handle.SPIConfig.SPI_DeviceMode = SPI_DEVICE_MODE_SLAVE;
+    SPI1Handle.SPIConfig.SPI_BusConfig = SPI_BUS_CONFIG_FD;
+    SPI1Handle.SPIConfig.SPI_DFF = SPI_DFF_8BITS;
+    SPI1Handle.SPIConfig.SPI_CPOL = SPI_CPOL_LOW;
+    SPI1Handle.SPIConfig.SPI_CPHA = SPI_CPHA_LOW;
+    SPI1Handle.SPIConfig.SPI_SSM  = SPI_SSM_DI;   // Hardware NSS
 
-    /* Trigger pulse 10us */
-    GPIO_WriteToOutputPin(GPIOA, TRIG_PIN, GPIO_PIN_RESET);
-    delay_us(2);
-    GPIO_WriteToOutputPin(GPIOA, TRIG_PIN, GPIO_PIN_SET);
-    delay_us(10);
-    GPIO_WriteToOutputPin(GPIOA, TRIG_PIN, GPIO_PIN_RESET);
-
-    /* Wait for echo HIGH */
-    while (!GPIO_ReadFromInputPin(GPIOA, ECHO_PIN))
-    {
-        if (timeout-- == 0)
-            return 0;
-    }
-
-    /* Measure HIGH pulse width */
-    uint32_t count = 0;
-    timeout = 30000;
-    while (GPIO_ReadFromInputPin(GPIOA, ECHO_PIN))
-    {
-        count++;
-        delay_us(1);
-        if (timeout-- == 0)
-            break;
-    }
-
-    /* Convert to mm */
-    return (count * 34) / 200; // mm
+    SPI_Init(&SPI1Handle);
 }
 
-/* -------- SWV printf support -------- */
-
-
-/* ================= MAIN ================= */
 int main(void)
 {
-    /* Enable GPIOA clock */
-    GPIO_PeriClockControl(GPIOA, ENABLE);
+    SPI1_GPIOInit();
+    SPI1_Init();
 
-    /* -------- TRIG PIN (PA0) OUTPUT -------- */
-    GPIO_Handle_t GpioTrig = {0};
-    GpioTrig.pGPIOx = GPIOA;
-    GpioTrig.GPIO_PinConfig.GPIO_PinNumber = TRIG_PIN;
-    GpioTrig.GPIO_PinConfig.GPIO_PinMode = GPIO_MODE_OUT;
-    GpioTrig.GPIO_PinConfig.GPIO_PinSpeed = GPIO_SPEED_FAST;
-    GpioTrig.GPIO_PinConfig.GPIO_PinOPType = GPIO_OP_TYPE_PP;
-    GpioTrig.GPIO_PinConfig.GPIO_PinPuPdControl = GPIO_NO_PUPD;
-    GPIO_Init(&GpioTrig);
+    SPI_PeripheralControl(SPI1, ENABLE);
 
-    /* -------- ECHO PIN (PA1) INPUT -------- */
-    GPIO_Handle_t GpioEcho = {0};
-    GpioEcho.pGPIOx = GPIOA;
-    GpioEcho.GPIO_PinConfig.GPIO_PinNumber = ECHO_PIN;
-    GpioEcho.GPIO_PinConfig.GPIO_PinMode = GPIO_MODE_IN;
-    GpioEcho.GPIO_PinConfig.GPIO_PinSpeed = GPIO_SPEED_FAST;
-    GpioEcho.GPIO_PinConfig.GPIO_PinPuPdControl = GPIO_NO_PUPD;
-    GPIO_Init(&GpioEcho);
+    printf("STM32 SPI SLAVE READY\n");
 
-    /* -------- LED PIN (PA5) OUTPUT -------- */
-    GPIO_Handle_t GpioLed = {0};
-    GpioLed.pGPIOx = GPIOA;
-    GpioLed.GPIO_PinConfig.GPIO_PinNumber = LED_PIN;
-    GpioLed.GPIO_PinConfig.GPIO_PinMode = GPIO_MODE_OUT;
-    GpioLed.GPIO_PinConfig.GPIO_PinSpeed = GPIO_SPEED_FAST;
-    GpioLed.GPIO_PinConfig.GPIO_PinOPType = GPIO_OP_TYPE_PP;
-    GpioLed.GPIO_PinConfig.GPIO_PinPuPdControl = GPIO_NO_PUPD;
-    GPIO_Init(&GpioLed);
-
-    /* -------- LCD INIT -------- */
-    lcd_init();
-    lcd_clear();
-    lcd_set_cursor(0, 0);
-    lcd_print("Distance:");
-
-    printf("HC-SR04 Distance Measurement Started\r\n");
-
-    /* -------- MAIN LOOP -------- */
-    while (1)
+    while(1)
     {
-        uint32_t distance_mm = measure_distance_mm();
+        // Wait until master selects slave (NSS LOW)
+        while(GPIO_ReadFromInputPin(GPIOA, GPIO_PIN_NO_4));
 
-        /* Print to SWV console */
-        printf("Distance = %lu mm\r\n", distance_mm);
+        SPI_ReceiveData(SPI1, rxBuf, 3);
 
-        /* Print to LCD */
-        lcd_set_cursor(1, 0);
-        lcd_print_uint16(distance_mm);
-        lcd_print(" mm   ");   // clear old chars
-
-        /* LED control */
-        if (distance_mm < DISTANCE_THRESHOLD_MM)
-        {
-            GPIO_WriteToOutputPin(GPIOA, LED_PIN, GPIO_PIN_SET);   // LED ON
-        }
-        else
-        {
-            GPIO_WriteToOutputPin(GPIOA, LED_PIN, GPIO_PIN_RESET); // LED OFF
-        }
-
-        /* Small delay between measurements */
-        for (volatile uint32_t i = 0; i < 200000; i++);
+        printf("RX: %c %c %c\n", rxBuf[0], rxBuf[1], rxBuf[2]);
     }
 }

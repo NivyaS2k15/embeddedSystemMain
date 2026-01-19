@@ -1,28 +1,36 @@
-23:07:38 **** Incremental Build of configuration Debug for project SoundProject ****
+16:03:07 **** Build of configuration Debug for project SoundProject ****
 make -j16 all 
-arm-none-eabi-size  SoundProject.elf 
-   text	   data	    bss	    dec	    hex	filename
-   7984	     92	   1900	   9976	   26f8	SoundProject.elf
-Finished building: default.size.stdout
- 
-23:07:43 **** Incremental Build of configuration Debug for project SoundProject ****
-make -j16 all 
-arm-none-eabi-size  SoundProject.elf 
-   text	   data	    bss	    dec	    hex	filename
-   7984	     92	   1900	   9976	   26f8	SoundProject.elf
-Finished building: default.size.stdout
- 
-10:03:40 **** Incremental Build of configuration Debug for project SoundProject ****
-make -j16 all 
+arm-none-eabi-gcc "../drivers/src/fonts.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32 -DSTM32F4 -DSTM32F446RETx -DNUCLEO_F446RE -c -I../Inc -I"C:/embeddedSystem/stm32Barematel/ProjectVoiceMode/SoundProject/drivers/inc" -I"C:/embeddedSystem/stm32Barematel/ProjectVoiceMode/SoundProject/drivers/src" -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"drivers/src/fonts.d" -MT"drivers/src/fonts.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "drivers/src/fonts.o"
+arm-none-eabi-gcc "../drivers/src/lcd.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32 -DSTM32F4 -DSTM32F446RETx -DNUCLEO_F446RE -c -I../Inc -I"C:/embeddedSystem/stm32Barematel/ProjectVoiceMode/SoundProject/drivers/inc" -I"C:/embeddedSystem/stm32Barematel/ProjectVoiceMode/SoundProject/drivers/src" -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"drivers/src/lcd.d" -MT"drivers/src/lcd.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "drivers/src/lcd.o"
+arm-none-eabi-gcc "../drivers/src/ssd1306.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32 -DSTM32F4 -DSTM32F446RETx -DNUCLEO_F446RE -c -I../Inc -I"C:/embeddedSystem/stm32Barematel/ProjectVoiceMode/SoundProject/drivers/inc" -I"C:/embeddedSystem/stm32Barematel/ProjectVoiceMode/SoundProject/drivers/src" -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"drivers/src/ssd1306.d" -MT"drivers/src/ssd1306.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "drivers/src/ssd1306.o"
+arm-none-eabi-gcc "../drivers/src/stm32f446xx_gpio_driver.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32 -DSTM32F4 -DSTM32F446RETx -DNUCLEO_F446RE -c -I../Inc -I"C:/embeddedSystem/stm32Barematel/ProjectVoiceMode/SoundProject/drivers/inc" -I"C:/embeddedSystem/stm32Barematel/ProjectVoiceMode/SoundProject/drivers/src" -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"drivers/src/stm32f446xx_gpio_driver.d" -MT"drivers/src/stm32f446xx_gpio_driver.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "drivers/src/stm32f446xx_gpio_driver.o"
+arm-none-eabi-gcc "../drivers/src/stm32f446xx_i2c_driver.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32 -DSTM32F4 -DSTM32F446RETx -DNUCLEO_F446RE -c -I../Inc -I"C:/embeddedSystem/stm32Barematel/ProjectVoiceMode/SoundProject/drivers/inc" -I"C:/embeddedSystem/stm32Barematel/ProjectVoiceMode/SoundProject/drivers/src" -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"drivers/src/stm32f446xx_i2c_driver.d" -MT"drivers/src/stm32f446xx_i2c_driver.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "drivers/src/stm32f446xx_i2c_driver.o"
+arm-none-eabi-gcc "../drivers/src/stm32f446xx_rcc_driver.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32 -DSTM32F4 -DSTM32F446RETx -DNUCLEO_F446RE -c -I../Inc -I"C:/embeddedSystem/stm32Barematel/ProjectVoiceMode/SoundProject/drivers/inc" -I"C:/embeddedSystem/stm32Barematel/ProjectVoiceMode/SoundProject/drivers/src" -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"drivers/src/stm32f446xx_rcc_driver.d" -MT"drivers/src/stm32f446xx_rcc_driver.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "drivers/src/stm32f446xx_rcc_driver.o"
+arm-none-eabi-gcc "../drivers/src/stm32f446xx_spi_driver.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32 -DSTM32F4 -DSTM32F446RETx -DNUCLEO_F446RE -c -I../Inc -I"C:/embeddedSystem/stm32Barematel/ProjectVoiceMode/SoundProject/drivers/inc" -I"C:/embeddedSystem/stm32Barematel/ProjectVoiceMode/SoundProject/drivers/src" -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"drivers/src/stm32f446xx_spi_driver.d" -MT"drivers/src/stm32f446xx_spi_driver.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "drivers/src/stm32f446xx_spi_driver.o"
+arm-none-eabi-gcc "../drivers/src/stm32f446xx_usart_driver.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32 -DSTM32F4 -DSTM32F446RETx -DNUCLEO_F446RE -c -I../Inc -I"C:/embeddedSystem/stm32Barematel/ProjectVoiceMode/SoundProject/drivers/inc" -I"C:/embeddedSystem/stm32Barematel/ProjectVoiceMode/SoundProject/drivers/src" -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"drivers/src/stm32f446xx_usart_driver.d" -MT"drivers/src/stm32f446xx_usart_driver.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "drivers/src/stm32f446xx_usart_driver.o"
+arm-none-eabi-gcc -mcpu=cortex-m4 -g3 -DDEBUG -c -x assembler-with-cpp -MMD -MP -MF"Startup/startup_stm32f446retx.d" -MT"Startup/startup_stm32f446retx.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Startup/startup_stm32f446retx.o" "../Startup/startup_stm32f446retx.s"
 arm-none-eabi-gcc "../Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32 -DSTM32F4 -DSTM32F446RETx -DNUCLEO_F446RE -c -I../Inc -I"C:/embeddedSystem/stm32Barematel/ProjectVoiceMode/SoundProject/drivers/inc" -I"C:/embeddedSystem/stm32Barematel/ProjectVoiceMode/SoundProject/drivers/src" -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Src/main.d" -MT"Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Src/main.o"
+arm-none-eabi-gcc "../Src/syscalls.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32 -DSTM32F4 -DSTM32F446RETx -DNUCLEO_F446RE -c -I../Inc -I"C:/embeddedSystem/stm32Barematel/ProjectVoiceMode/SoundProject/drivers/inc" -I"C:/embeddedSystem/stm32Barematel/ProjectVoiceMode/SoundProject/drivers/src" -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Src/syscalls.d" -MT"Src/syscalls.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Src/syscalls.o"
+arm-none-eabi-gcc "../Src/sysmem.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32 -DSTM32F4 -DSTM32F446RETx -DNUCLEO_F446RE -c -I../Inc -I"C:/embeddedSystem/stm32Barematel/ProjectVoiceMode/SoundProject/drivers/inc" -I"C:/embeddedSystem/stm32Barematel/ProjectVoiceMode/SoundProject/drivers/src" -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Src/sysmem.d" -MT"Src/sysmem.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Src/sysmem.o"
+../drivers/src/stm32f446xx_usart_driver.c: In function 'USART_IRQHandling':
+../drivers/src/stm32f446xx_usart_driver.c:654:33: warning: variable 'temp3' set but not used [-Wunused-but-set-variable]
+  654 |         uint32_t temp1 , temp2, temp3;
+      |                                 ^~~~~
 arm-none-eabi-gcc -o "SoundProject.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\embeddedSystem\stm32Barematel\ProjectVoiceMode\SoundProject\STM32F446RETX_FLASH.ld" --specs=nosys.specs -Wl,-Map="SoundProject.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
 Finished building target: SoundProject.elf
  
 arm-none-eabi-size  SoundProject.elf 
 arm-none-eabi-objdump -h -S SoundProject.elf  > "SoundProject.list"
    text	   data	    bss	    dec	    hex	filename
-   7984	     92	   1900	   9976	   26f8	SoundProject.elf
+   7296	     92	   1940	   9328	   2470	SoundProject.elf
 Finished building: default.size.stdout
  
 Finished building: SoundProject.list
+ 
+16:03:15 **** Incremental Build of configuration Debug for project SoundProject ****
+make -j16 all 
+arm-none-eabi-size  SoundProject.elf 
+   text	   data	    bss	    dec	    hex	filename
+   7296	     92	   1940	   9328	   2470	SoundProject.elf
+Finished building: default.size.stdout
  

@@ -1,0 +1,10 @@
+../drivers/src/stm32f446xx_spi_driver.c:9:6:SPI_PeriClockControl	10
+../drivers/src/stm32f446xx_spi_driver.c:28:6:SPI_Init	3
+../drivers/src/stm32f446xx_spi_driver.c:58:6:SPI_PeripheralControl	2
+../drivers/src/stm32f446xx_spi_driver.c:67:9:SPI_GetFlagStatus	1
+../drivers/src/stm32f446xx_spi_driver.c:73:6:SPI_SendData	4
+../drivers/src/stm32f446xx_spi_driver.c:96:6:SPI_ReceiveData	6
+../drivers/src/stm32f446xx_spi_driver.c:124:6:SPI_ClearOVRFlag	1
+../drivers/src/stm32f446xx_spi_driver.c:133:6:SPI_CloseReception	1
+../drivers/src/stm32f446xx_spi_driver.c:139:6:SPI_CloseTransmission	1
+../drivers/src/stm32f446xx_spi_driver.c:146:13:SPI_ApplicationEventCallback	1

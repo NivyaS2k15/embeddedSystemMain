@@ -1,0 +1,70 @@
+/*
+ * main.c
+ * Receive "hai" from Arduino via UART
+ * Print received characters to SWV ITM Console
+ */
+
+#include "stm32f446xx.h"
+#include "stm32f446xx_gpio_driver.h"
+#include "stm32f446xx_usart_driver.h"
+#include "stm32f446xx_rcc_driver.h"
+#include <stdint.h>
+
+
+
+/* -------- USART2 Init (PA2 TX, PA3 RX) -------- */
+void USART2_GPIO_Init(void)
+{
+    GPIO_Handle_t usart_gpios;
+
+    usart_gpios.pGPIOx = GPIOA;
+    usart_gpios.GPIO_PinConfig.GPIO_PinMode = GPIO_MODE_ALTFN;
+    usart_gpios.GPIO_PinConfig.GPIO_PinAltFunMode = 7;
+    usart_gpios.GPIO_PinConfig.GPIO_PinOPType = GPIO_OP_TYPE_PP;
+    usart_gpios.GPIO_PinConfig.GPIO_PinPuPdControl = GPIO_NO_PUPD;
+    usart_gpios.GPIO_PinConfig.GPIO_PinSpeed = GPIO_SPEED_FAST;
+
+    /* PA2 TX */
+    usart_gpios.GPIO_PinConfig.GPIO_PinNumber = GPIO_PIN_NO_2;
+    GPIO_Init(&usart_gpios);
+
+    /* PA3 RX */
+    usart_gpios.GPIO_PinConfig.GPIO_PinNumber = GPIO_PIN_NO_3;
+    GPIO_Init(&usart_gpios);
+}
+
+void USART2_Init(void)
+{
+    USART_Handle_t usart2;
+
+    usart2.pUSARTx = USART2;
+    usart2.USART_Config.USART_Baud = USART_STD_BAUD_9600;
+    usart2.USART_Config.USART_HWFlowControl = USART_HW_FLOW_CTRL_NONE;
+    usart2.USART_Config.USART_Mode = USART_MODE_TXRX;
+    usart2.USART_Config.USART_NoOfStopBits = USART_STOPBITS_1;
+    usart2.USART_Config.USART_ParityControl = USART_PARITY_DISABLE;
+    usart2.USART_Config.USART_WordLength = USART_WORDLEN_8BITS;
+
+    USART_Init(&usart2);
+    USART_PeripheralControl(USART2, ENABLE);
+}
+
+/* -------- MAIN -------- */
+int main(void)
+{
+    char rx_char;
+
+    USART2_GPIO_Init();
+    USART2_Init();
+
+    printf("STM32 ready. Waiting for data...\n");
+
+    while (1)
+    {
+        /* Receive 1 byte from Arduino */
+        USART_ReceiveData(USART2, (uint8_t *)&rx_char, 1);
+
+        /* Print received char to SWV console */
+        printf("%c", rx_char);
+    }
+}

@@ -1,0 +1,10 @@
+20:44:20 **** Incremental Build of configuration Debug for project Radar_project ****
+make -j16 all 
+arm-none-eabi-size  Radar_project.elf 
+   text	   data	    bss	    dec	    hex	filename
+   3628	     92	   1900	   5620	   15f4	Radar_project.elf
+Finished building: default.size.stdout
+ 
+
+20:44:21 Build Finished. 0 errors, 0 warnings. (took 280ms)
+

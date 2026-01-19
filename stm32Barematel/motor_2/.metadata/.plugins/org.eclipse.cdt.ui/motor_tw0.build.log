@@ -1,0 +1,10 @@
+11:08:46 **** Incremental Build of configuration Debug for project motor_tw0 ****
+make -j16 all 
+arm-none-eabi-size  motor_tw0.elf 
+   text	   data	    bss	    dec	    hex	filename
+  10420	     12	   1644	  12076	   2f2c	motor_tw0.elf
+Finished building: default.size.stdout
+ 
+
+11:08:46 Build Finished. 0 errors, 0 warnings. (took 326ms)
+

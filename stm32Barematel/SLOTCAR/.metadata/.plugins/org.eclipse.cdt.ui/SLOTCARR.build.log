@@ -1,0 +1,10 @@
+17:47:10 **** Incremental Build of configuration Debug for project SLOTCARR ****
+make -j16 all 
+arm-none-eabi-size  SLOTCARR.elf 
+   text	   data	    bss	    dec	    hex	filename
+  10040	     96	   1904	  12040	   2f08	SLOTCARR.elf
+Finished building: default.size.stdout
+ 
+
+17:47:10 Build Finished. 0 errors, 0 warnings. (took 348ms)
+

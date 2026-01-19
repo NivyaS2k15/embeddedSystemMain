@@ -1,0 +1,12 @@
+../drivers/src/lcd.c:14:13:delay_us	2
+../drivers/src/lcd.c:19:13:delay_ms	2
+../drivers/src/lcd.c:26:13:lcd_enable_pulse	1
+../drivers/src/lcd.c:35:13:lcd_send_nibble	1
+../drivers/src/lcd.c:46:13:lcd_send_byte	1
+../drivers/src/lcd.c:55:6:lcd_cmd	3
+../drivers/src/lcd.c:64:6:lcd_data	1
+../drivers/src/lcd.c:70:6:lcd_set_cursor	2
+../drivers/src/lcd.c:77:6:lcd_clear	1
+../drivers/src/lcd.c:83:6:lcd_print	2
+../drivers/src/lcd.c:90:6:lcd_init	1
+../drivers/src/lcd.c:156:6:lcd_print_uint16	5
