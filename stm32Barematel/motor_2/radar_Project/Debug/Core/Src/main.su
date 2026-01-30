@@ -1,0 +1,12 @@
+../Core/Src/main.c:76:10:angle_to_pwm	16	static
+../Core/Src/main.c:80:6:trigger_ultrasonic	16	static
+../Core/Src/main.c:87:7:calculate_distance	16	static
+../Core/Src/main.c:91:6:send_data	64	static
+../Core/Src/main.c:108:5:main	16	static
+../Core/Src/main.c:183:6:SystemClock_Config	88	static
+../Core/Src/main.c:231:13:MX_TIM1_Init	80	static
+../Core/Src/main.c:296:13:MX_TIM2_Init	32	static
+../Core/Src/main.c:344:13:MX_USART2_UART_Init	8	static
+../Core/Src/main.c:377:13:MX_GPIO_Init	32	static
+../Core/Src/main.c:408:6:HAL_TIM_IC_CaptureCallback	24	static
+../Core/Src/main.c:432:6:Error_Handler	4	static,ignoring_inline_asm
