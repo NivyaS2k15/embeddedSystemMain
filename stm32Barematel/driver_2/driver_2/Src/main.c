@@ -1,3 +1,5 @@
+
+
 /**
  ******************************************************************************
  * @file           : main.c
@@ -6,7 +8,7 @@
  ******************************************************************************
  * @attention
  *
- * Copyright (c) 2026 STMicroelectronics.
+ * Copyright (c) 2025 STMicroelectronics.
  * All rights reserved.
  *
  * This software is licensed under terms that can be found in the LICENSE file
@@ -16,14 +18,38 @@
  ******************************************************************************
  */
 
-#include <stdint.h>
 
-#if !defined(__SOFT_FP__) && defined(__ARM_FP)
-  #warning "FPU is not initialized, but the project is compiling for an FPU. Please initialize the FPU before use."
-#endif
+#include "tm1637.h"
+#include <stdio.h>
 
 int main(void)
 {
-    /* Loop forever */
-	for(;;);
+    TM1637_Init();
+
+    uint8_t hour = 10;
+    uint8_t min  = 30;
+
+    printf("TM1637 Smartwatch started\r\n");
+
+    while (1)
+    {
+        TM1637_DisplayTime(hour, min);
+
+        // PRINT to SWV ITM console
+        printf("Time: %02d:%02d\r\n", hour, min);
+
+        // delay
+        for (volatile uint32_t i = 0; i < 800000; i++);
+
+        min++;
+        if (min == 60)
+        {
+            min = 0;
+            hour++;
+        }
+        if (hour == 24)
+        {
+            hour = 0;
+        }
+    }
 }
