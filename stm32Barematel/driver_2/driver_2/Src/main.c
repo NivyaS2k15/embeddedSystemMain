@@ -1,5 +1,6 @@
 
 
+
 /**
  ******************************************************************************
  * @file           : main.c
@@ -19,37 +20,121 @@
  */
 
 
+
 #include "tm1637.h"
+#include "stm32f446xx_rcc_driver.h"
 #include <stdio.h>
+
+/* ================= BUTTON CONFIG ================= */
+#define BTN_START_PORT   GPIOA
+#define BTN_START_PIN    GPIO_PIN_NO_0   // Start / Stop
+
+#define BTN_RESET_PORT   GPIOA
+#define BTN_RESET_PIN    GPIO_PIN_NO_1   // Reset
+/* ================================================= */
+
+GPIO_Handle_t BtnStart;
+GPIO_Handle_t BtnReset;
+
+/* Stopwatch variables */
+volatile uint32_t msTicks = 0;
+volatile uint8_t oneSecondFlag = 0;
+
+/* ================= SysTick Registers ================= */
+#define SYST_CSR   (*(volatile uint32_t*)0xE000E010)
+#define SYST_RVR   (*(volatile uint32_t*)0xE000E014)
+#define SYST_CVR   (*(volatile uint32_t*)0xE000E018)
+/* ===================================================== */
+
+void SysTick_Handler(void)
+{
+    msTicks++;
+    if (msTicks >= 1000)
+    {
+        msTicks = 0;
+        oneSecondFlag = 1;
+    }
+}
+
+static void SysTick_Init(void)
+{
+    uint32_t hclk = RCC_GetPCLK1Value();
+
+    SYST_RVR = (hclk / 1000) - 1;
+    SYST_CVR = 0;
+    SYST_CSR = (1 << 2) | (1 << 1) | (1 << 0);
+}
+
+static void Buttons_Init(void)
+{
+    BtnStart.pGPIOx = BTN_START_PORT;
+    BtnStart.GPIO_PinConfig.GPIO_PinNumber = BTN_START_PIN;
+    BtnStart.GPIO_PinConfig.GPIO_PinMode = GPIO_MODE_IN;
+    BtnStart.GPIO_PinConfig.GPIO_PinSpeed = GPIO_SPEED_LOW;
+    BtnStart.GPIO_PinConfig.GPIO_PinPuPdControl = GPIO_PIN_PU;
+    GPIO_Init(&BtnStart);
+
+    BtnReset.pGPIOx = BTN_RESET_PORT;
+    BtnReset.GPIO_PinConfig.GPIO_PinNumber = BTN_RESET_PIN;
+    BtnReset.GPIO_PinConfig.GPIO_PinMode = GPIO_MODE_IN;
+    BtnReset.GPIO_PinConfig.GPIO_PinSpeed = GPIO_SPEED_LOW;
+    BtnReset.GPIO_PinConfig.GPIO_PinPuPdControl = GPIO_PIN_PU;
+    GPIO_Init(&BtnReset);
+}
 
 int main(void)
 {
-    TM1637_Init();
+    uint8_t min = 0;
+    uint8_t sec = 0;
 
-    uint8_t hour = 10;
-    uint8_t min  = 30;
+    uint8_t running = 0;
+    uint8_t lastStart = 1;
+    SysTick_Init();
 
-    printf("TM1637 Smartwatch started\r\n");
+    printf("STOPWATCH STARTED\r\n");
 
     while (1)
     {
-        TM1637_DisplayTime(hour, min);
+        uint8_t startState = GPIO_ReadFromInputPin(BTN_START_PORT, BTN_START_PIN);
+        uint8_t resetState = GPIO_ReadFromInputPin(BTN_RESET_PORT, BTN_RESET_PIN);
 
-        // PRINT to SWV ITM console
-        printf("Time: %02d:%02d\r\n", hour, min);
+        /* Start / Stop */
+        if (startState == 0 && lastStart == 1)
+        {
+            running ^= 1;
+            printf(running ? "START\r\n" : "PAUSE\r\n");
+        }
+        lastStart = startState;
 
-        // delay
-        for (volatile uint32_t i = 0; i < 800000; i++);
-
-        min++;
-        if (min == 60)
+        /* Reset */
+        if (resetState == 0 && lastReset == 1)
         {
             min = 0;
-            hour++;
+            sec = 0;
+            printf("RESET\r\n");
+            printf("TIME 00:00\r\n");
         }
-        if (hour == 24)
+        lastReset = resetState;
+
+        /* 1 second update */
+        if (running && oneSecondFlag)
         {
-            hour = 0;
+            oneSecondFlag = 0;
+
+            sec++;
+            if (sec == 60)
+            {
+                sec = 0;
+                min++;
+            }
+            if (min == 60)
+            {
+                min = 0;
+            }
+
+            printf("TIME %02d:%02d\r\n", min, sec);
         }
+
+        TM1637_DisplayTime(min, sec);
     }
 }

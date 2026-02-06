@@ -1,0 +1,10 @@
+17:34:13 **** Incremental Build of configuration Debug for project watch ****
+make -j16 all 
+arm-none-eabi-size  watch.elf 
+   text	   data	    bss	    dec	    hex	filename
+   7180	     92	   1924	   9196	   23ec	watch.elf
+Finished building: default.size.stdout
+ 
+
+17:34:13 Build Finished. 0 errors, 0 warnings. (took 365ms)
+

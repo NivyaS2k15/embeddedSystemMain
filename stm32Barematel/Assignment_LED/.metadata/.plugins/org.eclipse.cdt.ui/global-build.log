@@ -1,0 +1,56 @@
+20:07:19 **** Incremental Build of configuration Debug for project TASK_ASSIGN ****
+make -j16 all 
+arm-none-eabi-size  TASK_ASSIGN.elf 
+   text	   data	    bss	    dec	    hex	filename
+   5136	     92	   1900	   7128	   1bd8	TASK_ASSIGN.elf
+Finished building: default.size.stdout
+ 
+20:07:28 **** Incremental Build of configuration Debug for project TASK_ASSIGN ****
+make -j16 all 
+arm-none-eabi-size  TASK_ASSIGN.elf 
+   text	   data	    bss	    dec	    hex	filename
+   5136	     92	   1900	   7128	   1bd8	TASK_ASSIGN.elf
+Finished building: default.size.stdout
+ 
+20:07:59 **** Incremental Build of configuration Debug for project TASK_ASSIGN ****
+make -j16 all 
+arm-none-eabi-size  TASK_ASSIGN.elf 
+   text	   data	    bss	    dec	    hex	filename
+   5136	     92	   1900	   7128	   1bd8	TASK_ASSIGN.elf
+Finished building: default.size.stdout
+ 
+20:09:32 **** Incremental Build of configuration Debug for project TASK_ASSIGN ****
+make -j16 all 
+arm-none-eabi-size  TASK_ASSIGN.elf 
+   text	   data	    bss	    dec	    hex	filename
+   5136	     92	   1900	   7128	   1bd8	TASK_ASSIGN.elf
+Finished building: default.size.stdout
+ 
+20:10:43 **** Incremental Build of configuration Debug for project TASK_ASSIGN ****
+make -j16 all 
+arm-none-eabi-size  TASK_ASSIGN.elf 
+   text	   data	    bss	    dec	    hex	filename
+   5136	     92	   1900	   7128	   1bd8	TASK_ASSIGN.elf
+Finished building: default.size.stdout
+ 
+20:11:34 **** Incremental Build of configuration Debug for project TASK_ASSIGN ****
+make -j16 all 
+arm-none-eabi-size  TASK_ASSIGN.elf 
+   text	   data	    bss	    dec	    hex	filename
+   5136	     92	   1900	   7128	   1bd8	TASK_ASSIGN.elf
+Finished building: default.size.stdout
+ 
+20:12:09 **** Incremental Build of configuration Debug for project TASK_ASSIGN ****
+make -j16 all 
+arm-none-eabi-size  TASK_ASSIGN.elf 
+   text	   data	    bss	    dec	    hex	filename
+   5136	     92	   1900	   7128	   1bd8	TASK_ASSIGN.elf
+Finished building: default.size.stdout
+ 
+20:12:41 **** Incremental Build of configuration Debug for project TASK_ASSIGN ****
+make -j16 all 
+arm-none-eabi-size  TASK_ASSIGN.elf 
+   text	   data	    bss	    dec	    hex	filename
+   5136	     92	   1900	   7128	   1bd8	TASK_ASSIGN.elf
+Finished building: default.size.stdout
+ 

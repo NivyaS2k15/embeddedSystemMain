@@ -1,0 +1,6 @@
+../drivers/src/tm1637.c:30:13:tm_delay	16	static
+../drivers/src/tm1637.c:43:13:TM1637_Start	8	static
+../drivers/src/tm1637.c:51:13:TM1637_Stop	8	static
+../drivers/src/tm1637.c:62:13:TM1637_WriteByte	24	static
+../drivers/src/tm1637.c:88:6:TM1637_Init	8	static
+../drivers/src/tm1637.c:111:6:TM1637_DisplayTime	16	static
