@@ -6,14 +6,20 @@
 # Add inputs and outputs from these tool invocations to the build variables 
 C_SRCS += \
 ../drivers/src/stm32f446xx_gpio_driver.c \
+../drivers/src/stm32f446xx_rcc_driver.c \
+../drivers/src/stm32f446xx_usart_driver.c \
 ../drivers/src/tm1637.c 
 
 OBJS += \
 ./drivers/src/stm32f446xx_gpio_driver.o \
+./drivers/src/stm32f446xx_rcc_driver.o \
+./drivers/src/stm32f446xx_usart_driver.o \
 ./drivers/src/tm1637.o 
 
 C_DEPS += \
 ./drivers/src/stm32f446xx_gpio_driver.d \
+./drivers/src/stm32f446xx_rcc_driver.d \
+./drivers/src/stm32f446xx_usart_driver.d \
 ./drivers/src/tm1637.d 
 
 
@@ -24,7 +30,7 @@ drivers/src/%.o drivers/src/%.su drivers/src/%.cyclo: ../drivers/src/%.c drivers
 clean: clean-drivers-2f-src
 
 clean-drivers-2f-src:
-	-$(RM) ./drivers/src/stm32f446xx_gpio_driver.cyclo ./drivers/src/stm32f446xx_gpio_driver.d ./drivers/src/stm32f446xx_gpio_driver.o ./drivers/src/stm32f446xx_gpio_driver.su ./drivers/src/tm1637.cyclo ./drivers/src/tm1637.d ./drivers/src/tm1637.o ./drivers/src/tm1637.su
+	-$(RM) ./drivers/src/stm32f446xx_gpio_driver.cyclo ./drivers/src/stm32f446xx_gpio_driver.d ./drivers/src/stm32f446xx_gpio_driver.o ./drivers/src/stm32f446xx_gpio_driver.su ./drivers/src/stm32f446xx_rcc_driver.cyclo ./drivers/src/stm32f446xx_rcc_driver.d ./drivers/src/stm32f446xx_rcc_driver.o ./drivers/src/stm32f446xx_rcc_driver.su ./drivers/src/stm32f446xx_usart_driver.cyclo ./drivers/src/stm32f446xx_usart_driver.d ./drivers/src/stm32f446xx_usart_driver.o ./drivers/src/stm32f446xx_usart_driver.su ./drivers/src/tm1637.cyclo ./drivers/src/tm1637.d ./drivers/src/tm1637.o ./drivers/src/tm1637.su
 
 .PHONY: clean-drivers-2f-src
 

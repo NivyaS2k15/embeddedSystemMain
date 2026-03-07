@@ -1,0 +1,2 @@
+source C:/embeddedSystem/ESP32/switch/build/gdbinit/symbols
+source C:/embeddedSystem/ESP32/switch/build/gdbinit/connect

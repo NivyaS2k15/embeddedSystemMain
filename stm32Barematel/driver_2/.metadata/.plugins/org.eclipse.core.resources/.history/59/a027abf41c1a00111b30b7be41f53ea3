@@ -1,0 +1,78 @@
+/**
+ ******************************************************************************
+ * @file           : main.c
+ * @author         : Nivya
+ * @brief          : Main program body
+ ******************************************************************************
+ * @attention
+ *
+ * Copyright (c) 2025 STMicroelectronics.
+ * All rights reserved.
+ *
+ * This software is licensed under terms that can be found in the LICENSE file
+ * in the root directory of this software component.
+ * If no LICENSE file comes with this software, it is provided AS-IS.
+ *
+ ******************************************************************************
+ */
+
+#include "tm1637.h"
+#include "stm32f446xx_usart_driver.h"
+#include <stdio.h>
+
+/* USART2 handle */
+USART_Handle_t usart2_handle;
+
+/* Retarget printf to USART2 */
+int __io_putchar(int ch)
+{
+    uint8_t c = ch;
+    USART_SendData(&usart2_handle, &c, 1);
+    return ch;
+}
+
+int main(void)
+{
+    /* Configure USART2 */
+    usart2_handle.pUSARTx = USART2;
+    usart2_handle.USART_Config.USART_Baud = 115200;
+    usart2_handle.USART_Config.USART_Mode = USART_MODE_ONLY_TX;
+    usart2_handle.USART_Config.USART_WordLength = USART_WORDLEN_8BITS;
+    usart2_handle.USART_Config.USART_ParityControl = USART_PARITY_DISABLE;
+    usart2_handle.USART_Config.USART_NoOfStopBits = USART_STOPBITS_1;
+    usart2_handle.USART_Config.USART_HWFlowControl = USART_HW_FLOW_CTRL_NONE;
+
+    USART_Init(&usart2_handle);
+
+    /* Init TM1637 display */
+    TM1637_Init();
+
+    uint8_t hour = 10;
+    uint8_t min  = 30;
+
+    printf("TM1637 Smartwatch started\r\n");
+
+    while (1)
+    {
+        /* Update TM1637 */
+        TM1637_DisplayTime(hour, min);
+
+        /* Send time string to Processing via USART2 */
+        printf("Time: %02d:%02d\r\n", hour, min);
+
+        /* Simple delay */
+        for (volatile uint32_t i = 0; i < 800000; i++);
+
+        /* Increment time */
+        min++;
+        if (min == 60)
+        {
+            min = 0;
+            hour++;
+        }
+        if (hour == 24)
+        {
+            hour = 0;
+        }
+    }
+}

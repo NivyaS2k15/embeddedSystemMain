@@ -1,0 +1,23 @@
+{
+    "configurations": [
+        {
+            "name": "ESP32",
+            "includePath": [
+                "${workspaceFolder}/**",
+                "C:/Users/NIVYA/esp/v5.5.2/esp-idf/components/**",
+                "C:/Users/NIVYA/esp/v5.5.2/esp-idf/components/freertos/include",
+                "C:/Users/NIVYA/esp/v5.5.2/esp-idf/components/driver/include",
+                "C:/Users/NIVYA/esp/v5.5.2/esp-idf/components/esp_common/include"
+            ],
+            "defines": [
+                "ESP_PLATFORM"
+            ],
+            "compilerPath": "C:/Users/NIVYA/.espressif/tools/xtensa-esp32-elf/bin/xtensa-esp32-elf-gcc.exe",
+            "cStandard": "c11",
+            "cppStandard": "c++17",
+            "intelliSenseMode": "windows-gcc-x64",
+            "compileCommands": "${workspaceFolder}/build/compile_commands.json"
+        }
+    ],
+    "version": 4
+}

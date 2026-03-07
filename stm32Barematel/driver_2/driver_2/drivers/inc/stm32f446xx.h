@@ -74,6 +74,14 @@
 #define AHB3PERIPH_BASEADDR                 0xA0000000U
 
 
+
+#define IRQ_NO_EXT0       6
+#define IRQ_NO_EXT1       7
+#define IRQ_NO_EXT2       8
+#define IRQ_NO_EXT3       9
+#define IRQ_NO_EXT4       10
+#define IRQ_NO_EXT5_9     23
+#define IRQ_NO_EXT10_15   40
 /**********************************START: AHB1 Peripheral Base Addresses **********************************/
 /*
  * Base addresses of peripherals which are hanging on AHB1 bus
