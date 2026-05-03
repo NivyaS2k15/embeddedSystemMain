@@ -141,7 +141,7 @@ void USART_PeriClockControl(USART_RegDef_t *pUSARTx, uint8_t EnOrDi);
  * Init and De-init
  */
 void USART_Init(USART_Handle_t *pUSARTHandle);
-void USART_DeInit(USART_Handle_t *pUSARTHandle);
+void USART_DeInit(USART_RegDef_t *pUSARTx);
 
 /*
  * Data Send and Receive
@@ -162,7 +162,7 @@ void USART_IRQHandling(USART_Handle_t *pUSARTHandle);
  * Other Peripheral Control APIs
  */
 
-uint8_t USART_GetFlagStatus(USART_RegDef_t *pUSARTx, uint8_t StatusFlagName);
+uint8_t USART_GetFlagStatus(USART_RegDef_t *pUSARTx, uint32_t StatusFlagName);
 void USART_ClearFlag(USART_RegDef_t *pUSARTx, uint16_t StatusFlagName);
 void USART_PeripheralControl(USART_RegDef_t *pUSARTx, uint8_t EnOrDi);
 void USART_SetBaudRate(USART_RegDef_t *pUSARTx, uint32_t BaudRate);

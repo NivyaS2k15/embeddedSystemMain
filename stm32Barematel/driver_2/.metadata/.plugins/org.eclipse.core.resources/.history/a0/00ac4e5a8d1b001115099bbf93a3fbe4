@@ -1,0 +1,77 @@
+/**
+ ******************************************************************************
+ * @file           : main.c
+ * @brief          : Smartwatch main program
+ ******************************************************************************
+ */
+
+#include "stm32f446xx.h"
+#include "stm32f446xx_usart_driver.h"
+#include "tm1637.h"
+#include <stdio.h>
+#include <string.h>
+
+USART_Handle_t usart2_handle;
+
+/* simple delay */
+void delay(void)
+{
+	for(volatile uint32_t i = 0; i < 800000; i++);
+}
+
+/* USART2 initialization */
+void USART2_Init(void)
+{
+	usart2_handle.pUSARTx = USART2;
+
+	usart2_handle.USART_Config.USART_Baud = USART_STD_BAUD_115200;
+	usart2_handle.USART_Config.USART_HWFlowControl = USART_HW_FLOW_CTRL_NONE;
+	usart2_handle.USART_Config.USART_Mode = USART_MODE_ONLY_TX;
+	usart2_handle.USART_Config.USART_NoOfStopBits = USART_STOPBITS_1;
+	usart2_handle.USART_Config.USART_WordLength = USART_WORDLEN_8BITS;
+	usart2_handle.USART_Config.USART_ParityControl = USART_PARITY_DISABLE;
+
+	USART_Init(&usart2_handle);
+}
+
+int main(void)
+{
+
+	TM1637_Init();
+
+	USART2_Init();
+
+	uint8_t hour = 10;
+	uint8_t min  = 30;
+
+	char msg[20];
+
+	while(1)
+	{
+		/* display on TM1637 */
+		TM1637_DisplayTime(hour, min);
+
+		/* send to PC for Processing */
+		sprintf(msg,"Time:%02d:%02d\n",hour,min);
+
+		USART_SendData(&usart2_handle,
+					  (uint8_t*)msg,
+					  strlen(msg));
+
+		delay();
+
+		/* update time */
+		min++;
+
+		if(min == 60)
+		{
+			min = 0;
+			hour++;
+		}
+
+		if(hour == 24)
+		{
+			hour = 0;
+		}
+	}
+}

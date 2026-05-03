@@ -14,7 +14,7 @@ void delay1(void)
     for(uint32_t i = 0; i < 500000; i++);
 }
 
-int main(void)
+int main1(void)
 {
     GPIO_Handle_t GpioLed, GpioIntr;
 

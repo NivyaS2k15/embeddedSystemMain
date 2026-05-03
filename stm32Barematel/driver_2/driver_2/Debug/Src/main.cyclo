@@ -1,0 +1,4 @@
+../Src/main.c:49:6:SysTick_Handler	2
+../Src/main.c:59:13:SysTick_Init	1
+../Src/main.c:68:13:Buttons_Init	1
+../Src/main.c:85:5:main	10

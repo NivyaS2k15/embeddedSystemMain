@@ -5,13 +5,6 @@
  *      Author: NIVYA
  */
 
-
-/*
- * stm32f446xx_rcc_driver.c
- * RCC Driver for STM32F446xx MCU
- * Author: Neeraj
- */
-
 #include "stm32f446xx_rcc_driver.h"
 
 
@@ -93,10 +86,15 @@ uint32_t RCC_GetPCLK2Value(void)
 
 	if(clk_src == 0)
 	{
-		SystemClock = 16000000;
-	}else
+	    SystemClock = 16000000;
+	}
+	else if(clk_src == 1)
 	{
-		SystemClock = 8000000;
+	    SystemClock = 8000000;
+	}
+	else if(clk_src == 2)
+	{
+	    SystemClock = RCC_GetPLLOutputClock();
 	}
 	tmp = (RCC->CFGR >> 4 ) & 0xF;
 
@@ -122,8 +120,8 @@ uint32_t RCC_GetPCLK2Value(void)
 	return pclk2;
 }
 
-uint32_t  RCC_GetPLLOutputClock()
+uint32_t RCC_GetPLLOutputClock()
 {
-
-	return 0;
+    uint32_t pllclk = 16000000;
+    return pllclk;
 }
