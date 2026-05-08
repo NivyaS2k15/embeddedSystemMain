@@ -1,17 +1,17 @@
 #include <stdio.h>
 
 int main() {
-    int number;
+    int n;
 
    
     printf("Enter an integer: ");
-    scanf("%d", &number);
+    scanf("%d", &n);
 
     // Check divisibility by 2
-    if (number % 2 == 0) {
-        printf("%d is even.\n", number);
+    if (n % 2 == 0) {
+        printf("%d is even.\n", n);
     } else {
-        printf("%d is odd.\n", number);
+        printf("%d is odd.\n", n);
     }
 
     return 0;
