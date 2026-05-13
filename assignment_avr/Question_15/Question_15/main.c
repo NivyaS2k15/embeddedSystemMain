@@ -9,8 +9,9 @@
 
 int main(void)
 {
-	char buf[16];
+	char buf[20];
 
+	// initialize I2C, LCD, and BMP280
 	i2c_init();
 	lcd_init();
 	bmp280_init();
@@ -19,17 +20,21 @@ int main(void)
 
 	while (1)
 	{
-		float temp = bmp280_read_temp();
+		float temp = bmp280_read_temp();       // °C
+		float press = bmp280_read_pressure();  // hPa
 
 		lcd_clear();
+
+		// show temperature
 		lcd_set_cursor(0, 0);
-		lcd_print("TEMP:");
-
-		sprintf(buf, "%.2f C", temp);
-
-		lcd_set_cursor(1, 0);
+		sprintf(buf, "T: %.2f C", temp);
 		lcd_print(buf);
 
-		_delay_ms(2000);
+		// show pressure
+		lcd_set_cursor(1, 0);
+		sprintf(buf, "P: %.2f hPa", press);
+		lcd_print(buf);
+
+		_delay_ms(2000); // update every 2 seconds
 	}
 }
