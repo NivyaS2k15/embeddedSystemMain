@@ -4,88 +4,85 @@
 #include <util/delay.h>
 #include <stdbool.h>
 
+
+
+
+
 #define BUTTON_PIN PD2
-#define MOTOR_PIN PD6
-#define LM35_CHANNEL 0
+#define MOTOR_PIN1 PD5   // OC0B
+#define MOTOR_PIN2 PD6   // OC0A
+#define LM35_CHANNEL 0   // ADC0
 
-volatile bool systemOn = false;
+volatile uint8_t systemOn = 0;
 
-// ---------- Function Prototypes ----------
-void init_ADC(void);
-uint16_t read_ADC(uint8_t channel);
-float readTemperature(void);
-uint8_t calculateSpeed(float temp);
-void controlMotor(uint8_t duty);
-void init_PWM(void);
-void init_Button(void);
+// ---------- ADC INIT ----------
+void ADC_Init(void) {
+	ADMUX = (1<<REFS0); // AVcc reference, ADC0 channel
+	ADCSRA = (1<<ADEN) | (1<<ADPS2) | (1<<ADPS1); // Enable ADC, prescaler 64
+}
 
-// ---------- Main ----------
+uint16_t ADC_Read(uint8_t channel) {
+	ADMUX = (ADMUX & 0xF0) | (channel & 0x0F);
+	ADCSRA |= (1<<ADSC); // Start conversion
+	while (ADCSRA & (1<<ADSC)); // Wait
+	return ADC;
+}
+
+// ---------- TIMER0 PWM INIT ----------
+void PWM_Init(void) {
+	DDRD |= (1<<MOTOR_PIN1) | (1<<MOTOR_PIN2); // PD5, PD6 outputs
+	TCCR0A = (1<<COM0A1) | (1<<COM0B1) | (1<<WGM00) | (1<<WGM01); // Fast PWM
+	TCCR0B = (1<<CS01); // Prescaler 8
+}
+
+// ---------- BUTTON INTERRUPT ----------
+void Button_Init(void) {
+	DDRD &= ~(1<<BUTTON_PIN); // Input
+	PORTD |= (1<<BUTTON_PIN); // Pull-up
+	EICRA |= (1<<ISC01);      // Falling edge INT0
+	EIMSK |= (1<<INT0);       // Enable INT0
+	sei();                    // Global interrupt enable
+}
+
+ISR(INT0_vect) {
+	systemOn ^= 1; // Toggle system state
+}
+
+// ---------- TEMPERATURE READ ----------
+float readTemperature(void) {
+	uint16_t adcVal = ADC_Read(LM35_CHANNEL);
+	float voltage = (adcVal * 5.0) / 1024.0;
+	return voltage * 100.0; // LM35: 10mV/°C
+}
+
+// ---------- SPEED CALCULATION ----------
+uint8_t calculateSpeed(float temp) {
+	if (temp < 30) return 100;
+	else if (temp < 40) return 150;
+	else return 255;
+}
+
+// ---------- MOTOR CONTROL ----------
+void controlMotor(uint8_t speed) {
+	OCR0A = speed; // PD6
+	OCR0B = 0;     // PD5 low (one direction)
+}
+
+// ---------- MAIN ----------
 int main(void) {
-	init_ADC();
-	init_PWM();
-	init_Button();
-	sei(); // Enable global interrupts
+	ADC_Init();
+	PWM_Init();
+	Button_Init();
 
 	while (1) {
-		if(systemOn) {
+		if (systemOn) {
 			float temp = readTemperature();
 			uint8_t speed = calculateSpeed(temp);
 			controlMotor(speed);
 			} else {
 			controlMotor(0); // Motor OFF
 		}
+		_delay_ms(200);
 	}
 }
 
-// ---------- Button Interrupt ----------
-ISR(INT0_vect) {
-	systemOn = !systemOn; // Toggle system state
-}
-
-// ---------- ADC Init ----------
-void init_ADC(void) {
-	ADMUX = (1<<REFS0); // AVcc reference
-	ADCSRA = (1<<ADEN) | (1<<ADPS2) | (1<<ADPS1); // Enable ADC, prescaler 64
-}
-
-// ---------- ADC Read ----------
-uint16_t read_ADC(uint8_t channel) {
-	ADMUX = (ADMUX & 0xF0) | (channel & 0x0F); // Select channel
-	ADCSRA |= (1<<ADSC); // Start conversion
-	while(ADCSRA & (1<<ADSC)); // Wait
-	return ADC;
-}
-
-// ---------- Temperature Read ----------
-float readTemperature(void) {
-	uint16_t adcValue = read_ADC(LM35_CHANNEL);
-	// LM35: 10mV/°C, ADC step = 4.88mV (for 5V, 10-bit)
-	return (adcValue * 5.0 * 100.0) / 1024.0;
-}
-
-// ---------- Speed Calculation ----------
-uint8_t calculateSpeed(float temp) {
-	if(temp < 30) return 77;     // ~30% duty
-	else if(temp < 50) return 153; // ~60% duty
-	else return 230;             // ~90% duty
-}
-
-// ---------- Motor Control ----------
-void controlMotor(uint8_t duty) {
-	OCR0A = duty; // Set PWM duty cycle
-}
-
-// ---------- PWM Init ----------
-void init_PWM(void) {
-	DDRD |= (1<<MOTOR_PIN); // PD6 as output
-	TCCR0A = (1<<COM0A1) | (1<<WGM00) | (1<<WGM01); // Fast PWM, non-inverting
-	TCCR0B = (1<<CS01); // Prescaler = 8
-}
-
-// ---------- Button Init ----------
-void init_Button(void) {
-	DDRD &= ~(1<<BUTTON_PIN); // PD2 as input
-	PORTD |= (1<<BUTTON_PIN); // Enable pull-up
-	EICRA |= (1<<ISC01); // Falling edge INT0
-	EIMSK |= (1<<INT0);  // Enable INT0
-}
