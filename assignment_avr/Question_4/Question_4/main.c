@@ -1,41 +1,49 @@
-/*
- * Question_4.c
- *
- * Created: 11-05-2026 18:30:20
- * Author : NIVYA
- */ 
-
 #define F_CPU 16000000UL
 #include <avr/io.h>
-#include <util/delay.h>
+#include <avr/interrupt.h>
 
-unsigned char count = 0;
+volatile unsigned char count = 0;
 
-// Function to display binary count on LEDs
+// Function to display binary value on LEDs
 void displayBinary(unsigned char value)
 {
-	PORTB = (value & 0x0F); // Use only PB0–PB3
+	PORTB = (value & 0x0F);   // Display only lower 4 bits
+}
+
+// Timer0 delay function (approx 50 ms)
+void timer0_delay()
+{
+	TCNT0 = 0;
+
+	// Prescaler = 1024
+	TCCR0 = (1 << CS02) | (1 << CS00);
+
+	while (!(TIFR & (1 << TOV0)));
+
+	TIFR |= (1 << TOV0);
+
+	TCCR0 = 0;
 }
 
 int main(void)
 {
-	// PB0–PB3 as output for LEDs
+	// PB0–PB3 as outputs
 	DDRB = 0x0F;
 
-	// PD2 as input for switch
+	// PD2 as input
 	DDRD &= ~(1 << PD2);
 
-	// Enable pull-up resistor on PD2
+	// Enable internal pull-up resistor
 	PORTD |= (1 << PD2);
 
 	displayBinary(count);
 
 	while (1)
 	{
-		// Switch pressed (active LOW)
+		// Button pressed
 		if (!(PIND & (1 << PD2)))
 		{
-			_delay_ms(50); // Debounce delay
+			timer0_delay(); // Debounce using Timer0
 
 			if (!(PIND & (1 << PD2)))
 			{
@@ -49,10 +57,9 @@ int main(void)
 
 				displayBinary(count);
 
-				// Wait until switch released
+				// Wait for button release
 				while (!(PIND & (1 << PD2)));
 			}
 		}
 	}
 }
-
