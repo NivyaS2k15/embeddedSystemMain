@@ -1,7 +1,8 @@
 #define F_CPU 16000000UL
+
 #include <avr/io.h>
 #include <util/delay.h>
-#include <stdio.h>
+#include <stdlib.h>
 
 #include "i2c.h"
 #include "lcd_i2c.h"
@@ -11,30 +12,47 @@ int main(void)
 {
 	char buf[20];
 
-	// initialize I2C, LCD, and BMP280
 	i2c_init();
+
 	lcd_init();
+
 	bmp280_init();
 
 	lcd_clear();
 
 	while (1)
 	{
-		float temp = bmp280_read_temp();       // °C
-		float press = bmp280_read_pressure();  // hPa
+		float temp;
+		float press;
+
+		temp = bmp280_read_temp();
+
+		press = bmp280_read_pressure();
 
 		lcd_clear();
 
-		// show temperature
+		// TEMPERATURE
 		lcd_set_cursor(0, 0);
-		sprintf(buf, "T: %.2f C", temp);
+
+		lcd_print("T:");
+
+		dtostrf(temp, 6, 2, buf);
+
 		lcd_print(buf);
 
-		// show pressure
+		lcd_print("C");
+
+		// PRESSURE
 		lcd_set_cursor(1, 0);
-		sprintf(buf, "P: %.2f hPa", press);
+
+		lcd_print("P:");
+
+		dtostrf(press, 7, 2, buf);
+
 		lcd_print(buf);
 
-		_delay_ms(2000); // update every 2 seconds
+		lcd_print("hPa");
+
+		_delay_ms(2000);
 	}
 }
