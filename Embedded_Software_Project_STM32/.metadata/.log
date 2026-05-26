@@ -1,0 +1,60 @@
+!SESSION 2026-05-26 14:37:36.448 -----------------------------------------------
+eclipse.buildId=Version 1.18.1
+java.version=21.0.3
+java.vendor=Eclipse Adoptium
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=en_IN
+Command-line arguments:  -os win32 -ws win32 -arch x86_64
+
+!ENTRY com.st.stm32cube.ide.mcu.informationcenter 4 4 2026-05-26 14:38:10.853
+!MESSAGE CubeMX plugin appears to be active, Log4j initialization might be too late.
+
+!ENTRY com.st.stm32cube.ide.mcu.informationcenter 1 1 2026-05-26 14:38:10.855
+!MESSAGE Log4j2 initialized with config file C:\embeddedSystem\Embedded_Software_Project_STM32\.metadata\.log4j2.xml
+
+!ENTRY com.st.stm32cube.ide.mcu.ide 1 1 2026-05-26 14:38:15.419
+!MESSAGE Started RMI Server, listening on port 41337
+
+!ENTRY org.eclipse.core.jobs 2 2 2026-05-26 14:38:24.106
+!MESSAGE Job found still running after platform shutdown.  Jobs should be canceled by the plugin that scheduled them during shutdown: org.eclipse.ui.internal.Workbench$39 RUNNING
+	 at java.base/java.lang.Class.getDeclaredFields0(Native Method)
+	 at java.base/java.lang.Class.privateGetDeclaredFields(Class.java:3473)
+	 at java.base/java.lang.Class.getDeclaredField(Class.java:2780)
+	 at com.teamdev.jxbrowser.deps.com.google.protobuf.UnsafeUtil.field(UnsafeUtil.java:471)
+	 at com.teamdev.jxbrowser.deps.com.google.protobuf.UnsafeUtil.bufferAddressField(UnsafeUtil.java:379)
+	 at com.teamdev.jxbrowser.deps.com.google.protobuf.UnsafeUtil.access$100(UnsafeUtil.java:43)
+	 at com.teamdev.jxbrowser.deps.com.google.protobuf.UnsafeUtil$MemoryAccessor.supportsUnsafeByteBufferOperations(UnsafeUtil.java:582)
+	 at com.teamdev.jxbrowser.deps.com.google.protobuf.UnsafeUtil$JvmMemoryAccessor.supportsUnsafeByteBufferOperations(UnsafeUtil.java:687)
+	 at com.teamdev.jxbrowser.deps.com.google.protobuf.UnsafeUtil.supportsUnsafeByteBufferOperations(UnsafeUtil.java:346)
+	 at com.teamdev.jxbrowser.deps.com.google.protobuf.UnsafeUtil.<clinit>(UnsafeUtil.java:50)
+	 at com.teamdev.jxbrowser.deps.com.google.protobuf.Utf8$UnsafeProcessor.isAvailable(Utf8.java:1173)
+	 at com.teamdev.jxbrowser.deps.com.google.protobuf.Utf8.<clinit>(Utf8.java:85)
+	 at com.teamdev.jxbrowser.deps.com.google.protobuf.ByteString$LiteralByteString.isValidUtf8(ByteString.java:1484)
+	 at com.teamdev.jxbrowser.deps.com.google.protobuf.DescriptorProtos$FileDescriptorProto.getPackage(DescriptorProtos.java:1334)
+	 at com.teamdev.jxbrowser.deps.com.google.protobuf.Descriptors$FileDescriptor.getPackage(Descriptors.java:125)
+	 at com.teamdev.jxbrowser.deps.com.google.protobuf.Descriptors$FileDescriptor.<init>(Descriptors.java:541)
+	 at com.teamdev.jxbrowser.deps.com.google.protobuf.Descriptors$FileDescriptor.buildFrom(Descriptors.java:319)
+	 at com.teamdev.jxbrowser.deps.com.google.protobuf.Descriptors$FileDescriptor.internalBuildGeneratedFileFrom(Descriptors.java:426)
+	 at com.teamdev.jxbrowser.deps.com.google.protobuf.DescriptorProtos.<clinit>(DescriptorProtos.java:45439)
+	 at com.teamdev.jxbrowser.internal.rpc.OptionsProto.<clinit>(OptionsProto.java:121)
+	 at com.teamdev.jxbrowser.net.internal.rpc.SchemeProto.<clinit>(SchemeProto.java:43)
+	 at com.teamdev.jxbrowser.net.internal.rpc.Scheme.getDescriptor(Scheme.java:38)
+	 at com.teamdev.jxbrowser.net.internal.rpc.Scheme.hashCode(Scheme.java:142)
+	 at java.base/java.util.HashMap.hash(HashMap.java:338)
+	 at java.base/java.util.HashMap.put(HashMap.java:618)
+	 at com.teamdev.jxbrowser.engine.EngineOptions$Builder.addScheme(EngineOptions.java:954)
+	 at com.st.components.swing.JxBrowserEngine.initBrowser(JxBrowserEngine.java:160)
+	 at com.st.components.swing.JxBrowserEngine.<init>(JxBrowserEngine.java:61)
+	 at com.st.components.swing.JxBrowserEngine.getInstance(JxBrowserEngine.java:125)
+	 at com.st.microxplorer.plugins.userauth.WebApp.<init>(WebApp.java:165)
+	 at com.st.microxplorer.plugins.userauth.WebApp.getInstance(WebApp.java:773)
+	 at com.st.microxplorer.plugins.userauth.UserAuth.getBrowserView(UserAuth.java:486)
+	 at com.st.microxplorer.plugins.userauth.UserAuth.activatePlugin(UserAuth.java:191)
+	 at com.st.stm32cube.common.mx.userauth.UserAuthAdapter.<init>(UserAuthAdapter.java:29)
+	 at com.st.stm32cube.common.mx.userauth.UserAuthProvider.getUserAuthAdapter(UserAuthProvider.java:16)
+	 at com.st.stm32cube.common.ecosystemintegration.ui.core.MCUEcoSystemIntegrationUiHelper.getUserAuth(MCUEcoSystemIntegrationUiHelper.java:100)
+	 at com.st.stm32cube.ide.mcu.userauth.UserAuthStartup.earlyStartup(UserAuthStartup.java:32)
+	 at org.eclipse.ui.internal.EarlyStartupRunnable.runEarlyStartup(EarlyStartupRunnable.java:79)
+	 at org.eclipse.ui.internal.EarlyStartupRunnable.run(EarlyStartupRunnable.java:55)
+	 at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:47)
+	 at org.eclipse.ui.internal.Workbench$39.run(Workbench.java:2733)
+	 at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
