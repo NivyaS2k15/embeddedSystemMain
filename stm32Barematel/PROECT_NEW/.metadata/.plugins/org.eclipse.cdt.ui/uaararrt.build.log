@@ -1,0 +1,10 @@
+19:40:47 **** Incremental Build of configuration Debug for project uaararrt ****
+make -j16 all 
+arm-none-eabi-size  uaararrt.elf 
+   text	   data	    bss	    dec	    hex	filename
+  11712	     40	   1640	  13392	   3450	uaararrt.elf
+Finished building: default.size.stdout
+ 
+
+19:40:47 Build Finished. 0 errors, 0 warnings. (took 268ms)
+

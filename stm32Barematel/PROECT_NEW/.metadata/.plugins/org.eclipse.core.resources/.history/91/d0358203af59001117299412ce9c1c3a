@@ -1,0 +1,130 @@
+/*
+ * main.c
+ * Author: NIVYA
+ * Description: Listens for incoming UART commands from PuTTY.
+ * Turns ON an external LED connected to D8 (PA9) when "ON" + Enter is received.
+ */
+
+#include <string.h>
+#include "stm32f446xx.h"
+#include "stm32f446xx_gpio_driver.h"
+#include "stm32f446xx_usart_driver.h"
+
+USART_Handle_t usart2_handle;
+
+void delay(void)
+{
+    for(uint32_t i = 0; i < 400000; i++);
+}
+
+void USART2_GPIOInit(void)
+{
+    GPIO_Handle_t usart_gpios;
+    usart_gpios.pGPIOx = GPIOA;
+    usart_gpios.GPIO_PinConfig.GPIO_PinMode = GPIO_MODE_ALTFN;
+    usart_gpios.GPIO_PinConfig.GPIO_PinOPType = GPIO_OP_TYPE_PP;
+    usart_gpios.GPIO_PinConfig.GPIO_PinPuPdControl = GPIO_PIN_PU;
+    usart_gpios.GPIO_PinConfig.GPIO_PinSpeed = GPIO_SPEED_HIGH;
+    usart_gpios.GPIO_PinConfig.GPIO_PinAltFunMode = 7; // AF7 maps to USART2
+
+    // 1. Configure PA2 as USART2_TX
+    usart_gpios.GPIO_PinConfig.GPIO_PinNumber = GPIO_PIN_NO_2;
+    GPIO_Init(&usart_gpios);
+
+    // 2. Configure PA3 as USART2_RX
+    usart_gpios.GPIO_PinConfig.GPIO_PinNumber = GPIO_PIN_NO_3;
+    GPIO_Init(&usart_gpios);
+}
+
+void LED_D8_GPIOInit(void)
+{
+    GPIO_Handle_t GpioLed;
+    // Arduino D8 header pin maps to PA9 on the STM32F446xx
+    GpioLed.pGPIOx = GPIOA;
+    GpioLed.GPIO_PinConfig.GPIO_PinNumber = GPIO_PIN_NO_9; // Changed to Pin 9
+    GpioLed.GPIO_PinConfig.GPIO_PinMode = GPIO_MODE_OUT;
+    GpioLed.GPIO_PinConfig.GPIO_PinSpeed = GPIO_SPEED_FAST;
+    GpioLed.GPIO_PinConfig.GPIO_PinOPType = GPIO_OP_TYPE_PP;
+    GpioLed.GPIO_PinConfig.GPIO_PinPuPdControl = GPIO_NO_PUPD;
+
+    GPIO_Init(&GpioLed);
+}
+
+void USART2_Init(void)
+{
+    usart2_handle.pUSARTx = USART2;
+    usart2_handle.USART_Config.USART_Baud = USART_STD_BAUD_115200;
+    usart2_handle.USART_Config.USART_HWFlowControl = USART_HW_FLOW_CTRL_NONE;
+    usart2_handle.USART_Config.USART_Mode = USART_MODE_TXRX; // TX and RX enabled
+    usart2_handle.USART_Config.USART_ParityControl = USART_PARITY_DISABLE;
+    usart2_handle.USART_Config.USART_NoOfStopBits = USART_STOPBITS_1;
+    usart2_handle.USART_Config.USART_WordLength = USART_WORDLEN_8BITS;
+
+    USART_Init(&usart2_handle);
+}
+
+int main(void)
+{
+    uint8_t rx_byte = 0;
+    char command_buffer[8] = {0};
+    uint8_t idx = 0;
+
+    // Initialize all hardware blocks
+    LED_D8_GPIOInit();
+    USART2_GPIOInit();
+    USART2_Init();
+    USART_PeripheralControl(USART2, ENABLE);
+
+    // Print operational status prompt on startup
+    uint8_t greeting[] = "Terminal Active. Type 'ON' and hit Enter:\r\n";
+    USART_SendData(&usart2_handle, greeting, sizeof(greeting) - 1);
+
+    while(1)
+    {
+        // Block until RXNE (Receive data register not empty) flag goes HIGH
+        while(!USART_GetFlagStatus(USART2, USART_FLAG_RXNE));
+
+        // Pull raw character out of the peripheral's Data Register
+        rx_byte = (uint8_t)(USART2->DR & 0xFF);
+
+        // Echo typed byte back out to the PuTTY console screen
+        USART_SendData(&usart2_handle, &rx_byte, 1);
+
+        // Check if Enter key (Carriage Return '\r' or Line Feed '\n') was hit
+        if(rx_byte == '\r' || rx_byte == '\n')
+        {
+            if(idx > 0)
+            {
+                command_buffer[idx] = '\0'; // Seal array as a proper string
+
+                // Evaluate if string data equals "ON"
+                if(strcmp(command_buffer, "ON") == 0)
+                {
+                    // Drive PA9 (D8) High to turn on your external LED
+                    GPIO_WriteToOutputPin(GPIOA, GPIO_PIN_NO_9, 1);
+
+                    uint8_t ack[] = "\r\nSUCCESS: External LED on D8 is now ON!\r\n";
+                    USART_SendData(&usart2_handle, ack, sizeof(ack) - 1);
+                }
+                else
+                {
+                    uint8_t err[] = "\r\nERROR: Command unverified. Try 'ON'\r\n";
+                    USART_SendData(&usart2_handle, err, sizeof(err) - 1);
+                }
+
+                // Clear tracking variables for the next incoming stream line
+                idx = 0;
+                memset(command_buffer, 0, sizeof(command_buffer));
+            }
+        }
+        else
+        {
+            // Collect incoming keyboard character into string array if room allows
+            if(idx < (sizeof(command_buffer) - 1))
+            {
+                command_buffer[idx++] = rx_byte;
+            }
+        }
+    }
+    return 0;
+}

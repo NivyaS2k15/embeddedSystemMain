@@ -1,0 +1,65 @@
+#include <string.h>
+#include "stm32f446xx.h" // Replace with your main MCU header file
+#include "stm32f446xx_usart_driver.h"
+
+// Handle structure global instantiation
+USART_Handle_t usart2_handle;
+
+void USART2_GPIOInit(void)
+{
+    GPIO_Handle_t usart_gpios;
+
+    // Assuming your driver architecture contains a generic GPIO structure:
+    usart_gpios.pGPIOx = GPIOA;
+    usart_gpios.GPIO_PinConfig.GPIO_PinMode = GPIO_MODE_ALTFN;
+    usart_gpios.GPIO_PinConfig.GPIO_PinOPType = GPIO_OP_TYPE_PP;
+    usart_gpios.GPIO_PinConfig.GPIO_PinPuPdControl = GPIO_PIN_PU;
+    usart_gpios.GPIO_PinConfig.GPIO_PinSpeed = GPIO_SPEED_FAST;
+    usart_gpios.GPIO_PinConfig.GPIO_PinAltFunMode = 7; // AF7 is USART1/2/3 for STM32F4
+
+    // Configure PA2 as USART2 TX
+    usart_gpios.GPIO_PinConfig.GPIO_PinNumber = GPIO_PIN_NO_2;
+    GPIO_Init(&usart_gpios);
+
+    // Configure PA3 as USART2 RX
+    usart_gpios.GPIO_PinConfig.GPIO_PinNumber = GPIO_PIN_NO_3;
+    GPIO_Init(&usart_gpios);
+}
+
+void USART2_Inits(void)
+{
+    usart2_handle.pUSARTx = USART2;
+    usart2_handle.USART_Config.USART_Baud = USART_STD_BAUD_115200;
+    usart2_handle.USART_Config.USART_HWFlowControl = USART_HW_FLOW_CTRL_NONE;
+    usart2_handle.USART_Config.USART_Mode = USART_MODE_ONLY_TX;
+    usart2_handle.USART_Config.USART_NoOfStopBits = USART_STOPBITS_1;
+    usart2_handle.USART_Config.USART_ParityControl = USART_PARITY_DISABLE;
+    usart2_handle.USART_Config.USART_WordLength = USART_WORDLEN_8BITS;
+
+    USART_Init(&usart2_handle);
+}
+
+int main(void)
+{
+    char msg[] = "Hello\r\n";
+
+    // 1. Initialize GPIO pins for UART function
+    USART2_GPIOInit();
+
+    // 2. Initialize USART peripheral configuration parameters
+    USART2_Inits();
+
+    // 3. Enable the actual USART Peripheral (CR1 UE Bit)
+    USART_PeripheralControl(USART2, ENABLE);
+
+    while(1)
+    {
+        // 4. Call your custom transmit polling function
+        USART_SendData(&usart2_handle, (uint8_t*)msg, strlen(msg));
+
+        // Simple software delay loop
+        for(uint32_t i = 0; i < 500000; i++);
+    }
+
+    return 0;
+}

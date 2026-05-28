@@ -1,0 +1,179 @@
+/*
+ * main.c
+ * Corrected Implementation for Custom I2C to BMP280 Sensor
+ */
+
+#include <stdio.h>
+#include <string.h>
+#include "stm32f446xx.h"
+#include "stm32f446xx_gpio_driver.h"
+#include "stm32f446xx_usart_driver.h"
+#include "stm32f446xx_i2c_driver.h"
+#include "stm32f446xx_rcc_driver.h"
+
+#define BMP280_SLAVE_ADDR     0x77
+#define BMP280_REG_ID         0xD0
+#define BMP280_REG_CTRL_MEAS  0xF4
+#define BMP280_REG_TEMP_MSB   0xFA
+
+USART_Handle_t usart2_handle;
+I2C_Handle_t   i2c1_handle;
+
+uint16_t dig_T1;
+int16_t  dig_T2;
+int16_t  dig_T3;
+
+void delay_ms(uint32_t ms)
+{
+    for(uint32_t i = 0; i < (ms * 1000); i++);
+}
+
+void USART2_GPIOInit(void)
+{
+    GPIO_Handle_t usart_gpios = {0};
+    usart_gpios.pGPIOx = GPIOA;
+    usart_gpios.GPIO_PinConfig.GPIO_PinMode = GPIO_MODE_ALTFN;
+    usart_gpios.GPIO_PinConfig.GPIO_PinOPType = GPIO_OP_TYPE_PP;
+    usart_gpios.GPIO_PinConfig.GPIO_PinPuPdControl = GPIO_PIN_PU;
+    usart_gpios.GPIO_PinConfig.GPIO_PinSpeed = GPIO_SPEED_HIGH;
+    usart_gpios.GPIO_PinConfig.GPIO_PinAltFunMode = 7;
+
+    usart_gpios.GPIO_PinConfig.GPIO_PinNumber = GPIO_PIN_NO_2;
+    GPIO_Init(&usart_gpios);
+    usart_gpios.GPIO_PinConfig.GPIO_PinNumber = GPIO_PIN_NO_3;
+    GPIO_Init(&usart_gpios);
+}
+
+void USART2_Init(void)
+{
+    usart2_handle.pUSARTx = USART2;
+    usart2_handle.USART_Config.USART_Baud = USART_STD_BAUD_115200;
+    usart2_handle.USART_Config.USART_HWFlowControl = USART_HW_FLOW_CTRL_NONE;
+    usart2_handle.USART_Config.USART_Mode = USART_MODE_TXRX;
+    usart2_handle.USART_Config.USART_ParityControl = USART_PARITY_DISABLE;
+    usart2_handle.USART_Config.USART_NoOfStopBits = USART_STOPBITS_1;
+    usart2_handle.USART_Config.USART_WordLength = USART_WORDLEN_8BITS;
+    USART_Init(&usart2_handle);
+}
+
+void I2C1_GPIOInit(void)
+{
+    GPIO_Handle_t i2c_gpios = {0};
+    i2c_gpios.pGPIOx = GPIOB;
+    i2c_gpios.GPIO_PinConfig.GPIO_PinMode = GPIO_MODE_ALTFN;
+    i2c_gpios.GPIO_PinConfig.GPIO_PinOPType = GPIO_OP_TYPE_OD;
+    i2c_gpios.GPIO_PinConfig.GPIO_PinPuPdControl = GPIO_PIN_PU;
+    i2c_gpios.GPIO_PinConfig.GPIO_PinSpeed = GPIO_SPEED_HIGH;
+    i2c_gpios.GPIO_PinConfig.GPIO_PinAltFunMode = 4;
+
+    i2c_gpios.GPIO_PinConfig.GPIO_PinNumber = GPIO_PIN_NO_8;
+    GPIO_Init(&i2c_gpios);
+    i2c_gpios.GPIO_PinConfig.GPIO_PinNumber = GPIO_PIN_NO_9;
+    GPIO_Init(&i2c_gpios);
+}
+
+void I2C1_Init(void)
+{
+    // FIX: Clear a hanging bus state by performing an explicit peripheral software reset
+    RCC->APB1RSTR |=  (1 << 21); // Set I2C1 reset bit
+    delay_ms(10);
+    RCC->APB1RSTR &= ~(1 << 21); // Clear I2C1 reset bit
+    delay_ms(10);
+
+    i2c1_handle.pI2Cx = I2C1;
+    i2c1_handle.I2C_Config.I2C_SCLSpeed = I2C_SCL_SPEED_SM;
+    i2c1_handle.I2C_Config.I2C_DeviceAddress = 0x20;
+    i2c1_handle.I2C_Config.I2C_AckControl = I2C_ACK_ENABLE;
+
+    I2C_Init(&i2c1_handle);
+}
+
+void I2C_ApplicationEventCallback(I2C_Handle_t *pI2CHandle, uint8_t AppEv)
+{
+    // Empty callback
+}
+
+void BMP280_ReadCalibration(void)
+{
+    uint8_t calib_data[6] = {0};
+    uint8_t reg_addr = 0x88;
+
+    I2C_MasterSendData(&i2c1_handle, &reg_addr, 1, BMP280_SLAVE_ADDR, I2C_ENABLE_SR);
+    I2C_MasterReceiveData(&i2c1_handle, calib_data, 6, BMP280_SLAVE_ADDR, I2C_DISABLE_SR);
+
+    dig_T1 = (uint16_t)((calib_data[1] << 8) | calib_data[0]);
+    dig_T2 = (int16_t)((calib_data[3] << 8) | calib_data[2]);
+    dig_T3 = (int16_t)((calib_data[5] << 8) | calib_data[4]);
+}
+
+int32_t BMP280_Compensate_T(int32_t adc_T)
+{
+    int32_t var1, var2, T;
+    var1 = ((((adc_T >> 3) - ((int32_t)dig_T1 << 1))) * ((int32_t)dig_T2)) >> 11;
+    var2 = (((((adc_T >> 4) - ((int32_t)dig_T1)) * ((adc_T >> 4) - ((int32_t)dig_T1))) >> 12) * ((int32_t)dig_T3)) >> 14;
+    T = var1 + var2;
+    return (T * 5 + 128) >> 8;
+}
+
+int main(void)
+{
+    uint8_t tx_buf[2];
+    uint8_t rx_buf[3];
+    char uart_log[60];
+
+    GPIO_PeriClockControl(GPIOA, ENABLE);
+    GPIO_PeriClockControl(GPIOB, ENABLE);
+
+    USART2_GPIOInit();
+    USART2_Init();
+    USART_PeripheralControl(USART2, ENABLE);
+
+    USART_SendData(&usart2_handle, (uint8_t*)"\r\n--- BMP280 Sensor Core Active ---\r\n", 37);
+
+    I2C1_GPIOInit();
+
+    // Bare-metal override pin mapping configuration safety checks
+    GPIOB->AFR[1] &= ~( (0xFU << 0) | (0xFU << 4) );
+    GPIOB->AFR[1] |=  ( (0x4U << 0) | (0x4U << 4) );
+
+    // Run safe configuration calculations
+    I2C1_Init();
+
+    // Explicitly enable the peripheral AFTER calculations complete
+    I2C_PeripheralControl(I2C1, ENABLE);
+
+    // Re-enable ACKing right after enabling the peripheral
+    I2C_ManageAcking(I2C1, I2C_ACK_ENABLE);
+
+    if (I2C1->SR2 & (1 << 1))
+    {
+        USART_SendData(&usart2_handle, (uint8_t*)"[DIAGNOSTIC]: I2C bus reports BUSY condition on boot!\r\n", 55);
+    }
+
+    // Initialize BMP280: Normal Mode, Over-sampling x1
+    tx_buf[0] = BMP280_REG_CTRL_MEAS;
+    tx_buf[1] = 0x23;
+    I2C_MasterSendData(&i2c1_handle, tx_buf, 2, BMP280_SLAVE_ADDR, I2C_DISABLE_SR);
+
+    BMP280_ReadCalibration();
+
+    while(1)
+    {
+        uint8_t reg_temp_addr = BMP280_REG_TEMP_MSB;
+        I2C_MasterSendData(&i2c1_handle, &reg_temp_addr, 1, BMP280_SLAVE_ADDR, I2C_ENABLE_SR);
+        I2C_MasterReceiveData(&i2c1_handle, rx_buf, 3, BMP280_SLAVE_ADDR, I2C_DISABLE_SR);
+
+        int32_t adc_raw_temp = (int32_t)(((uint32_t)rx_buf[0] << 12) | ((uint32_t)rx_buf[1] << 4) | ((uint32_t)rx_buf[2] >> 4));
+        int32_t fine_temp = BMP280_Compensate_T(adc_raw_temp);
+
+        int32_t integer_part = fine_temp / 100;
+        int32_t fractional_part = fine_temp % 100;
+        if(fractional_part < 0) fractional_part = -fractional_part;
+
+        sprintf(uart_log, "BMP280 Temperature: %ld.%02ld C\r\n", integer_part, fractional_part);
+        USART_SendData(&usart2_handle, (uint8_t*)uart_log, strlen(uart_log));
+
+        delay_ms(2000);
+    }
+    return 0;
+}

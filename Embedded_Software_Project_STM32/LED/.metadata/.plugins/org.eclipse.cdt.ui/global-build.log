@@ -1,0 +1,66 @@
+17:33:34 **** Clean-only build of configuration Debug for project LED_P ****
+make -j16 clean 
+rm -rf ./drivers/src/stm32f446xx_gpio_driver.cyclo ./drivers/src/stm32f446xx_gpio_driver.d ./drivers/src/stm32f446xx_gpio_driver.o ./drivers/src/stm32f446xx_gpio_driver.su
+rm -rf ./Startup/startup_stm32f446retx.d ./Startup/startup_stm32f446retx.o
+rm -rf ./Src/main.cyclo ./Src/main.d ./Src/main.o ./Src/main.su ./Src/syscalls.cyclo ./Src/syscalls.d ./Src/syscalls.o ./Src/syscalls.su ./Src/sysmem.cyclo ./Src/sysmem.d ./Src/sysmem.o ./Src/sysmem.su
+rm -rf LED_P.elf LED_P.list LED_P.map default.size.stdout
+ 
+17:33:35 **** Build of configuration Debug for project LED_P ****
+make -j16 all 
+arm-none-eabi-gcc "../drivers/src/stm32f446xx_gpio_driver.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32 -DSTM32F4 -DSTM32F446RETx -DNUCLEO_F446RE -c -I../Inc -I"C:/embeddedSystem/stm32Barematel/PROECT_NEW/LED_P/drivers/inc" -I"C:/embeddedSystem/stm32Barematel/PROECT_NEW/LED_P/drivers/src" -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"drivers/src/stm32f446xx_gpio_driver.d" -MT"drivers/src/stm32f446xx_gpio_driver.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "drivers/src/stm32f446xx_gpio_driver.o"
+arm-none-eabi-gcc "../drivers/src/stm32f446xx_rcc_driver.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32 -DSTM32F4 -DSTM32F446RETx -DNUCLEO_F446RE -c -I../Inc -I"C:/embeddedSystem/stm32Barematel/PROECT_NEW/LED_P/drivers/inc" -I"C:/embeddedSystem/stm32Barematel/PROECT_NEW/LED_P/drivers/src" -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"drivers/src/stm32f446xx_rcc_driver.d" -MT"drivers/src/stm32f446xx_rcc_driver.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "drivers/src/stm32f446xx_rcc_driver.o"
+arm-none-eabi-gcc "../drivers/src/stm32f446xx_usart_driver.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32 -DSTM32F4 -DSTM32F446RETx -DNUCLEO_F446RE -c -I../Inc -I"C:/embeddedSystem/stm32Barematel/PROECT_NEW/LED_P/drivers/inc" -I"C:/embeddedSystem/stm32Barematel/PROECT_NEW/LED_P/drivers/src" -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"drivers/src/stm32f446xx_usart_driver.d" -MT"drivers/src/stm32f446xx_usart_driver.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "drivers/src/stm32f446xx_usart_driver.o"
+arm-none-eabi-gcc -mcpu=cortex-m4 -g3 -DDEBUG -c -x assembler-with-cpp -MMD -MP -MF"Startup/startup_stm32f446retx.d" -MT"Startup/startup_stm32f446retx.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Startup/startup_stm32f446retx.o" "../Startup/startup_stm32f446retx.s"
+arm-none-eabi-gcc "../Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32 -DSTM32F4 -DSTM32F446RETx -DNUCLEO_F446RE -c -I../Inc -I"C:/embeddedSystem/stm32Barematel/PROECT_NEW/LED_P/drivers/inc" -I"C:/embeddedSystem/stm32Barematel/PROECT_NEW/LED_P/drivers/src" -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Src/main.d" -MT"Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Src/main.o"
+arm-none-eabi-gcc "../Src/syscalls.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32 -DSTM32F4 -DSTM32F446RETx -DNUCLEO_F446RE -c -I../Inc -I"C:/embeddedSystem/stm32Barematel/PROECT_NEW/LED_P/drivers/inc" -I"C:/embeddedSystem/stm32Barematel/PROECT_NEW/LED_P/drivers/src" -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Src/syscalls.d" -MT"Src/syscalls.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Src/syscalls.o"
+arm-none-eabi-gcc "../Src/sysmem.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32 -DSTM32F4 -DSTM32F446RETx -DNUCLEO_F446RE -c -I../Inc -I"C:/embeddedSystem/stm32Barematel/PROECT_NEW/LED_P/drivers/inc" -I"C:/embeddedSystem/stm32Barematel/PROECT_NEW/LED_P/drivers/src" -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Src/sysmem.d" -MT"Src/sysmem.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Src/sysmem.o"
+../drivers/src/stm32f446xx_usart_driver.c: In function 'USART_IRQHandling':
+../drivers/src/stm32f446xx_usart_driver.c:654:33: warning: variable 'temp3' set but not used [-Wunused-but-set-variable]
+  654 |         uint32_t temp1 , temp2, temp3;
+      |                                 ^~~~~
+arm-none-eabi-gcc -o "LED_P.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\embeddedSystem\stm32Barematel\PROECT_NEW\LED_P\STM32F446RETX_FLASH.ld" --specs=nosys.specs -Wl,-Map="LED_P.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: LED_P.elf
+ 
+arm-none-eabi-size  LED_P.elf 
+arm-none-eabi-objdump -h -S LED_P.elf  > "LED_P.list"
+   text	   data	    bss	    dec	    hex	filename
+   2308	     20	   1604	   3932	    f5c	LED_P.elf
+Finished building: default.size.stdout
+ 
+Finished building: LED_P.list
+ 
+17:33:41 **** Incremental Build of configuration Debug for project LED_P ****
+make -j16 all 
+arm-none-eabi-size  LED_P.elf 
+   text	   data	    bss	    dec	    hex	filename
+   2308	     20	   1604	   3932	    f5c	LED_P.elf
+Finished building: default.size.stdout
+ 
+17:36:03 **** Incremental Build of configuration Debug for project LED_P ****
+make -j16 all 
+arm-none-eabi-size  LED_P.elf 
+   text	   data	    bss	    dec	    hex	filename
+   2308	     20	   1604	   3932	    f5c	LED_P.elf
+Finished building: default.size.stdout
+ 
+17:36:32 **** Incremental Build of configuration Debug for project LED_P ****
+make -j16 all 
+arm-none-eabi-size  LED_P.elf 
+   text	   data	    bss	    dec	    hex	filename
+   2308	     20	   1604	   3932	    f5c	LED_P.elf
+Finished building: default.size.stdout
+ 
+17:37:38 **** Incremental Build of configuration Debug for project LED_P ****
+make -j16 all 
+arm-none-eabi-size  LED_P.elf 
+   text	   data	    bss	    dec	    hex	filename
+   2308	     20	   1604	   3932	    f5c	LED_P.elf
+Finished building: default.size.stdout
+ 
+17:38:01 **** Incremental Build of configuration Debug for project LED_P ****
+make -j16 all 
+arm-none-eabi-size  LED_P.elf 
+   text	   data	    bss	    dec	    hex	filename
+   2308	     20	   1604	   3932	    f5c	LED_P.elf
+Finished building: default.size.stdout
+ 

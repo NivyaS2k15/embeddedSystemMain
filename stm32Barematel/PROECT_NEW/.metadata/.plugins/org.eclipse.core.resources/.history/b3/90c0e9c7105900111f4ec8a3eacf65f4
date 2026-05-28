@@ -1,0 +1,38 @@
+#include "stm32f446xx.h"
+#include "stm32f446xx_usart_driver.h"
+
+USART_Handle_t usart2;
+
+void USART2_Init(void)
+{
+    usart2.pUSARTx = USART2;
+
+    usart2.USART_Config.USART_Baud = USART_STD_BAUD_115200;
+    usart2.USART_Config.USART_HWFlowControl = USART_HW_FLOW_CTRL_NONE;
+    usart2.USART_Config.USART_Mode = USART_MODE_ONLY_TX;
+    usart2.USART_Config.USART_NoOfStopBits = USART_STOPBITS_1;
+    usart2.USART_Config.USART_WordLength = USART_WORDLEN_8BITS;
+    usart2.USART_Config.USART_ParityControl = USART_PARITY_DISABLE;
+
+    USART_PeriClockControl(USART2, ENABLE);
+    USART_Init(&usart2);
+    USART_PeripheralControl(USART2, ENABLE);
+}
+
+void delay(void)
+{
+    for(volatile int i = 0; i < 1000000; i++);
+}
+
+int main(void)
+{
+    USART2_Init();
+
+    char msg[] = "HELLO\r\n";
+
+    while(1)
+    {
+        USART_SendData(&usart2, (uint8_t*)msg, sizeof(msg)-1);
+        delay();
+    }
+}

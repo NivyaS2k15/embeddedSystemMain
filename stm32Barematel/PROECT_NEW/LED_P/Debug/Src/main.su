@@ -1,2 +1,4 @@
-../Src/main.c:4:6:delay	16	static
-../Src/main.c:9:5:main	32	static
+../Src/main.c:14:6:USART2_GPIOInit	24	static
+../Src/main.c:31:6:LED_D8_GPIOInit	24	static
+../Src/main.c:43:6:USART2_Init	8	static
+../Src/main.c:55:5:main	56	static

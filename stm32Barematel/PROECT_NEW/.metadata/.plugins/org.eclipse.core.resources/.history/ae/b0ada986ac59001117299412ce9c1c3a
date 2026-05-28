@@ -1,0 +1,97 @@
+/*
+ * main.c
+ * Author: NIVYA
+ * Description: When a button on D8 (PA9) is pressed, prints a message to UART2
+ * and toggles the D13 LED (PA5) using your exact button-release latch logic.
+ */
+
+#include "stm32f446xx.h"
+#include "stm32f446xx_gpio_driver.h"
+#include "stm32f446xx_usart_driver.h"
+
+// Global UART handle
+USART_Handle_t usart2_handle;
+
+void delay(void)
+{
+    for(uint32_t i = 0; i < 500000; i++);
+}
+
+void USART2_GPIOInit(void)
+{
+    GPIO_Handle_t usart_gpios;
+    usart_gpios.pGPIOx = GPIOA;
+    usart_gpios.GPIO_PinConfig.GPIO_PinMode = GPIO_MODE_ALTFN;
+    usart_gpios.GPIO_PinConfig.GPIO_PinOPType = GPIO_OP_TYPE_PP;
+    usart_gpios.GPIO_PinConfig.GPIO_PinPuPdControl = GPIO_PIN_PU;
+    usart_gpios.GPIO_PinConfig.GPIO_PinSpeed = GPIO_SPEED_HIGH;
+    usart_gpios.GPIO_PinConfig.GPIO_PinAltFunMode = 7; // AF7 for USART2
+
+    // Configure PA2 as USART2_TX
+    usart_gpios.GPIO_PinConfig.GPIO_PinNumber = GPIO_PIN_NO_2;
+    GPIO_Init(&usart_gpios);
+}
+
+void USART2_Init(void)
+{
+    usart2_handle.pUSARTx = USART2;
+    usart2_handle.USART_Config.USART_Baud = USART_STD_BAUD_115200;
+    usart2_handle.USART_Config.USART_HWFlowControl = USART_HW_FLOW_CTRL_NONE;
+    usart2_handle.USART_Config.USART_Mode = USART_MODE_ONLY_TX;
+    usart2_handle.USART_Config.USART_ParityControl = USART_PARITY_DISABLE;
+    usart2_handle.USART_Config.USART_NoOfStopBits = USART_STOPBITS_1;
+    usart2_handle.USART_Config.USART_WordLength = USART_WORDLEN_8BITS;
+
+    USART_Init(&usart2_handle);
+}
+
+int main(void)
+{
+    GPIO_Handle_t GpioLed, GpioBtn;
+    uint8_t msg[] = "Button is pressed\r\n";
+
+    // 1. Initialize UART2 for terminal output
+    USART2_GPIOInit();
+    USART2_Init();
+    USART_PeripheralControl(USART2, ENABLE);
+
+    /* 2. LED configuration PA5 (D13) */
+    GpioLed.pGPIOx = GPIOA;
+    GpioLed.GPIO_PinConfig.GPIO_PinNumber = GPIO_PIN_NO_5;
+    GpioLed.GPIO_PinConfig.GPIO_PinMode = GPIO_MODE_OUT;
+    GpioLed.GPIO_PinConfig.GPIO_PinSpeed = GPIO_SPEED_FAST;
+    GpioLed.GPIO_PinConfig.GPIO_PinOPType = GPIO_OP_TYPE_PP;
+    GpioLed.GPIO_PinConfig.GPIO_PinPuPdControl = GPIO_NO_PUPD;
+
+    GPIO_PeriClockControl(GPIOA, ENABLE);
+    GPIO_Init(&GpioLed);
+
+    /* 3. Button configuration PA9 (D8) */
+    GpioBtn.pGPIOx = GPIOA;
+    GpioBtn.GPIO_PinConfig.GPIO_PinNumber = GPIO_PIN_NO_9;
+    GpioBtn.GPIO_PinConfig.GPIO_PinMode = GPIO_MODE_IN;
+    GpioBtn.GPIO_PinConfig.GPIO_PinSpeed = GPIO_SPEED_FAST;
+    GpioBtn.GPIO_PinConfig.GPIO_PinPuPdControl = GPIO_PIN_PU;
+
+    GPIO_PeriClockControl(GPIOA, ENABLE);
+    GPIO_Init(&GpioBtn);
+
+    while(1)
+    {
+        // Check if button on D8 (PA9) is pulled low
+        if(GPIO_ReadFromInputPin(GPIOA, GPIO_PIN_NO_9) == 0)
+        {
+            delay();   // software debounce
+
+            // Replaced printf with your functional UART transmission driver
+            USART_SendData(&usart2_handle, msg, sizeof(msg) - 1);
+
+            // Toggle LED on PA5 (D13)
+            GPIO_ToggleOutputPin(GPIOA, GPIO_PIN_NO_5);
+
+            // Hold execution here until the hardware pin goes high again (button released)
+            while(GPIO_ReadFromInputPin(GPIOA, GPIO_PIN_NO_9) == 0);
+        }
+    }
+    return 0;
+}

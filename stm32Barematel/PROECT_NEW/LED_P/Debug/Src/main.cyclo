@@ -1,2 +1,4 @@
-../Src/main.c:4:6:delay	2
-../Src/main.c:9:5:main	3
+../Src/main.c:14:6:USART2_GPIOInit	1
+../Src/main.c:31:6:LED_D8_GPIOInit	1
+../Src/main.c:43:6:USART2_Init	1
+../Src/main.c:55:5:main	9

@@ -1,0 +1,4 @@
+../drivers/src/stm32f446xx_spi_driver.c:12:6:SPI1_Init	16	static
+../drivers/src/stm32f446xx_spi_driver.c:37:6:SPI_PeripheralControl	16	static
+../drivers/src/stm32f446xx_spi_driver.c:49:9:SPI_SendData	32	static
+../drivers/src/stm32f446xx_spi_driver.c:65:9:SPI_ReceiveData	32	static
