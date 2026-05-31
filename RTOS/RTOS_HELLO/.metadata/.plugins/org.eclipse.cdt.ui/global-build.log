@@ -1,0 +1,28 @@
+16:03:17 **** Incremental Build of configuration Debug for project rtos_hello ****
+make -j16 all 
+arm-none-eabi-gcc "../Core/Src/syscalls.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F446xx -c -I"C:/embeddedSystem/RTOS/RTOS_HELLO/rtos_hello/ThirdParty/FreeRtos" -I"C:/embeddedSystem/RTOS/RTOS_HELLO/rtos_hello/ThirdParty/FreeRtos/include" -I"C:/embeddedSystem/RTOS/RTOS_HELLO/rtos_hello/ThirdParty/FreeRtos/portable/GCC/ARM_CM4F" -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/syscalls.d" -MT"Core/Src/syscalls.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/syscalls.o"
+arm-none-eabi-gcc -o "rtos_hello.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\embeddedSystem\RTOS\RTOS_HELLO\rtos_hello\STM32F446RETX_FLASH.ld" --specs=nosys.specs -Wl,-Map="rtos_hello.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: rtos_hello.elf
+ 
+arm-none-eabi-size  rtos_hello.elf 
+arm-none-eabi-objdump -h -S rtos_hello.elf  > "rtos_hello.list"
+   text	   data	    bss	    dec	    hex	filename
+  23592	    108	  79268	 102968	  19238	rtos_hello.elf
+Finished building: default.size.stdout
+ 
+Finished building: rtos_hello.list
+ 
+16:03:49 **** Incremental Build of configuration Debug for project rtos_hello ****
+make -j16 all 
+arm-none-eabi-size  rtos_hello.elf 
+   text	   data	    bss	    dec	    hex	filename
+  23592	    108	  79268	 102968	  19238	rtos_hello.elf
+Finished building: default.size.stdout
+ 
+16:04:05 **** Incremental Build of configuration Debug for project rtos_hello ****
+make -j16 all 
+arm-none-eabi-size  rtos_hello.elf 
+   text	   data	    bss	    dec	    hex	filename
+  23592	    108	  79268	 102968	  19238	rtos_hello.elf
+Finished building: default.size.stdout
+ 

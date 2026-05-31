@@ -1,0 +1,106 @@
+/*
+ * stm32f446xx_spi_driver.c
+ */
+
+#include "stm32f446xx_spi_driver.h"
+
+/*
+ * SPI1 Clock Enable
+ */
+void SPI1_Init(void)
+{
+    // Enable SPI1 clock manually
+    RCC->APB2ENR |= (1 << 12);
+
+    // Small delay
+    for(volatile int i = 0; i < 500; i++);
+
+    SPI1->CR1 = 0;
+
+    // Master mode
+    SPI1->CR1 |= (1 << 2);
+
+    // Software slave management
+    SPI1->CR1 |= (1 << 9);
+
+    // Internal slave select
+    SPI1->CR1 |= (1 << 8);
+
+    // Baud rate fPCLK/64
+    SPI1->CR1 |= (0x5 << 3);
+}
+
+/*
+ * Enable/Disable SPI Peripheral
+ */
+void SPI_PeripheralControl(SPI_RegDef_t *pSPIx, uint8_t EnOrDi)
+{
+    if(EnOrDi == ENABLE)
+    {
+        pSPIx->CR1 |= (1 << 6);
+    }
+    else
+    {
+        pSPIx->CR1 &= ~(1 << 6);
+    }
+}
+
+/*
+ * Send Data
+ */
+uint8_t SPI_SendData(
+        SPI_RegDef_t *pSPIx,
+        uint8_t *pTxBuffer,
+        uint32_t Len)
+{
+    uint32_t timeout = 50000;
+
+    while(Len > 0)
+    {
+        while(!(pSPIx->SR & (1 << 1)))
+        {
+            if(--timeout == 0)
+            {
+                return 0;
+            }
+        }
+
+        pSPIx->DR = *pTxBuffer;
+
+        pTxBuffer++;
+        Len--;
+    }
+
+    while(pSPIx->SR & (1 << 7));
+
+    return 1;
+}
+
+/*
+ * Receive Data
+ */
+uint8_t SPI_ReceiveData(
+        SPI_RegDef_t *pSPIx,
+        uint8_t *pRxBuffer,
+        uint32_t Len)
+{
+    uint32_t timeout = 50000;
+
+    while(Len > 0)
+    {
+        while(!(pSPIx->SR & (1 << 0)))
+        {
+            if(--timeout == 0)
+            {
+                return 0;
+            }
+        }
+
+        *pRxBuffer = pSPIx->DR;
+
+        pRxBuffer++;
+        Len--;
+    }
+
+    return 1;
+}

@@ -1,278 +1,189 @@
-///*
-// * main.c
-// * Multi-Peripheral Engine: BMP280 via SPI1 + I2C LCD Character Screen
-// * Fully guarded with Timeout Checkpoints and Diagnostic Terminal Logs
-// */
-//
-//#include <stdio.h>
-//#include <string.h>
-//#include "stm32f446xx.h"
-//#include "stm32f446xx_gpio_driver.h"
-//#include "stm32f446xx_usart_driver.h"
-//#include "stm32f446xx_i2c_driver.h"
-//#include "stm32f446xx_spi_driver.h"
-//#include "stm32f446xx_rcc_driver.h"
-//#include "i2c_lcd.h"
-//
-//// Define Pins for SPI1 configuration
-//#define GPIO_PIN_NO_4         4 // PA4 -> Chip Select (CSB)
-//#define GPIO_PIN_NO_5         5 // PA5 -> Serial Clock (SCL)
-//#define GPIO_PIN_NO_6         6 // PA6 -> Master Input Slave Output (SDO)
-//#define GPIO_PIN_NO_7         7 // PA7 -> Master Output Slave Input (SDA)
-//
-//// BMP280 Specific Control Registers
-//#define BMP280_REG_ID         0xD0
-//#define BMP280_REG_CTRL_MEAS  0xF4
-//#define BMP280_REG_TEMP_MSB   0xFA
-//#define BMP280_REG_CALIB_BASE 0x88
-//
-//USART_Handle_t usart2_handle;
-//I2C_Handle_t   i2c1_handle;
-//
-//// Global Calibration values processed by the sensor factory configuration
-//uint16_t dig_T1;
-//int16_t  dig_T2;
-//int16_t  dig_T3;
-//
-//void delay_ms(uint32_t ms)
-//{
-//    for(uint32_t i = 0; i < (ms * 1000); i++);
-//}
-//
-//void Log_Debug(char *msg)
-//{
-//    USART_SendData(&usart2_handle, (uint8_t*)msg, strlen(msg));
-//}
-//
-//void USART2_GPIOInit(void)
-//{
-//    GPIO_Handle_t usart_gpios = {0};
-//    usart_gpios.pGPIOx = GPIOA;
-//    usart_gpios.GPIO_PinConfig.GPIO_PinMode = GPIO_MODE_ALTFN;
-//    usart_gpios.GPIO_PinConfig.GPIO_PinOPType = GPIO_OP_TYPE_PP;
-//    usart_gpios.GPIO_PinConfig.GPIO_PinPuPdControl = GPIO_PIN_PU;
-//    usart_gpios.GPIO_PinConfig.GPIO_PinSpeed = GPIO_SPEED_HIGH;
-//    usart_gpios.GPIO_PinConfig.GPIO_PinAltFunMode = 7;
-//
-//    usart_gpios.GPIO_PinConfig.GPIO_PinNumber = GPIO_PIN_NO_2;
-//    GPIO_Init(&usart_gpios);
-//    usart_gpios.GPIO_PinConfig.GPIO_PinNumber = GPIO_PIN_NO_3;
-//    GPIO_Init(&usart_gpios);
-//}
-//
-//void USART2_Init(void)
-//{
-//    usart2_handle.pUSARTx = USART2;
-//    usart2_handle.USART_Config.USART_Baud = USART_STD_BAUD_115200;
-//    usart2_handle.USART_Config.USART_HWFlowControl = USART_HW_FLOW_CTRL_NONE;
-//    usart2_handle.USART_Config.USART_Mode = USART_MODE_TXRX;
-//    usart2_handle.USART_Config.USART_ParityControl = USART_PARITY_DISABLE;
-//    usart2_handle.USART_Config.USART_NoOfStopBits = USART_STOPBITS_1;
-//    usart2_handle.USART_Config.USART_WordLength = USART_WORDLEN_8BITS;
-//    USART_Init(&usart2_handle);
-//}
-//
-//void I2C1_GPIOInit(void)
-//{
-//    GPIO_Handle_t i2c_gpios = {0};
-//    i2c_gpios.pGPIOx = GPIOB;
-//    i2c_gpios.GPIO_PinConfig.GPIO_PinMode = GPIO_MODE_ALTFN;
-//    i2c_gpios.GPIO_PinConfig.GPIO_PinOPType = GPIO_OP_TYPE_OD;
-//    i2c_gpios.GPIO_PinConfig.GPIO_PinPuPdControl = GPIO_PIN_PU;
-//    i2c_gpios.GPIO_PinConfig.GPIO_PinSpeed = GPIO_SPEED_HIGH;
-//    i2c_gpios.GPIO_PinConfig.GPIO_PinAltFunMode = 4;
-//
-//    i2c_gpios.GPIO_PinConfig.GPIO_PinNumber = GPIO_PIN_NO_8;
-//    GPIO_Init(&i2c_gpios);
-//    i2c_gpios.GPIO_PinConfig.GPIO_PinNumber = GPIO_PIN_NO_9;
-//    GPIO_Init(&i2c_gpios);
-//}
-//
-//void I2C1_Init(void)
-//{
-//    I2C_PeriClockControl(I2C1, ENABLE);
-//    RCC->APB1RSTR |=  (1 << 21);
-//    delay_ms(10);
-//    RCC->APB1RSTR &= ~(1 << 21);
-//    delay_ms(10);
-//
-//    i2c1_handle.pI2Cx = I2C1;
-//    i2c1_handle.I2C_Config.I2C_SCLSpeed = I2C_SCL_SPEED_SM;
-//    i2c1_handle.I2C_Config.I2C_DeviceAddress = 0x20;
-//    i2c1_handle.I2C_Config.I2C_AckControl = I2C_ACK_ENABLE;
-//
-//    I2C_Init(&i2c1_handle);
-//}
-//
-//void SPI1_GPIOInit(void)
-//{
-//    GPIO_Handle_t spi_gpios = {0};
-//    spi_gpios.pGPIOx = GPIOA;
-//    spi_gpios.GPIO_PinConfig.GPIO_PinMode = GPIO_MODE_ALTFN;
-//    spi_gpios.GPIO_PinConfig.GPIO_PinOPType = GPIO_OP_TYPE_PP;
-//    spi_gpios.GPIO_PinConfig.GPIO_PinPuPdControl = GPIO_PIN_PU;
-//    spi_gpios.GPIO_PinConfig.GPIO_PinSpeed = GPIO_SPEED_HIGH;
-//    spi_gpios.GPIO_PinConfig.GPIO_PinAltFunMode = 5;
-//
-//    // Setup SCK (PA5), MISO (PA6), MOSI (PA7)
-//    spi_gpios.GPIO_PinConfig.GPIO_PinNumber = GPIO_PIN_NO_5;
-//    GPIO_Init(&spi_gpios);
-//    spi_gpios.GPIO_PinConfig.GPIO_PinNumber = GPIO_PIN_NO_6;
-//    GPIO_Init(&spi_gpios);
-//    spi_gpios.GPIO_PinConfig.GPIO_PinNumber = GPIO_PIN_NO_7;
-//    GPIO_Init(&spi_gpios);
-//
-//    // Setup CS Pin (PA4) as a standard Digital Push-Pull Output Pin
-//    GPIO_Handle_t cs_gpio = {0};
-//    cs_gpio.pGPIOx = GPIOA;
-//    cs_gpio.GPIO_PinConfig.GPIO_PinNumber = GPIO_PIN_NO_4;
-//    cs_gpio.GPIO_PinConfig.GPIO_PinMode = 1;
-//    cs_gpio.GPIO_PinConfig.GPIO_PinOPType = GPIO_OP_TYPE_PP;
-//    cs_gpio.GPIO_PinConfig.GPIO_PinPuPdControl = GPIO_PIN_PU;
-//    cs_gpio.GPIO_PinConfig.GPIO_PinSpeed = GPIO_SPEED_HIGH;
-//    GPIO_Init(&cs_gpio);
-//
-//    // Set Chip Select Pin HIGH initially
-//    GPIOA->ODR |= (1 << GPIO_PIN_NO_4);
-//}
-//
-//static void BMP280_CS_Select(void)   { GPIOA->ODR &= ~(1 << GPIO_PIN_NO_4); }
-//static void BMP280_CS_Deselect(void) { GPIOA->ODR |=  (1 << GPIO_PIN_NO_4); }
-//
-//void BMP280_SPI_ReadRegs(uint8_t start_reg, uint8_t *pRxBuffer, uint32_t len)
-//{
-//    uint8_t address_byte = start_reg | 0x80; // SPI Read = Bit 7 HIGH
-//    uint8_t dummy_clear;
-//
-//    BMP280_CS_Select();
-//
-//    SPI_SendData(SPI1, &address_byte, 1);
-//    SPI_ReceiveData(SPI1, &dummy_clear, 1); // Discard SPI turnaround byte
-//
-//    for(uint32_t i = 0; i < len; i++)
-//    {
-//        uint8_t dummy_tx = 0x00;
-//        SPI_SendData(SPI1, &dummy_tx, 1);
-//        SPI_ReceiveData(SPI1, &pRxBuffer[i], 1);
-//    }
-//
-//    BMP280_CS_Deselect();
-//}
-//
-//void BMP280_SPI_WriteReg(uint8_t reg_addr, uint8_t value)
-//{
-//    uint8_t address_byte = reg_addr & 0x7F; // SPI Write = Bit 7 LOW
-//    uint8_t buffer[2] = {address_byte, value};
-//    uint8_t dummy[2];
-//
-//    BMP280_CS_Select();
-//    SPI_SendData(SPI1, &buffer[0], 1);
-//    SPI_ReceiveData(SPI1, &dummy[0], 1);
-//    SPI_SendData(SPI1, &buffer[1], 1);
-//    SPI_ReceiveData(SPI1, &dummy[1], 1);
-//    BMP280_CS_Deselect();
-//}
-//
-//void BMP280_ReadCalibration(void)
-//{
-//    uint8_t calib_data[6] = {0};
-//    BMP280_SPI_ReadRegs(BMP280_REG_CALIB_BASE, calib_data, 6);
-//
-//    dig_T1 = (uint16_t)((calib_data[1] << 8) | calib_data[0]);
-//    dig_T2 = (int16_t)((calib_data[3] << 8) | calib_data[2]);
-//    dig_T3 = (int16_t)((calib_data[5] << 8) | calib_data[4]);
-//}
-//
-//int32_t BMP280_Compensate_T(int32_t adc_T)
-//{
-//    int32_t var1, var2, T;
-//    var1 = ((((adc_T >> 3) - ((int32_t)dig_T1 << 1))) * ((int32_t)dig_T2)) >> 11;
-//    var2 = (((((adc_T >> 4) - ((int32_t)dig_T1)) * ((adc_T >> 4) - ((int32_t)dig_T1))) >> 12) * ((int32_t)dig_T3)) >> 14;
-//    T = var1 + var2;
-//    return (T * 5 + 128) >> 8;
-//}
-//
-//int main(void)
-//{
-//    uint8_t rx_buf[3];
-//    uint8_t chip_id = 0;
-//    char display_buffer[32];
-//
-//    // Enable Peripheral Clocks
-//    GPIO_PeriClockControl(GPIOA, ENABLE);
-//    GPIO_PeriClockControl(GPIOB, ENABLE);
-//
-//    // Initialise serial terminal interface logger
-//    USART2_GPIOInit();
-//    USART2_Init();
-//    USART_PeripheralControl(USART2, ENABLE);
-//
-//    Log_Debug("\r\n--- SPI BMP280 + I2C LCD Program Running ---\r\n");
-//
-//    // 1. Initialise the I2C LCD Display Module
-//    Log_Debug("[STAGE 1]: Initializing I2C1 and GPIO Layout...\r\n");
-//    I2C1_GPIOInit();
-//    GPIOB->AFR[1] &= ~( (0xFU << 0) | (0xFU << 4) );
-//    GPIOB->AFR[1] |=  ( (0x4U << 0) | (0x4U << 4) );
-//    I2C1_Init();
-//    I2C_PeripheralControl(I2C1, ENABLE);
-//    I2C_ManageAcking(I2C1, I2C_ACK_ENABLE);
-//
-//    Log_Debug("[STAGE 2]: Sending LCD commands sequence...\r\n");
-//    LCD_Init(&i2c1_handle);
-//    LCD_SetCursor(&i2c1_handle, 0, 0);
-//    LCD_SendString(&i2c1_handle, "Loading SPI1...");
-//
-//    // 2. Initialise the SPI1 Interface for BMP280 Sensor
-//    Log_Debug("[STAGE 3]: Initializing SPI1 Engine Pinouts...\r\n");
-//    SPI1_GPIOInit();
-//    SPI1_Init();
-//    SPI_PeripheralControl(SPI1, ENABLE);
-//
-//    // Verify sensor response by checking Chip ID Register (Should return 0x58)
-//    Log_Debug("[STAGE 4]: Testing SPI communications link...\r\n");
-//    BMP280_SPI_ReadRegs(BMP280_REG_ID, &chip_id, 1);
-//
-//    sprintf(display_buffer, "--> BMP280 detected Chip ID: 0x%02X\r\n", chip_id);
-//    Log_Debug(display_buffer);
-//
-//    // Set Sensor to Normal Power Mode, Temp Oversampling x1
-//    BMP280_SPI_WriteReg(BMP280_REG_CTRL_MEAS, 0x23);
-//    delay_ms(10);
-//
-//    // Read Factory Trim Calibration values via SPI
-//    Log_Debug("[STAGE 5]: Fetching trim tables matrix...\r\n");
-//    BMP280_ReadCalibration();
-//
-//    LCD_Clear(&i2c1_handle);
-//    LCD_SetCursor(&i2c1_handle, 0, 0);
-//    LCD_SendString(&i2c1_handle, "BMP280 SPI Mode");
-//
-//    Log_Debug("[SUCCESS]: Entering Main Polling Loop Execution.\r\n");
-//
-//    while(1)
-//    {
-//        // Read 3 raw temperature register data bytes starting at 0xFA
-//        BMP280_SPI_ReadRegs(BMP280_REG_TEMP_MSB, rx_buf, 3);
-//
-//        int32_t adc_raw_temp = (int32_t)(((uint32_t)rx_buf[0] << 12) | ((uint32_t)rx_buf[1] << 4) | ((uint32_t)rx_buf[2] >> 4));
-//        int32_t fine_temp = BMP280_Compensate_T(adc_raw_temp);
-//
-//        int32_t integer_part = fine_temp / 100;
-//        int32_t fractional_part = fine_temp % 100;
-//        if(fractional_part < 0) fractional_part = -fractional_part;
-//
-//        // Print real-time values onto row 1 of the screen
-//        sprintf(display_buffer, "Temp: %ld.%02ld C ", integer_part, fractional_part);
-//        LCD_SetCursor(&i2c1_handle, 1, 0);
-//        LCD_SendString(&i2c1_handle, display_buffer);
-//
-//        // Log reading down over serial link too
-//        char log_buffer[64];
-//        sprintf(log_buffer, "[LOOP UPDATE]: Sensor Core Output = %ld.%02ld C\r\n", integer_part, fractional_part);
-//        Log_Debug(log_buffer);
-//
-//        delay_ms(1000);
-//    }
-//    return 0;
-//}
+/*
+ * main.c
+ * Target: LM35 Analog Temperature Sensor Engine
+ * Peripherals: ADC1 (PA1) + I2C1 LCD (PB8/PB9) + USART2 (PA2/PA3)
+ */
+
+#include <stdio.h>
+#include <string.h>
+#include "stm32f446xx.h"
+#include "stm32f446xx_gpio_driver.h"
+#include "stm32f446xx_usart_driver.h"
+#include "stm32f446xx_i2c_driver.h"
+#include "stm32f446xx_rcc_driver.h"
+#include "i2c_lcd.h"
+
+#define GPIO_PIN_NO_8         8 // PB8 -> I2C1_SCL
+#define GPIO_PIN_NO_9         9 // PB9 -> I2C1_SDA
+
+USART_Handle_t usart2_handle;
+I2C_Handle_t   i2c1_handle;
+
+void delay_ms(uint32_t ms)
+{
+    for(uint32_t i = 0; i < (ms * 1000); i++);
+}
+
+void USART2_GPIOInit(void)
+{
+    GPIO_Handle_t usart_gpios = {0};
+    usart_gpios.pGPIOx = GPIOA;
+    usart_gpios.GPIO_PinConfig.GPIO_PinMode = GPIO_MODE_ALTFN;
+    usart_gpios.GPIO_PinConfig.GPIO_PinOPType = GPIO_OP_TYPE_PP;
+    usart_gpios.GPIO_PinConfig.GPIO_PinPuPdControl = GPIO_PIN_PU;
+    usart_gpios.GPIO_PinConfig.GPIO_PinSpeed = GPIO_SPEED_HIGH;
+    usart_gpios.GPIO_PinConfig.GPIO_PinAltFunMode = 7;
+
+    usart_gpios.GPIO_PinConfig.GPIO_PinNumber = GPIO_PIN_NO_2; // TX
+    GPIO_Init(&usart_gpios);
+    usart_gpios.GPIO_PinConfig.GPIO_PinNumber = GPIO_PIN_NO_3; // RX
+    GPIO_Init(&usart_gpios);
+}
+
+void USART2_Init(void)
+{
+    usart2_handle.pUSARTx = USART2;
+    usart2_handle.USART_Config.USART_Baud = USART_STD_BAUD_115200;
+    usart2_handle.USART_Config.USART_HWFlowControl = USART_HW_FLOW_CTRL_NONE;
+    usart2_handle.USART_Config.USART_Mode = USART_MODE_TXRX;
+    usart2_handle.USART_Config.USART_ParityControl = USART_PARITY_DISABLE;
+    usart2_handle.USART_Config.USART_NoOfStopBits = USART_STOPBITS_1;
+    usart2_handle.USART_Config.USART_WordLength = USART_WORDLEN_8BITS;
+    USART_Init(&usart2_handle);
+}
+
+void I2C1_GPIOInit(void)
+{
+    GPIO_Handle_t i2c_gpios = {0};
+    i2c_gpios.pGPIOx = GPIOB;
+    i2c_gpios.GPIO_PinConfig.GPIO_PinMode = GPIO_MODE_ALTFN;
+    i2c_gpios.GPIO_PinConfig.GPIO_PinOPType = GPIO_OP_TYPE_OD;
+    i2c_gpios.GPIO_PinConfig.GPIO_PinPuPdControl = GPIO_PIN_PU;
+    i2c_gpios.GPIO_PinConfig.GPIO_PinSpeed = GPIO_SPEED_HIGH;
+    i2c_gpios.GPIO_PinConfig.GPIO_PinAltFunMode = 4;
+
+    i2c_gpios.GPIO_PinConfig.GPIO_PinNumber = GPIO_PIN_NO_8;
+    GPIO_Init(&i2c_gpios);
+    i2c_gpios.GPIO_PinConfig.GPIO_PinNumber = GPIO_PIN_NO_9;
+    GPIO_Init(&i2c_gpios);
+}
+
+void I2C1_Init(void)
+{
+    I2C_PeriClockControl(I2C1, ENABLE);
+    RCC->APB1RSTR |=  (1 << 21);
+    delay_ms(10);
+    RCC->APB1RSTR &= ~(1 << 21);
+    delay_ms(10);
+
+    i2c1_handle.pI2Cx = I2C1;
+    i2c1_handle.I2C_Config.I2C_SCLSpeed = I2C_SCL_SPEED_SM;
+    i2c1_handle.I2C_Config.I2C_DeviceAddress = 0x20;
+    i2c1_handle.I2C_Config.I2C_AckControl = I2C_ACK_ENABLE;
+    I2C_Init(&i2c1_handle);
+}
+
+/* * Initialize PA1 as an Analog Input for ADC1_IN1
+ */
+void ADC1_CH1_GPIOInit(void)
+{
+    GPIO_Handle_t adc_pin = {0};
+    adc_pin.pGPIOx = GPIOA;
+    adc_pin.GPIO_PinConfig.GPIO_PinNumber = GPIO_PIN_NO_1;
+    adc_pin.GPIO_PinConfig.GPIO_PinMode = GPIO_MODE_ANALOG; // Explicit Analog Mode
+    adc_pin.GPIO_PinConfig.GPIO_PinPuPdControl = GPIO_NO_PUPD;
+    GPIO_Init(&adc_pin);
+}
+
+/* * Setup the internal ADC1 Hardware Engine
+ */
+void ADC1_Init(void)
+{
+    // 1. Enable ADC1 Clock in RCC
+    RCC->APB2ENR |= (1 << 8);
+
+    // 2. Set Sequencer Length to 1 conversion (ADC_SQR1 bits [23:20] = 0000)
+    ADC1->SQR1 &= ~(0xF << 20);
+
+    // 3. Assign Channel 1 as the 1st conversion sequence spot (ADC_SQR3 bits [4:0] = 00001)
+    ADC1->SQR3 &= ~(0x1F << 0);
+    ADC1->SQR3 |=  (1 << 0);
+
+    // 4. Power up the ADC peripheral (Set ADON bit in CR2)
+    ADC1->CR2 |= (1 << 0);
+}
+
+/*
+ * Fire a conversion and poll the register status for the result data
+ */
+uint32_t ADC1_Read(void)
+{
+    // Start Conversion (SWSTART bit in CR2)
+    ADC1->CR2 |= (1 << 30);
+
+    // Poll for End of Conversion (EOC bit in SR)
+    while (!(ADC1->SR & (1 << 1)));
+
+    // Return the converted 12-bit digital value
+    return ADC1->DR;
+}
+
+int main(void)
+{
+    char log_buffer[64];
+    char lcd_buffer[16];
+
+    // Enable Peripheral Clocks
+    GPIO_PeriClockControl(GPIOA, ENABLE);
+    GPIO_PeriClockControl(GPIOB, ENABLE);
+
+    // Communications Setup
+    USART2_GPIOInit();
+    USART2_Init();
+    USART_PeripheralControl(USART2, ENABLE);
+
+    I2C1_GPIOInit();
+    GPIOB->AFR[1] &= ~( (0xFU << 0) | (0xFU << 4) );
+    GPIOB->AFR[1] |=  ( (0x4U << 0) | (0x4U << 4) );
+    I2C1_Init();
+    I2C_PeripheralControl(I2C1, ENABLE);
+    I2C_ManageAcking(I2C1, I2C_ACK_ENABLE);
+
+    // Display Setup
+    LCD_Init(&i2c1_handle);
+    LCD_Clear(&i2c1_handle);
+    LCD_SetCursor(&i2c1_handle, 0, 0);
+    LCD_SendString(&i2c1_handle, "LM35 TEMP MONITOR");
+
+    // Analog Infrastructure Setup
+    ADC1_CH1_GPIOInit();
+    ADC1_Init();
+
+    while(1)
+    {
+        // 1. Fetch raw value from ADC (Range: 0 to 4095)
+        uint32_t raw_adc = ADC1_Read();
+
+        // 2. Math Processing
+        // Voltage (mV) = (raw_adc * 3300) / 4095
+        // Temp (°C) = Voltage (mV) / 10 -> Temp = (raw_adc * 3300) / 40950
+        // Scaled up by 100 to extract a decimal part without using slow floating-point 'float' math.
+        uint32_t temp_scaled = (raw_adc * 330000) / 40950;
+
+        uint32_t integer_part = temp_scaled / 100;
+        uint32_t fractional_part = temp_scaled % 100;
+
+        /* --- 3. Transmit Raw Driver Call over USART2 --- */
+        sprintf(log_buffer, "[LM35 UPDATE]: Temp = %ld.%02ld C\r\n", integer_part, fractional_part);
+        USART_SendData(&usart2_handle, (uint8_t*)log_buffer, strlen(log_buffer));
+
+        /* --- 4. Update the LCD Screen Layout --- */
+        sprintf(lcd_buffer, "Temp: %ld.%02ld C   ", integer_part, fractional_part);
+        LCD_SetCursor(&i2c1_handle, 1, 0);
+        LCD_SendString(&i2c1_handle, lcd_buffer);
+
+        delay_ms(1000);
+    }
+
+    return 0;
+}

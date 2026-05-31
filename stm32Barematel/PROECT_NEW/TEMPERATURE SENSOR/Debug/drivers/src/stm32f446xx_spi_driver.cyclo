@@ -1,4 +1,0 @@
-../drivers/src/stm32f446xx_spi_driver.c:12:6:SPI1_Init	2
-../drivers/src/stm32f446xx_spi_driver.c:37:6:SPI_PeripheralControl	2
-../drivers/src/stm32f446xx_spi_driver.c:49:9:SPI_SendData	4
-../drivers/src/stm32f446xx_spi_driver.c:65:9:SPI_ReceiveData	4

@@ -1,10 +1,10 @@
-12:05:24 **** Incremental Build of configuration Debug for project TEMPERATURE SENSOR ****
+18:41:56 **** Incremental Build of configuration Debug for project TEMPERATURE SENSOR ****
 make -j16 all 
 arm-none-eabi-size  TEMPERATURE\ SENSOR.elf 
    text	   data	    bss	    dec	    hex	filename
-   2232	      0	   1568	   3800	    ed8	TEMPERATURE SENSOR.elf
+   7712	    100	   1924	   9736	   2608	TEMPERATURE SENSOR.elf
 Finished building: default.size.stdout
  
 
-12:05:24 Build Finished. 0 errors, 0 warnings. (took 260ms)
+18:41:57 Build Finished. 0 errors, 0 warnings. (took 290ms)
 

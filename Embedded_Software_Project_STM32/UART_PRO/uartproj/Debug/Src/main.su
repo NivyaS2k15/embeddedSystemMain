@@ -1,0 +1,4 @@
+../Src/main.c:32:6:USART2_GPIOInit	24	static
+../Src/main.c:49:6:LED_D8_GPIOInit	24	static
+../Src/main.c:61:6:USART2_Init	8	static
+../Src/main.c:73:5:main	56	static

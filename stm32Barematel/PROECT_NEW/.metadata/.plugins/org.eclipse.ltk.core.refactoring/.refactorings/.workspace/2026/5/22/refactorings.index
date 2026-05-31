@@ -1,3 +1,7 @@
 1779788584236	Delete resource 'LED_P/drivers/inc'
 1779788589763	Delete resource 'LED_P/drivers/src'
 1779880962095	Delete resource 'TEMPERATURE SENSOR/drivers/src'
+1779969877749	Delete resource 'TEMPERATURE SENSOR/Src/main_button_toggle.c'
+1779969883328	Delete resource 'TEMPERATURE SENSOR/Src/main_software_pwm.c'
+1779971669569	Delete resource 'TEMPERATURE SENSOR/drivers/src/stm32f446xx_spi_driver.c'
+1779973592122	Delete resource 'TEMPERATURE SENSOR/drivers/inc/stm32f446xx_spi_driver.h'

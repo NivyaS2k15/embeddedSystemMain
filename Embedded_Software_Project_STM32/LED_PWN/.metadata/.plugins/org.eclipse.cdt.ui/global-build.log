@@ -1,0 +1,37 @@
+16:22:11 **** Build of configuration Debug for project led_pwn ****
+make -j16 all 
+arm-none-eabi-gcc "../drivers/src/i2c_lcd.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32 -DSTM32F4 -DSTM32F446RETx -DNUCLEO_F446RE -c -I../Inc -I"C:/embeddedSystem/Embedded_Software_Project_STM32/LED_PWN/led_pwn/drivers/inc" -I"C:/embeddedSystem/Embedded_Software_Project_STM32/LED_PWN/led_pwn/drivers/src" -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"drivers/src/i2c_lcd.d" -MT"drivers/src/i2c_lcd.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "drivers/src/i2c_lcd.o"
+arm-none-eabi-gcc "../drivers/src/stm32f446xx_gpio_driver.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32 -DSTM32F4 -DSTM32F446RETx -DNUCLEO_F446RE -c -I../Inc -I"C:/embeddedSystem/Embedded_Software_Project_STM32/LED_PWN/led_pwn/drivers/inc" -I"C:/embeddedSystem/Embedded_Software_Project_STM32/LED_PWN/led_pwn/drivers/src" -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"drivers/src/stm32f446xx_gpio_driver.d" -MT"drivers/src/stm32f446xx_gpio_driver.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "drivers/src/stm32f446xx_gpio_driver.o"
+arm-none-eabi-gcc "../drivers/src/stm32f446xx_i2c_driver.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32 -DSTM32F4 -DSTM32F446RETx -DNUCLEO_F446RE -c -I../Inc -I"C:/embeddedSystem/Embedded_Software_Project_STM32/LED_PWN/led_pwn/drivers/inc" -I"C:/embeddedSystem/Embedded_Software_Project_STM32/LED_PWN/led_pwn/drivers/src" -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"drivers/src/stm32f446xx_i2c_driver.d" -MT"drivers/src/stm32f446xx_i2c_driver.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "drivers/src/stm32f446xx_i2c_driver.o"
+arm-none-eabi-gcc "../drivers/src/stm32f446xx_rcc_driver.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32 -DSTM32F4 -DSTM32F446RETx -DNUCLEO_F446RE -c -I../Inc -I"C:/embeddedSystem/Embedded_Software_Project_STM32/LED_PWN/led_pwn/drivers/inc" -I"C:/embeddedSystem/Embedded_Software_Project_STM32/LED_PWN/led_pwn/drivers/src" -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"drivers/src/stm32f446xx_rcc_driver.d" -MT"drivers/src/stm32f446xx_rcc_driver.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "drivers/src/stm32f446xx_rcc_driver.o"
+arm-none-eabi-gcc "../drivers/src/stm32f446xx_spi_driver.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32 -DSTM32F4 -DSTM32F446RETx -DNUCLEO_F446RE -c -I../Inc -I"C:/embeddedSystem/Embedded_Software_Project_STM32/LED_PWN/led_pwn/drivers/inc" -I"C:/embeddedSystem/Embedded_Software_Project_STM32/LED_PWN/led_pwn/drivers/src" -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"drivers/src/stm32f446xx_spi_driver.d" -MT"drivers/src/stm32f446xx_spi_driver.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "drivers/src/stm32f446xx_spi_driver.o"
+arm-none-eabi-gcc "../drivers/src/stm32f446xx_usart_driver.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32 -DSTM32F4 -DSTM32F446RETx -DNUCLEO_F446RE -c -I../Inc -I"C:/embeddedSystem/Embedded_Software_Project_STM32/LED_PWN/led_pwn/drivers/inc" -I"C:/embeddedSystem/Embedded_Software_Project_STM32/LED_PWN/led_pwn/drivers/src" -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"drivers/src/stm32f446xx_usart_driver.d" -MT"drivers/src/stm32f446xx_usart_driver.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "drivers/src/stm32f446xx_usart_driver.o"
+arm-none-eabi-gcc -mcpu=cortex-m4 -g3 -DDEBUG -c -x assembler-with-cpp -MMD -MP -MF"Startup/startup_stm32f446retx.d" -MT"Startup/startup_stm32f446retx.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Startup/startup_stm32f446retx.o" "../Startup/startup_stm32f446retx.s"
+arm-none-eabi-gcc "../Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32 -DSTM32F4 -DSTM32F446RETx -DNUCLEO_F446RE -c -I../Inc -I"C:/embeddedSystem/Embedded_Software_Project_STM32/LED_PWN/led_pwn/drivers/inc" -I"C:/embeddedSystem/Embedded_Software_Project_STM32/LED_PWN/led_pwn/drivers/src" -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Src/main.d" -MT"Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Src/main.o"
+arm-none-eabi-gcc "../Src/syscalls.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32 -DSTM32F4 -DSTM32F446RETx -DNUCLEO_F446RE -c -I../Inc -I"C:/embeddedSystem/Embedded_Software_Project_STM32/LED_PWN/led_pwn/drivers/inc" -I"C:/embeddedSystem/Embedded_Software_Project_STM32/LED_PWN/led_pwn/drivers/src" -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Src/syscalls.d" -MT"Src/syscalls.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Src/syscalls.o"
+arm-none-eabi-gcc "../Src/sysmem.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32 -DSTM32F4 -DSTM32F446RETx -DNUCLEO_F446RE -c -I../Inc -I"C:/embeddedSystem/Embedded_Software_Project_STM32/LED_PWN/led_pwn/drivers/inc" -I"C:/embeddedSystem/Embedded_Software_Project_STM32/LED_PWN/led_pwn/drivers/src" -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Src/sysmem.d" -MT"Src/sysmem.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Src/sysmem.o"
+arm-none-eabi-gcc -o "led_pwn.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\embeddedSystem\Embedded_Software_Project_STM32\LED_PWN\led_pwn\STM32F446RETX_FLASH.ld" --specs=nosys.specs -Wl,-Map="led_pwn.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: led_pwn.elf
+ 
+arm-none-eabi-size  led_pwn.elf 
+arm-none-eabi-objdump -h -S led_pwn.elf  > "led_pwn.list"
+   text	   data	    bss	    dec	    hex	filename
+   2232	      0	   1568	   3800	    ed8	led_pwn.elf
+Finished building: default.size.stdout
+ 
+Finished building: led_pwn.list
+ 
+16:24:41 **** Incremental Build of configuration Debug for project led_pwn ****
+make -j16 all 
+arm-none-eabi-gcc "../drivers/src/stm32f446xx_gpio_driver.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32 -DSTM32F4 -DSTM32F446RETx -DNUCLEO_F446RE -c -I../Inc -I"C:/embeddedSystem/Embedded_Software_Project_STM32/LED_PWN/led_pwn/drivers/inc" -I"C:/embeddedSystem/Embedded_Software_Project_STM32/LED_PWN/led_pwn/drivers/src" -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"drivers/src/stm32f446xx_gpio_driver.d" -MT"drivers/src/stm32f446xx_gpio_driver.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "drivers/src/stm32f446xx_gpio_driver.o"
+arm-none-eabi-gcc -o "led_pwn.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\embeddedSystem\Embedded_Software_Project_STM32\LED_PWN\led_pwn\STM32F446RETX_FLASH.ld" --specs=nosys.specs -Wl,-Map="led_pwn.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: led_pwn.elf
+ 
+arm-none-eabi-size  led_pwn.elf 
+arm-none-eabi-objdump -h -S led_pwn.elf  > "led_pwn.list"
+   text	   data	    bss	    dec	    hex	filename
+   2232	      0	   1568	   3800	    ed8	led_pwn.elf
+Finished building: default.size.stdout
+ 
+Finished building: led_pwn.list
+ 

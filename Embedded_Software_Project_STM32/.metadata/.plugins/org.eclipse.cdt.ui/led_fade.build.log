@@ -1,0 +1,10 @@
+15:09:23 **** Incremental Build of configuration Debug for project led_fade ****
+make -j16 all 
+arm-none-eabi-size  led_fade.elf 
+   text	   data	    bss	    dec	    hex	filename
+   2232	      0	   1568	   3800	    ed8	led_fade.elf
+Finished building: default.size.stdout
+ 
+
+15:09:24 Build Finished. 0 errors, 0 warnings. (took 291ms)
+
