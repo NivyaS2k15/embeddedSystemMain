@@ -1,0 +1,6 @@
+../drivers/src/stm32f446xx_usart_driver.c:4:6:USART_SetBaudRate	40	static
+../drivers/src/stm32f446xx_usart_driver.c:36:6:USART_Init	24	static
+../drivers/src/stm32f446xx_usart_driver.c:115:6:USART_PeripheralControl	16	static
+../drivers/src/stm32f446xx_usart_driver.c:121:6:USART_PeriClockControl	16	static
+../drivers/src/stm32f446xx_usart_driver.c:128:9:USART_GetFlagStatus	16	static
+../drivers/src/stm32f446xx_usart_driver.c:133:6:USART_SendData	32	static

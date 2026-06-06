@@ -1,0 +1,80 @@
+17:33:31 **** Build of configuration Debug for project temp_Sen ****
+make -j16 all 
+arm-none-eabi-gcc "../drivers/src/i2c_lcd.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32 -DSTM32F4 -DSTM32F446RETx -DNUCLEO_F446RE -c -I../Inc -I"C:/embeddedSystem/Embedded_Software_Project_STM32/TEMPERATURESENSOR/temp_Sen/drivers/inc" -I"C:/embeddedSystem/Embedded_Software_Project_STM32/TEMPERATURESENSOR/temp_Sen/drivers/src" -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"drivers/src/i2c_lcd.d" -MT"drivers/src/i2c_lcd.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "drivers/src/i2c_lcd.o"
+arm-none-eabi-gcc "../drivers/src/stm32f446xx_gpio_driver.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32 -DSTM32F4 -DSTM32F446RETx -DNUCLEO_F446RE -c -I../Inc -I"C:/embeddedSystem/Embedded_Software_Project_STM32/TEMPERATURESENSOR/temp_Sen/drivers/inc" -I"C:/embeddedSystem/Embedded_Software_Project_STM32/TEMPERATURESENSOR/temp_Sen/drivers/src" -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"drivers/src/stm32f446xx_gpio_driver.d" -MT"drivers/src/stm32f446xx_gpio_driver.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "drivers/src/stm32f446xx_gpio_driver.o"
+arm-none-eabi-gcc "../drivers/src/stm32f446xx_i2c_driver.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32 -DSTM32F4 -DSTM32F446RETx -DNUCLEO_F446RE -c -I../Inc -I"C:/embeddedSystem/Embedded_Software_Project_STM32/TEMPERATURESENSOR/temp_Sen/drivers/inc" -I"C:/embeddedSystem/Embedded_Software_Project_STM32/TEMPERATURESENSOR/temp_Sen/drivers/src" -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"drivers/src/stm32f446xx_i2c_driver.d" -MT"drivers/src/stm32f446xx_i2c_driver.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "drivers/src/stm32f446xx_i2c_driver.o"
+arm-none-eabi-gcc "../drivers/src/stm32f446xx_rcc_driver.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32 -DSTM32F4 -DSTM32F446RETx -DNUCLEO_F446RE -c -I../Inc -I"C:/embeddedSystem/Embedded_Software_Project_STM32/TEMPERATURESENSOR/temp_Sen/drivers/inc" -I"C:/embeddedSystem/Embedded_Software_Project_STM32/TEMPERATURESENSOR/temp_Sen/drivers/src" -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"drivers/src/stm32f446xx_rcc_driver.d" -MT"drivers/src/stm32f446xx_rcc_driver.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "drivers/src/stm32f446xx_rcc_driver.o"
+arm-none-eabi-gcc "../drivers/src/stm32f446xx_usart_driver.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32 -DSTM32F4 -DSTM32F446RETx -DNUCLEO_F446RE -c -I../Inc -I"C:/embeddedSystem/Embedded_Software_Project_STM32/TEMPERATURESENSOR/temp_Sen/drivers/inc" -I"C:/embeddedSystem/Embedded_Software_Project_STM32/TEMPERATURESENSOR/temp_Sen/drivers/src" -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"drivers/src/stm32f446xx_usart_driver.d" -MT"drivers/src/stm32f446xx_usart_driver.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "drivers/src/stm32f446xx_usart_driver.o"
+arm-none-eabi-gcc -mcpu=cortex-m4 -g3 -DDEBUG -c -x assembler-with-cpp -MMD -MP -MF"Startup/startup_stm32f446retx.d" -MT"Startup/startup_stm32f446retx.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Startup/startup_stm32f446retx.o" "../Startup/startup_stm32f446retx.s"
+arm-none-eabi-gcc "../Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32 -DSTM32F4 -DSTM32F446RETx -DNUCLEO_F446RE -c -I../Inc -I"C:/embeddedSystem/Embedded_Software_Project_STM32/TEMPERATURESENSOR/temp_Sen/drivers/inc" -I"C:/embeddedSystem/Embedded_Software_Project_STM32/TEMPERATURESENSOR/temp_Sen/drivers/src" -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Src/main.d" -MT"Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Src/main.o"
+arm-none-eabi-gcc "../Src/syscalls.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32 -DSTM32F4 -DSTM32F446RETx -DNUCLEO_F446RE -c -I../Inc -I"C:/embeddedSystem/Embedded_Software_Project_STM32/TEMPERATURESENSOR/temp_Sen/drivers/inc" -I"C:/embeddedSystem/Embedded_Software_Project_STM32/TEMPERATURESENSOR/temp_Sen/drivers/src" -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Src/syscalls.d" -MT"Src/syscalls.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Src/syscalls.o"
+arm-none-eabi-gcc "../Src/sysmem.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32 -DSTM32F4 -DSTM32F446RETx -DNUCLEO_F446RE -c -I../Inc -I"C:/embeddedSystem/Embedded_Software_Project_STM32/TEMPERATURESENSOR/temp_Sen/drivers/inc" -I"C:/embeddedSystem/Embedded_Software_Project_STM32/TEMPERATURESENSOR/temp_Sen/drivers/src" -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Src/sysmem.d" -MT"Src/sysmem.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Src/sysmem.o"
+In file included from C:/embeddedSystem/Embedded_Software_Project_STM32/TEMPERATURESENSOR/temp_Sen/drivers/inc/stm32f446xx_rcc_driver.h:4,
+                 from ../drivers/src/stm32f446xx_rcc_driver.c:6:
+C:/embeddedSystem/Embedded_Software_Project_STM32/TEMPERATURESENSOR/temp_Sen/drivers/inc/stm32f446xx.h:431: warning: "ADC1" redefined
+  431 | #define ADC1 ((Local_ADC_RegDef_t*)0x40012000U)
+      | 
+C:/embeddedSystem/Embedded_Software_Project_STM32/TEMPERATURESENSOR/temp_Sen/drivers/inc/stm32f446xx.h:395: note: this is the location of the previous definition
+  395 | #define ADC1               ((ADC_RegDef_t*)ADC1_BASEADDR)
+      | 
+In file included from C:/embeddedSystem/Embedded_Software_Project_STM32/TEMPERATURESENSOR/temp_Sen/drivers/inc/stm32f446xx_usart_driver.h:4,
+                 from ../drivers/src/stm32f446xx_usart_driver.c:1:
+C:/embeddedSystem/Embedded_Software_Project_STM32/TEMPERATURESENSOR/temp_Sen/drivers/inc/stm32f446xx.h:431: warning: "ADC1" redefined
+  431 | #define ADC1 ((Local_ADC_RegDef_t*)0x40012000U)
+      | 
+C:/embeddedSystem/Embedded_Software_Project_STM32/TEMPERATURESENSOR/temp_Sen/drivers/inc/stm32f446xx.h:395: note: this is the location of the previous definition
+  395 | #define ADC1               ((ADC_RegDef_t*)ADC1_BASEADDR)
+      | 
+In file included from C:/embeddedSystem/Embedded_Software_Project_STM32/TEMPERATURESENSOR/temp_Sen/drivers/inc/stm32f446xx_gpio_driver.h:17,
+                 from ../drivers/src/stm32f446xx_gpio_driver.c:15:
+C:/embeddedSystem/Embedded_Software_Project_STM32/TEMPERATURESENSOR/temp_Sen/drivers/inc/stm32f446xx.h:431: warning: "ADC1" redefined
+  431 | #define ADC1 ((Local_ADC_RegDef_t*)0x40012000U)
+      | 
+C:/embeddedSystem/Embedded_Software_Project_STM32/TEMPERATURESENSOR/temp_Sen/drivers/inc/stm32f446xx.h:395: note: this is the location of the previous definition
+  395 | #define ADC1               ((ADC_RegDef_t*)ADC1_BASEADDR)
+      | 
+In file included from C:/embeddedSystem/Embedded_Software_Project_STM32/TEMPERATURESENSOR/temp_Sen/drivers/inc/stm32f446xx_i2c_driver.h:4,
+                 from ../drivers/src/stm32f446xx_i2c_driver.c:1:
+C:/embeddedSystem/Embedded_Software_Project_STM32/TEMPERATURESENSOR/temp_Sen/drivers/inc/stm32f446xx.h:431: warning: "ADC1" redefined
+  431 | #define ADC1 ((Local_ADC_RegDef_t*)0x40012000U)
+      | 
+C:/embeddedSystem/Embedded_Software_Project_STM32/TEMPERATURESENSOR/temp_Sen/drivers/inc/stm32f446xx.h:395: note: this is the location of the previous definition
+  395 | #define ADC1               ((ADC_RegDef_t*)ADC1_BASEADDR)
+      | 
+In file included from C:/embeddedSystem/Embedded_Software_Project_STM32/TEMPERATURESENSOR/temp_Sen/drivers/inc/stm32f446xx_i2c_driver.h:4,
+                 from C:/embeddedSystem/Embedded_Software_Project_STM32/TEMPERATURESENSOR/temp_Sen/drivers/inc/i2c_lcd.h:9,
+                 from ../drivers/src/i2c_lcd.c:7:
+C:/embeddedSystem/Embedded_Software_Project_STM32/TEMPERATURESENSOR/temp_Sen/drivers/inc/stm32f446xx.h:431: warning: "ADC1" redefined
+  431 | #define ADC1 ((Local_ADC_RegDef_t*)0x40012000U)
+      | 
+C:/embeddedSystem/Embedded_Software_Project_STM32/TEMPERATURESENSOR/temp_Sen/drivers/inc/stm32f446xx.h:395: note: this is the location of the previous definition
+  395 | #define ADC1               ((ADC_RegDef_t*)ADC1_BASEADDR)
+      | 
+In file included from ../Src/main.c:9:
+C:/embeddedSystem/Embedded_Software_Project_STM32/TEMPERATURESENSOR/temp_Sen/drivers/inc/stm32f446xx.h:431: warning: "ADC1" redefined
+  431 | #define ADC1 ((Local_ADC_RegDef_t*)0x40012000U)
+      | 
+C:/embeddedSystem/Embedded_Software_Project_STM32/TEMPERATURESENSOR/temp_Sen/drivers/inc/stm32f446xx.h:395: note: this is the location of the previous definition
+  395 | #define ADC1               ((ADC_RegDef_t*)ADC1_BASEADDR)
+      | 
+../Src/main.c: In function 'main':
+../Src/main.c:160:45: warning: ' C   ' directive writing 5 bytes into a region of size between 0 and 6 [-Wformat-overflow=]
+  160 |         sprintf(lcd_buffer, "Temp: %ld.%02ld C   ", integer_part, fractional_part);
+      |                                             ^~~~~
+../Src/main.c:160:9: note: 'sprintf' output between 16 and 28 bytes into a destination of size 16
+  160 |         sprintf(lcd_buffer, "Temp: %ld.%02ld C   ", integer_part, fractional_part);
+      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+arm-none-eabi-gcc -o "temp_Sen.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\embeddedSystem\Embedded_Software_Project_STM32\TEMPERATURESENSOR\temp_Sen\STM32F446RETX_FLASH.ld" --specs=nosys.specs -Wl,-Map="temp_Sen.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: temp_Sen.elf
+ 
+arm-none-eabi-size  temp_Sen.elf 
+arm-none-eabi-objdump -h -S temp_Sen.elf  > "temp_Sen.list"
+   text	   data	    bss	    dec	    hex	filename
+   9684	    100	   1924	  11708	   2dbc	temp_Sen.elf
+Finished building: default.size.stdout
+ 
+Finished building: temp_Sen.list
+ 
+
+17:33:32 Build Finished. 0 errors, 7 warnings. (took 1s.681ms)
+

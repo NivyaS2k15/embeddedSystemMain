@@ -1,6 +1,6 @@
 /*
  * main.c
- * Target: LM35 Analog Temperature Sensor Engine
+ * Target: Analog Temperature Sensor Engine
  * Peripherals: ADC1 (PA1) + I2C1 LCD (PB8/PB9) + USART2 (PA2/PA3)
  */
 
@@ -149,11 +149,11 @@ int main(void)
     I2C_PeripheralControl(I2C1, ENABLE);
     I2C_ManageAcking(I2C1, I2C_ACK_ENABLE);
 
-    // Display Setup
+    // Display Setup - Removed "LM35" text prefix here
     LCD_Init(&i2c1_handle);
     LCD_Clear(&i2c1_handle);
     LCD_SetCursor(&i2c1_handle, 0, 0);
-    LCD_SendString(&i2c1_handle, "LM35 TEMP MONITOR");
+    LCD_SendString(&i2c1_handle, "TEMP MONITOR");
 
     // Analog Infrastructure Setup
     ADC1_CH1_GPIOInit();
@@ -165,16 +165,13 @@ int main(void)
         uint32_t raw_adc = ADC1_Read();
 
         // 2. Math Processing
-        // Voltage (mV) = (raw_adc * 3300) / 4095
-        // Temp (°C) = Voltage (mV) / 10 -> Temp = (raw_adc * 3300) / 40950
-        // Scaled up by 100 to extract a decimal part without using slow floating-point 'float' math.
         uint32_t temp_scaled = (raw_adc * 330000) / 40950;
 
         uint32_t integer_part = temp_scaled / 100;
         uint32_t fractional_part = temp_scaled % 100;
 
-        /* --- 3. Transmit Raw Driver Call over USART2 --- */
-        sprintf(log_buffer, "[LM35 UPDATE]: Temp = %ld.%02ld C\r\n", integer_part, fractional_part);
+        /* --- 3. Transmit Raw Driver Call over USART2 - Removed "LM35" tag --- */
+        sprintf(log_buffer, "[UPDATE]: Temp = %ld.%02ld C\r\n", integer_part, fractional_part);
         USART_SendData(&usart2_handle, (uint8_t*)log_buffer, strlen(log_buffer));
 
         /* --- 4. Update the LCD Screen Layout --- */

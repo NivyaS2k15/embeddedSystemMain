@@ -1,35 +1,105 @@
-18:37:02 **** Incremental Build of configuration Debug for project TEMPERATURE SENSOR ****
+15:17:21 **** Build of configuration Debug for project TEMPERATURE SENSOR ****
 make -j16 all 
+arm-none-eabi-gcc "../drivers/src/i2c_lcd.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32 -DSTM32F4 -DSTM32F446RETx -DNUCLEO_F446RE -c -I"C:/embeddedSystem/stm32Barematel/PROECT_NEW/TEMPERATURE SENSOR/drivers/inc" -I"C:/embeddedSystem/stm32Barematel/PROECT_NEW/TEMPERATURE SENSOR/drivers/src" -I../Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"drivers/src/i2c_lcd.d" -MT"drivers/src/i2c_lcd.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "drivers/src/i2c_lcd.o"
+arm-none-eabi-gcc "../drivers/src/stm32f446xx_gpio_driver.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32 -DSTM32F4 -DSTM32F446RETx -DNUCLEO_F446RE -c -I"C:/embeddedSystem/stm32Barematel/PROECT_NEW/TEMPERATURE SENSOR/drivers/inc" -I"C:/embeddedSystem/stm32Barematel/PROECT_NEW/TEMPERATURE SENSOR/drivers/src" -I../Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"drivers/src/stm32f446xx_gpio_driver.d" -MT"drivers/src/stm32f446xx_gpio_driver.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "drivers/src/stm32f446xx_gpio_driver.o"
+arm-none-eabi-gcc "../drivers/src/stm32f446xx_i2c_driver.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32 -DSTM32F4 -DSTM32F446RETx -DNUCLEO_F446RE -c -I"C:/embeddedSystem/stm32Barematel/PROECT_NEW/TEMPERATURE SENSOR/drivers/inc" -I"C:/embeddedSystem/stm32Barematel/PROECT_NEW/TEMPERATURE SENSOR/drivers/src" -I../Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"drivers/src/stm32f446xx_i2c_driver.d" -MT"drivers/src/stm32f446xx_i2c_driver.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "drivers/src/stm32f446xx_i2c_driver.o"
+arm-none-eabi-gcc "../drivers/src/stm32f446xx_rcc_driver.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32 -DSTM32F4 -DSTM32F446RETx -DNUCLEO_F446RE -c -I"C:/embeddedSystem/stm32Barematel/PROECT_NEW/TEMPERATURE SENSOR/drivers/inc" -I"C:/embeddedSystem/stm32Barematel/PROECT_NEW/TEMPERATURE SENSOR/drivers/src" -I../Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"drivers/src/stm32f446xx_rcc_driver.d" -MT"drivers/src/stm32f446xx_rcc_driver.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "drivers/src/stm32f446xx_rcc_driver.o"
+arm-none-eabi-gcc "../drivers/src/stm32f446xx_usart_driver.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32 -DSTM32F4 -DSTM32F446RETx -DNUCLEO_F446RE -c -I"C:/embeddedSystem/stm32Barematel/PROECT_NEW/TEMPERATURE SENSOR/drivers/inc" -I"C:/embeddedSystem/stm32Barematel/PROECT_NEW/TEMPERATURE SENSOR/drivers/src" -I../Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"drivers/src/stm32f446xx_usart_driver.d" -MT"drivers/src/stm32f446xx_usart_driver.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "drivers/src/stm32f446xx_usart_driver.o"
+arm-none-eabi-gcc -mcpu=cortex-m4 -g3 -DDEBUG -c -x assembler-with-cpp -MMD -MP -MF"Startup/startup_stm32f446retx.d" -MT"Startup/startup_stm32f446retx.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Startup/startup_stm32f446retx.o" "../Startup/startup_stm32f446retx.s"
+arm-none-eabi-gcc "../Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32 -DSTM32F4 -DSTM32F446RETx -DNUCLEO_F446RE -c -I"C:/embeddedSystem/stm32Barematel/PROECT_NEW/TEMPERATURE SENSOR/drivers/inc" -I"C:/embeddedSystem/stm32Barematel/PROECT_NEW/TEMPERATURE SENSOR/drivers/src" -I../Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Src/main.d" -MT"Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Src/main.o"
+arm-none-eabi-gcc "../Src/syscalls.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32 -DSTM32F4 -DSTM32F446RETx -DNUCLEO_F446RE -c -I"C:/embeddedSystem/stm32Barematel/PROECT_NEW/TEMPERATURE SENSOR/drivers/inc" -I"C:/embeddedSystem/stm32Barematel/PROECT_NEW/TEMPERATURE SENSOR/drivers/src" -I../Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Src/syscalls.d" -MT"Src/syscalls.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Src/syscalls.o"
+arm-none-eabi-gcc "../Src/sysmem.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32 -DSTM32F4 -DSTM32F446RETx -DNUCLEO_F446RE -c -I"C:/embeddedSystem/stm32Barematel/PROECT_NEW/TEMPERATURE SENSOR/drivers/inc" -I"C:/embeddedSystem/stm32Barematel/PROECT_NEW/TEMPERATURE SENSOR/drivers/src" -I../Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Src/sysmem.d" -MT"Src/sysmem.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Src/sysmem.o"
+In file included from C:/embeddedSystem/stm32Barematel/PROECT_NEW/TEMPERATURE SENSOR/drivers/inc/stm32f446xx_usart_driver.h:4,
+                 from ../drivers/src/stm32f446xx_usart_driver.c:1:
+C:/embeddedSystem/stm32Barematel/PROECT_NEW/TEMPERATURE SENSOR/drivers/inc/stm32f446xx.h:430: warning: "ADC1" redefined
+  430 | #define ADC1 ((Local_ADC_RegDef_t*)0x40012000U)
+      | 
+C:/embeddedSystem/stm32Barematel/PROECT_NEW/TEMPERATURE SENSOR/drivers/inc/stm32f446xx.h:395: note: this is the location of the previous definition
+  395 | #define ADC1               ((ADC_RegDef_t*)ADC1_BASEADDR)
+      | 
+In file included from C:/embeddedSystem/stm32Barematel/PROECT_NEW/TEMPERATURE SENSOR/drivers/inc/stm32f446xx_i2c_driver.h:4,
+                 from ../drivers/src/stm32f446xx_i2c_driver.c:1:
+C:/embeddedSystem/stm32Barematel/PROECT_NEW/TEMPERATURE SENSOR/drivers/inc/stm32f446xx.h:430: warning: "ADC1" redefined
+  430 | #define ADC1 ((Local_ADC_RegDef_t*)0x40012000U)
+      | 
+In file included from C:/embeddedSystem/stm32Barematel/PROECT_NEW/TEMPERATURE SENSOR/drivers/inc/stm32f446xx_gpio_driver.h:17,
+                 from ../drivers/src/stm32f446xx_gpio_driver.c:15:
+C:/embeddedSystem/stm32Barematel/PROECT_NEW/TEMPERATURE SENSOR/drivers/inc/stm32f446xx.h:430: warning: "ADC1" redefined
+  430 | #define ADC1 ((Local_ADC_RegDef_t*)0x40012000U)
+      | 
+C:/embeddedSystem/stm32Barematel/PROECT_NEW/TEMPERATURE SENSOR/drivers/inc/stm32f446xx.h:395: note: this is the location of the previous definition
+  395 | #define ADC1               ((ADC_RegDef_t*)ADC1_BASEADDR)
+      | 
+In file included from C:/embeddedSystem/stm32Barematel/PROECT_NEW/TEMPERATURE SENSOR/drivers/inc/stm32f446xx_i2c_driver.h:4,
+                 from C:/embeddedSystem/stm32Barematel/PROECT_NEW/TEMPERATURE SENSOR/drivers/inc/i2c_lcd.h:9,
+                 from ../drivers/src/i2c_lcd.c:7:
+C:/embeddedSystem/stm32Barematel/PROECT_NEW/TEMPERATURE SENSOR/drivers/inc/stm32f446xx.h:430: warning: "ADC1" redefined
+  430 | #define ADC1 ((Local_ADC_RegDef_t*)0x40012000U)
+      | 
+In file included from C:/embeddedSystem/stm32Barematel/PROECT_NEW/TEMPERATURE SENSOR/drivers/inc/stm32f446xx_rcc_driver.h:4,
+                 from ../drivers/src/stm32f446xx_rcc_driver.c:6:
+C:/embeddedSystem/stm32Barematel/PROECT_NEW/TEMPERATURE SENSOR/drivers/inc/stm32f446xx.h:430: warning: "ADC1" redefined
+  430 | #define ADC1 ((Local_ADC_RegDef_t*)0x40012000U)
+      | 
+C:/embeddedSystem/stm32Barematel/PROECT_NEW/TEMPERATURE SENSOR/drivers/inc/stm32f446xx.h:395: note: this is the location of the previous definition
+  395 | #define ADC1               ((ADC_RegDef_t*)ADC1_BASEADDR)
+      | 
+C:/embeddedSystem/stm32Barematel/PROECT_NEW/TEMPERATURE SENSOR/drivers/inc/stm32f446xx.h:395: note: this is the location of the previous definition
+  395 | #define ADC1               ((ADC_RegDef_t*)ADC1_BASEADDR)
+      | 
+C:/embeddedSystem/stm32Barematel/PROECT_NEW/TEMPERATURE SENSOR/drivers/inc/stm32f446xx.h:395: note: this is the location of the previous definition
+  395 | #define ADC1               ((ADC_RegDef_t*)ADC1_BASEADDR)
+      | 
+In file included from ../Src/main.c:9:
+C:/embeddedSystem/stm32Barematel/PROECT_NEW/TEMPERATURE SENSOR/drivers/inc/stm32f446xx.h:430: warning: "ADC1" redefined
+  430 | #define ADC1 ((Local_ADC_RegDef_t*)0x40012000U)
+      | 
+C:/embeddedSystem/stm32Barematel/PROECT_NEW/TEMPERATURE SENSOR/drivers/inc/stm32f446xx.h:395: note: this is the location of the previous definition
+  395 | #define ADC1               ((ADC_RegDef_t*)ADC1_BASEADDR)
+      | 
+../Src/main.c: In function 'main':
+../Src/main.c:178:45: warning: ' C   ' directive writing 5 bytes into a region of size between 3 and 6 [-Wformat-overflow=]
+  178 |         sprintf(lcd_buffer, "Temp: %ld.%02ld C   ", integer_part, fractional_part);
+      |                                             ^~~~~
+../Src/main.c:178:9: note: 'sprintf' output between 16 and 19 bytes into a destination of size 16
+  178 |         sprintf(lcd_buffer, "Temp: %ld.%02ld C   ", integer_part, fractional_part);
+      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+arm-none-eabi-gcc -o "TEMPERATURE SENSOR.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\embeddedSystem\stm32Barematel\PROECT_NEW\TEMPERATURE SENSOR\STM32F446RETX_FLASH.ld" --specs=nosys.specs -Wl,-Map="TEMPERATURE SENSOR.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: TEMPERATURE SENSOR.elf
+ 
 arm-none-eabi-size  TEMPERATURE\ SENSOR.elf 
+arm-none-eabi-objdump -h -S TEMPERATURE\ SENSOR.elf  > "TEMPERATURE SENSOR.list"
    text	   data	    bss	    dec	    hex	filename
-   7712	    100	   1924	   9736	   2608	TEMPERATURE SENSOR.elf
+   7704	    100	   1924	   9728	   2600	TEMPERATURE SENSOR.elf
 Finished building: default.size.stdout
  
-18:37:10 **** Incremental Build of configuration Debug for project TEMPERATURE SENSOR ****
+Finished building: TEMPERATURE SENSOR.list
+ 
+15:17:45 **** Incremental Build of configuration Debug for project TEMPERATURE SENSOR ****
 make -j16 all 
 arm-none-eabi-size  TEMPERATURE\ SENSOR.elf 
    text	   data	    bss	    dec	    hex	filename
-   7712	    100	   1924	   9736	   2608	TEMPERATURE SENSOR.elf
+   7704	    100	   1924	   9728	   2600	TEMPERATURE SENSOR.elf
 Finished building: default.size.stdout
  
-18:40:23 **** Incremental Build of configuration Debug for project TEMPERATURE SENSOR ****
+15:20:13 **** Incremental Build of configuration Debug for project TEMPERATURE SENSOR ****
 make -j16 all 
 arm-none-eabi-size  TEMPERATURE\ SENSOR.elf 
    text	   data	    bss	    dec	    hex	filename
-   7712	    100	   1924	   9736	   2608	TEMPERATURE SENSOR.elf
+   7704	    100	   1924	   9728	   2600	TEMPERATURE SENSOR.elf
 Finished building: default.size.stdout
  
-18:41:10 **** Incremental Build of configuration Debug for project TEMPERATURE SENSOR ****
+15:21:40 **** Incremental Build of configuration Debug for project TEMPERATURE SENSOR ****
 make -j16 all 
 arm-none-eabi-size  TEMPERATURE\ SENSOR.elf 
    text	   data	    bss	    dec	    hex	filename
-   7712	    100	   1924	   9736	   2608	TEMPERATURE SENSOR.elf
+   7704	    100	   1924	   9728	   2600	TEMPERATURE SENSOR.elf
 Finished building: default.size.stdout
  
-18:41:56 **** Incremental Build of configuration Debug for project TEMPERATURE SENSOR ****
+15:22:59 **** Incremental Build of configuration Debug for project TEMPERATURE SENSOR ****
 make -j16 all 
 arm-none-eabi-size  TEMPERATURE\ SENSOR.elf 
    text	   data	    bss	    dec	    hex	filename
-   7712	    100	   1924	   9736	   2608	TEMPERATURE SENSOR.elf
+   7704	    100	   1924	   9728	   2600	TEMPERATURE SENSOR.elf
 Finished building: default.size.stdout
  

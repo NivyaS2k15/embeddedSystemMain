@@ -1,0 +1,7 @@
+../Src/main.c:27:6:delay_ms	24	static
+../Src/main.c:32:6:USART2_GPIOInit	24	static
+../Src/main.c:48:6:USART2_Init	8	static
+../Src/main.c:60:6:I2C1_GPIOInit	24	static
+../Src/main.c:76:6:I2C1_Init	8	static
+../Src/main.c:95:6:LM75_ReadTempRaw	32	static
+../Src/main.c:113:5:main	104	static
