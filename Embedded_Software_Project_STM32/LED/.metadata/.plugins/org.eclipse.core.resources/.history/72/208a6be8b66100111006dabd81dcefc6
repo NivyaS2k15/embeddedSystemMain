@@ -1,0 +1,86 @@
+/*
+ * main.c
+ * Target: SPI String Transmission (STM32 Master -> Arduino Uno Slave)
+ */
+
+#include <stdio.h>
+#include <string.h>
+#include "stm32f446xx.h"
+#include "stm32f446xx_gpio_driver.h"
+#include "stm32f446xx_spi_driver.h" // Ensure your SPI driver header is included
+
+void delay_ms(uint32_t ms)
+{
+    for(uint32_t i = 0; i < (ms * 1000); i++);
+}
+
+void SPI1_Init(void)
+{
+    SPI_Handle_t spi1_handle = {0};
+    spi1_handle.pSPIx = SPI1;
+    spi1_handle.SPI_Config.SPI_DeviceMode = SPI_DEVICE_MODE_MASTER;
+    spi1_handle.SPI_Config.SPI_BusConfig  = SPI_BUS_CONFIG_FULL_DUPLEX;
+    spi1_handle.SPI_Config.SPI_DFF        = SPI_DFF_8BITS;
+    spi1_handle.SPI_Config.SPI_CPOL       = SPI_CPOL_LOW;  // Mode 0 (CPOL=0)
+    spi1_handle.SPI_Config.SPI_CPHA       = SPI_CPHA_LOW;  // Mode 0 (CPHA=0)
+    spi1_handle.SPI_Config.SPI_SSM        = SPI_SSM_EN;    // Software Slave Management
+    spi1_handle.SPI_Config.SPI_SclkSpeed  = SPI_SCLK_SPEED_DIV32; // Safe timing speed
+
+    SPI_Init(&spi1_handle);
+}
+
+// Setup PA4 as a standard output pin for software Slave Select control
+void SPI1_SS_GPIOInit(void)
+{
+    GPIO_Handle_t ss_pin = {0};
+    ss_pin.pGPIOx = GPIOA;
+    ss_pin.GPIO_PinConfig.GPIO_PinNumber = 4;
+    ss_pin.GPIO_PinConfig.GPIO_PinMode = GPIO_MODE_OUT;
+    ss_pin.GPIO_PinConfig.GPIO_PinOPType = GPIO_OP_TYPE_PP;
+    ss_pin.GPIO_PinConfig.GPIO_PinPuPdControl = GPIO_NO_PUPD;
+    ss_pin.GPIO_PinConfig.GPIO_PinSpeed = GPIO_SPEED_HIGH;
+    GPIO_Init(&ss_pin);
+
+    // Set default state to HIGH (unselected)
+    GPIO_WriteToOutputPin(GPIOA, 4, GPIO_PIN_SET);
+}
+
+int main(void)
+{
+    // [Keep your existing Initializations here: Clock, GPIO, USART2, SPI1]
+
+    char *message = "hai";
+    uint32_t message_len = strlen(message);
+    uint8_t rx_buffer[4] = {0}; // To store the incoming response ("bye\0")
+    char uart_log[64];
+
+    while(1)
+    {
+        // 1. Select Arduino (Pull SS Low)
+        GPIO_WriteToOutputPin(GPIOA, 4, GPIO_PIN_RESET);
+
+        // 2. Perform Full-Duplex Exchange byte-by-byte
+        for(uint32_t i = 0; i < message_len; i++)
+        {
+            rx_buffer[i] = SPI_SendReceiveByte(SPI1, (uint8_t)message[i]);
+        }
+        rx_buffer[message_len] = '\0'; // Null-terminate received string
+
+        // 3. Wait a brief moment to guarantee the shift registers finish shifting out
+        for(volatile uint32_t i = 0; i < 500; i++);
+
+        // 4. Deselect Arduino (Pull SS High)
+        GPIO_WriteToOutputPin(GPIOA, 4, GPIO_PIN_SET);
+
+        // 5. Forward the received message to the STM32 UART Terminal
+        sprintf(uart_log, "[SPI RX]: Message from Arduino -> %s\r\n", rx_buffer);
+        USART_SendData(&usart2_handle, (uint8_t*)uart_log, strlen(uart_log));
+
+        // Loop delay
+        delay_ms(2000);
+    }
+
+    return 0;
+}
+    return 0;
+}

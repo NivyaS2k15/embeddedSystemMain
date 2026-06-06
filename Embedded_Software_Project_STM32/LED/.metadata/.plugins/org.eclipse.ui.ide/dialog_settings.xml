@@ -9,6 +9,9 @@
 		<item key="SmartImportRootWizardPage.STORE_NESTED_PROJECTS" value="true"/>
 		<item key="SmartImportRootWizardPage.STORE_CONFIGURE_NATURES" value="true"/>
 		<list key="org.eclipse.ui.internal.wizards.datatransfer.SmartImportRootWizardPage.knownSources">
+			<item value="C:\embeddedSystem\Embedded_Software_Project_STM32\TEMPERATURESENSOR\temp_Sen"/>
+			<item value="C:\embeddedSystem\Embedded_Software_Project_STM32\UART_PRO"/>
+			<item value="C:\embeddedSystem\Embedded_Software_Project_STM32\LED_PWM\led_pwn"/>
 			<item value="C:\embeddedSystem\stm32Barematel\PROECT_NEW\LED_P"/>
 		</list>
 		<section name="SmartImportWizard.dialogBounds">

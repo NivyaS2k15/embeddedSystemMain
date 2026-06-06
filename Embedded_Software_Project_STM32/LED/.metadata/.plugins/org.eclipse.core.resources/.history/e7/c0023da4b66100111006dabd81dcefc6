@@ -1,0 +1,86 @@
+/*
+ * main.c
+ * Target: SPI String Transmission (STM32 Master -> Arduino Uno Slave)
+ */
+
+#include <stdio.h>
+#include <string.h>
+#include "stm32f446xx.h"
+#include "stm32f446xx_gpio_driver.h"
+#include "stm32f446xx_spi_driver.h" // Ensure your SPI driver header is included
+
+void delay_ms(uint32_t ms)
+{
+    for(uint32_t i = 0; i < (ms * 1000); i++);
+}
+
+void SPI1_Init(void)
+{
+    SPI_Handle_t spi1_handle = {0};
+    spi1_handle.pSPIx = SPI1;
+    spi1_handle.SPI_Config.SPI_DeviceMode = SPI_DEVICE_MODE_MASTER;
+    spi1_handle.SPI_Config.SPI_BusConfig  = SPI_BUS_CONFIG_FULL_DUPLEX;
+    spi1_handle.SPI_Config.SPI_DFF        = SPI_DFF_8BITS;
+    spi1_handle.SPI_Config.SPI_CPOL       = SPI_CPOL_LOW;  // Mode 0 (CPOL=0)
+    spi1_handle.SPI_Config.SPI_CPHA       = SPI_CPHA_LOW;  // Mode 0 (CPHA=0)
+    spi1_handle.SPI_Config.SPI_SSM        = SPI_SSM_EN;    // Software Slave Management
+    spi1_handle.SPI_Config.SPI_SclkSpeed  = SPI_SCLK_SPEED_DIV32; // Safe timing speed
+
+    SPI_Init(&spi1_handle);
+}
+
+// Setup PA4 as a standard output pin for software Slave Select control
+void SPI1_SS_GPIOInit(void)
+{
+    GPIO_Handle_t ss_pin = {0};
+    ss_pin.pGPIOx = GPIOA;
+    ss_pin.GPIO_PinConfig.GPIO_PinNumber = 4;
+    ss_pin.GPIO_PinConfig.GPIO_PinMode = GPIO_MODE_OUT;
+    ss_pin.GPIO_PinConfig.GPIO_PinOPType = GPIO_OP_TYPE_PP;
+    ss_pin.GPIO_PinConfig.GPIO_PinPuPdControl = GPIO_NO_PUPD;
+    ss_pin.GPIO_PinConfig.GPIO_PinSpeed = GPIO_SPEED_HIGH;
+    GPIO_Init(&ss_pin);
+
+    // Set default state to HIGH (unselected)
+    GPIO_WriteToOutputPin(GPIOA, 4, GPIO_PIN_SET);
+}
+
+int main(void)
+{
+    // 1. Enable GPIOA Clock
+    GPIO_PeriClockControl(GPIOA, ENABLE);
+
+    // 2. Configure SPI1 Alternate Function Pins (PA5=SCK, PA6=MISO, PA7=MOSI)
+    // [Call your driver's GPIO Alternate Function initialization code here for pins 5, 6, and 7]
+
+    // 3. Initialize Slave Select Pin and SPI Peripheral
+    SPI1_SS_GPIOInit();
+    SPI1_Init();
+
+    // 4. Enable the SPI1 Engine
+    SPI_PeripheralControl(SPI1, ENABLE);
+
+    // Message payload to transmit
+    char *message = "hai";
+    uint32_t message_len = strlen(message); // Length is 3 bytes
+
+    while(1)
+    {
+        // A. Select Arduino (Pull SS Low)
+        GPIO_WriteToOutputPin(GPIOA, 4, GPIO_PIN_RESET);
+
+        // B. Transmit the "hai" array over MOSI line
+        SPI_SendData(SPI1, (uint8_t*)message, message_len);
+
+        // C. Wait a brief moment to guarantee the shift registers finish shifting out
+        for(volatile uint32_t i = 0; i < 500; i++);
+
+        // D. Deselect Arduino (Pull SS High)
+        GPIO_WriteToOutputPin(GPIOA, 4, GPIO_PIN_SET);
+
+        // Send once every 2 seconds
+        delay_ms(2000);
+    }
+
+    return 0;
+}

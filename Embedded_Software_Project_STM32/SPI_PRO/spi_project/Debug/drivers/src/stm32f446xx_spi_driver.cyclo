@@ -1,0 +1,5 @@
+../drivers/src/stm32f446xx_spi_driver.c:15:6:SPI_PeriClockControl	4
+../drivers/src/stm32f446xx_spi_driver.c:33:6:SPI_Init	2
+../drivers/src/stm32f446xx_spi_driver.c:62:6:SPI_SendData	3
+../drivers/src/stm32f446xx_spi_driver.c:75:9:SPI_SendReceiveByte	3
+../drivers/src/stm32f446xx_spi_driver.c:90:6:SPI_PeripheralControl	2

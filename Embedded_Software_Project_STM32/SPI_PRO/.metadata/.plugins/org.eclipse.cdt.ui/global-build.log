@@ -1,0 +1,78 @@
+21:13:38 **** Incremental Build of configuration Debug for project spi_project ****
+make -j16 all 
+arm-none-eabi-gcc "../drivers/src/i2c_lcd.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32 -DSTM32F4 -DSTM32F446RETx -DNUCLEO_F446RE -c -I../Inc -I"C:/embeddedSystem/Embedded_Software_Project_STM32/SPI_PRO/spi_project/drivers/inc" -I"C:/embeddedSystem/Embedded_Software_Project_STM32/SPI_PRO/spi_project/drivers/src" -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"drivers/src/i2c_lcd.d" -MT"drivers/src/i2c_lcd.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "drivers/src/i2c_lcd.o"
+arm-none-eabi-gcc "../drivers/src/stm32f446xx_gpio_driver.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32 -DSTM32F4 -DSTM32F446RETx -DNUCLEO_F446RE -c -I../Inc -I"C:/embeddedSystem/Embedded_Software_Project_STM32/SPI_PRO/spi_project/drivers/inc" -I"C:/embeddedSystem/Embedded_Software_Project_STM32/SPI_PRO/spi_project/drivers/src" -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"drivers/src/stm32f446xx_gpio_driver.d" -MT"drivers/src/stm32f446xx_gpio_driver.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "drivers/src/stm32f446xx_gpio_driver.o"
+arm-none-eabi-gcc "../drivers/src/stm32f446xx_i2c_driver.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32 -DSTM32F4 -DSTM32F446RETx -DNUCLEO_F446RE -c -I../Inc -I"C:/embeddedSystem/Embedded_Software_Project_STM32/SPI_PRO/spi_project/drivers/inc" -I"C:/embeddedSystem/Embedded_Software_Project_STM32/SPI_PRO/spi_project/drivers/src" -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"drivers/src/stm32f446xx_i2c_driver.d" -MT"drivers/src/stm32f446xx_i2c_driver.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "drivers/src/stm32f446xx_i2c_driver.o"
+arm-none-eabi-gcc "../drivers/src/stm32f446xx_rcc_driver.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32 -DSTM32F4 -DSTM32F446RETx -DNUCLEO_F446RE -c -I../Inc -I"C:/embeddedSystem/Embedded_Software_Project_STM32/SPI_PRO/spi_project/drivers/inc" -I"C:/embeddedSystem/Embedded_Software_Project_STM32/SPI_PRO/spi_project/drivers/src" -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"drivers/src/stm32f446xx_rcc_driver.d" -MT"drivers/src/stm32f446xx_rcc_driver.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "drivers/src/stm32f446xx_rcc_driver.o"
+arm-none-eabi-gcc "../drivers/src/stm32f446xx_spi_driver.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32 -DSTM32F4 -DSTM32F446RETx -DNUCLEO_F446RE -c -I../Inc -I"C:/embeddedSystem/Embedded_Software_Project_STM32/SPI_PRO/spi_project/drivers/inc" -I"C:/embeddedSystem/Embedded_Software_Project_STM32/SPI_PRO/spi_project/drivers/src" -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"drivers/src/stm32f446xx_spi_driver.d" -MT"drivers/src/stm32f446xx_spi_driver.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "drivers/src/stm32f446xx_spi_driver.o"
+arm-none-eabi-gcc "../drivers/src/stm32f446xx_usart_driver.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32 -DSTM32F4 -DSTM32F446RETx -DNUCLEO_F446RE -c -I../Inc -I"C:/embeddedSystem/Embedded_Software_Project_STM32/SPI_PRO/spi_project/drivers/inc" -I"C:/embeddedSystem/Embedded_Software_Project_STM32/SPI_PRO/spi_project/drivers/src" -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"drivers/src/stm32f446xx_usart_driver.d" -MT"drivers/src/stm32f446xx_usart_driver.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "drivers/src/stm32f446xx_usart_driver.o"
+arm-none-eabi-gcc "../Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32 -DSTM32F4 -DSTM32F446RETx -DNUCLEO_F446RE -c -I../Inc -I"C:/embeddedSystem/Embedded_Software_Project_STM32/SPI_PRO/spi_project/drivers/inc" -I"C:/embeddedSystem/Embedded_Software_Project_STM32/SPI_PRO/spi_project/drivers/src" -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Src/main.d" -MT"Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Src/main.o"
+arm-none-eabi-gcc "../Src/syscalls.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32 -DSTM32F4 -DSTM32F446RETx -DNUCLEO_F446RE -c -I../Inc -I"C:/embeddedSystem/Embedded_Software_Project_STM32/SPI_PRO/spi_project/drivers/inc" -I"C:/embeddedSystem/Embedded_Software_Project_STM32/SPI_PRO/spi_project/drivers/src" -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Src/syscalls.d" -MT"Src/syscalls.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Src/syscalls.o"
+arm-none-eabi-gcc "../Src/sysmem.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32 -DSTM32F4 -DSTM32F446RETx -DNUCLEO_F446RE -c -I../Inc -I"C:/embeddedSystem/Embedded_Software_Project_STM32/SPI_PRO/spi_project/drivers/inc" -I"C:/embeddedSystem/Embedded_Software_Project_STM32/SPI_PRO/spi_project/drivers/src" -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Src/sysmem.d" -MT"Src/sysmem.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Src/sysmem.o"
+In file included from C:/embeddedSystem/Embedded_Software_Project_STM32/SPI_PRO/spi_project/drivers/inc/stm32f446xx_i2c_driver.h:4,
+                 from C:/embeddedSystem/Embedded_Software_Project_STM32/SPI_PRO/spi_project/drivers/inc/i2c_lcd.h:9,
+                 from ../drivers/src/i2c_lcd.c:7:
+C:/embeddedSystem/Embedded_Software_Project_STM32/SPI_PRO/spi_project/drivers/inc/stm32f446xx.h:449: warning: "ADC1" redefined
+  449 | #define ADC1 ((Local_ADC_RegDef_t*)0x40012000U)
+      | 
+C:/embeddedSystem/Embedded_Software_Project_STM32/SPI_PRO/spi_project/drivers/inc/stm32f446xx.h:395: note: this is the location of the previous definition
+  395 | #define ADC1               ((ADC_RegDef_t*)ADC1_BASEADDR)
+      | 
+In file included from C:/embeddedSystem/Embedded_Software_Project_STM32/SPI_PRO/spi_project/drivers/inc/stm32f446xx_i2c_driver.h:4,
+                 from ../drivers/src/stm32f446xx_i2c_driver.c:1:
+C:/embeddedSystem/Embedded_Software_Project_STM32/SPI_PRO/spi_project/drivers/inc/stm32f446xx.h:449: warning: "ADC1" redefined
+  449 | #define ADC1 ((Local_ADC_RegDef_t*)0x40012000U)
+      | 
+C:/embeddedSystem/Embedded_Software_Project_STM32/SPI_PRO/spi_project/drivers/inc/stm32f446xx.h:395: note: this is the location of the previous definition
+  395 | #define ADC1               ((ADC_RegDef_t*)ADC1_BASEADDR)
+      | 
+In file included from C:/embeddedSystem/Embedded_Software_Project_STM32/SPI_PRO/spi_project/drivers/inc/stm32f446xx_gpio_driver.h:17,
+                 from ../drivers/src/stm32f446xx_gpio_driver.c:15:
+C:/embeddedSystem/Embedded_Software_Project_STM32/SPI_PRO/spi_project/drivers/inc/stm32f446xx.h:449: warning: "ADC1" redefined
+  449 | #define ADC1 ((Local_ADC_RegDef_t*)0x40012000U)
+      | 
+C:/embeddedSystem/Embedded_Software_Project_STM32/SPI_PRO/spi_project/drivers/inc/stm32f446xx.h:395: note: this is the location of the previous definition
+  395 | #define ADC1               ((ADC_RegDef_t*)ADC1_BASEADDR)
+      | 
+In file included from C:/embeddedSystem/Embedded_Software_Project_STM32/SPI_PRO/spi_project/drivers/inc/stm32f446xx_rcc_driver.h:4,
+                 from ../drivers/src/stm32f446xx_rcc_driver.c:6:
+C:/embeddedSystem/Embedded_Software_Project_STM32/SPI_PRO/spi_project/drivers/inc/stm32f446xx.h:449: warning: "ADC1" redefined
+  449 | #define ADC1 ((Local_ADC_RegDef_t*)0x40012000U)
+      | 
+C:/embeddedSystem/Embedded_Software_Project_STM32/SPI_PRO/spi_project/drivers/inc/stm32f446xx.h:395: note: this is the location of the previous definition
+  395 | #define ADC1               ((ADC_RegDef_t*)ADC1_BASEADDR)
+      | 
+In file included from C:/embeddedSystem/Embedded_Software_Project_STM32/SPI_PRO/spi_project/drivers/inc/stm32f446xx_spi_driver.h:11,
+                 from ../drivers/src/stm32f446xx_spi_driver.c:8:
+C:/embeddedSystem/Embedded_Software_Project_STM32/SPI_PRO/spi_project/drivers/inc/stm32f446xx.h:449: warning: "ADC1" redefined
+  449 | #define ADC1 ((Local_ADC_RegDef_t*)0x40012000U)
+      | 
+C:/embeddedSystem/Embedded_Software_Project_STM32/SPI_PRO/spi_project/drivers/inc/stm32f446xx.h:395: note: this is the location of the previous definition
+  395 | #define ADC1               ((ADC_RegDef_t*)ADC1_BASEADDR)
+      | 
+In file included from C:/embeddedSystem/Embedded_Software_Project_STM32/SPI_PRO/spi_project/drivers/inc/stm32f446xx_usart_driver.h:4,
+                 from ../drivers/src/stm32f446xx_usart_driver.c:1:
+C:/embeddedSystem/Embedded_Software_Project_STM32/SPI_PRO/spi_project/drivers/inc/stm32f446xx.h:449: warning: "ADC1" redefined
+  449 | #define ADC1 ((Local_ADC_RegDef_t*)0x40012000U)
+      | 
+C:/embeddedSystem/Embedded_Software_Project_STM32/SPI_PRO/spi_project/drivers/inc/stm32f446xx.h:395: note: this is the location of the previous definition
+  395 | #define ADC1               ((ADC_RegDef_t*)ADC1_BASEADDR)
+      | 
+In file included from ../Src/main.c:27:
+C:/embeddedSystem/Embedded_Software_Project_STM32/SPI_PRO/spi_project/drivers/inc/stm32f446xx.h:449: warning: "ADC1" redefined
+  449 | #define ADC1 ((Local_ADC_RegDef_t*)0x40012000U)
+      | 
+C:/embeddedSystem/Embedded_Software_Project_STM32/SPI_PRO/spi_project/drivers/inc/stm32f446xx.h:395: note: this is the location of the previous definition
+  395 | #define ADC1               ((ADC_RegDef_t*)ADC1_BASEADDR)
+      | 
+arm-none-eabi-gcc -o "spi_project.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\embeddedSystem\Embedded_Software_Project_STM32\SPI_PRO\spi_project\STM32F446RETX_FLASH.ld" --specs=nosys.specs -Wl,-Map="spi_project.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: spi_project.elf
+ 
+arm-none-eabi-size  spi_project.elf 
+arm-none-eabi-objdump -h -S spi_project.elf  > "spi_project.list"
+   text	   data	    bss	    dec	    hex	filename
+   6804	    100	   1916	   8820	   2274	spi_project.elf
+Finished building: default.size.stdout
+ 
+Finished building: spi_project.list
+ 
