@@ -1,0 +1,7 @@
+../drivers/src/i2c_lcd.c:15:13:LCD_SendNibble	32	static
+../drivers/src/i2c_lcd.c:33:6:LCD_SendCommand	24	static
+../drivers/src/i2c_lcd.c:43:6:LCD_SendData	24	static
+../drivers/src/i2c_lcd.c:53:6:LCD_Init	16	static
+../drivers/src/i2c_lcd.c:77:6:LCD_SendString	16	static
+../drivers/src/i2c_lcd.c:85:6:LCD_SetCursor	24	static
+../drivers/src/i2c_lcd.c:92:6:LCD_Clear	16	static

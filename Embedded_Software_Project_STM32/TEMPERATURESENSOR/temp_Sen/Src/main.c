@@ -1,7 +1,22 @@
 /*
  * main.c
- * Target: LM75 Digital Temperature Sensor Engine
- * Peripherals: I2C1 (PB8/PB9 Shared: LCD + LM75) + USART2 (PA2/PA3)
+ *
+ * Project : LM75 Digital Temperature Monitoring System
+ * Author  : NIVYA
+ *
+ * Description:
+ * This program interfaces the LM75 digital temperature sensor with the
+ * STM32F446RE microcontroller using the I2C protocol. The temperature
+ * data is read from the LM75 sensor, converted into Celsius format,
+ * displayed on a 16x2 I2C LCD, and simultaneously transmitted to a PC
+ * through USART2 for serial monitoring. The system continuously updates
+ * the temperature reading every one second.
+ *
+ * Peripherals Used:
+ * - GPIOA  : USART2 TX/RX
+ * - GPIOB  : I2C1 SCL/SDA
+ * - I2C1   : LM75 Sensor and I2C LCD
+ * - USART2 : Serial Communication (115200 baud)
  */
 
 #include <stdio.h>
